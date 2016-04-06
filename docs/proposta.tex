@@ -1,0 +1,133 @@
+\documentclass[10pt,twoside,a4paper]{article}
+% ^- openany - open new pages in odd/even page
+
+%packages
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}      % Encoding
+\usepackage[portuguese]{babel}   % Correção
+%\usepackage{caption}             % Legendas
+\usepackage{enumerate}
+
+% Matemática
+\usepackage{amsmath}             % Matemática
+\usepackage{amsthm, amssymb}     % Matemática
+\newtheorem*{def*}{Definição}
+\newtheorem*{invariant}{Invariante}
+
+% Gráficos
+\usepackage[usenames,dvipsnames]{color}  % Cores
+\usepackage[pdftex]{graphicx}   % usamos arquivos pdf/png como figura
+\usepackage[usenames,svgnames,dvipsnames]{xcolor}
+
+% Desenhos
+\usepackage{tikz}
+\usepgfmodule{decorations}
+\usetikzlibrary{patterns}
+\usetikzlibrary{decorations.shapes}
+\usetikzlibrary{shapes.geometric}
+\usetikzlibrary{decorations.text}
+\usetikzlibrary{positioning} % Adjust grid size
+
+% Código-fonte
+\usepackage[noend]{algpseudocode}
+\usepackage{algorithm}
+
+% Configurações da página
+\usepackage{fancyhdr}           % header & footer
+\usepackage{float}
+\usepackage{setspace}           % espaçamento flexível
+\usepackage{indentfirst}        % Identa primeiro parágrafo
+\usepackage{makeidx}
+\usepackage[nottoc]{tocbibind}  % acrescentamos a  bibliografia/indice/
+                                % conteudo no Table of Contents
+                                
+% Fontes
+%\usepackage{helvet}
+\renewcommand{\familydefault}{\sfdefault}
+\usepackage{type1cm}            % fontes realmente escaláveis
+\usepackage{titletoc}
+\usepackage{pdflscape}          % Páginas em paisagem
+\usepackage{pdfpages}
+
+% Fontes e margens
+\usepackage[fixlanguage]{babelbib}
+\usepackage[font=small,format=plain,labelfont=bf,up,textfont=it,up]{caption}
+\usepackage[a4paper,top=3.0cm,bottom=3.0cm,left=2.0cm,right=2.0cm]{geometry}
+
+% Referências e citações
+\usepackage[
+    pdftex,
+    breaklinks,
+    plainpages=false,
+    pdfpagelabels,
+    pagebackref,
+    colorlinks=true,
+    citecolor=DarkGreen,
+    linkcolor=DarkBlue,
+    urlcolor=DarkRed,
+    filecolor=green,
+    bookmarksopen=true
+]{hyperref} 
+\usepackage[all]{hypcap} % Soluciona o problema com o hyperref e capitulos
+%\usepackage[round,sort,nonamebreak]{natbib} % Citação bibliográfica plainnat-ime
+\usepackage{natbib}
+%\bibpunct{(}{)}{;}{a}{\hspace{-0.7ex},}{,}  % Estilo de citação
+%\bibpunct{(}{)}{;}{a}{,}{,}
+
+% Info
+%\title{}
+\begin{document}
+\begin{center}
+  \vspace*{3cm}
+  
+  \Huge
+  \textbf{Implementação de algoritmos para consultas de segmentos em janelas}
+
+  \vspace{2.5cm}
+  \LARGE
+  MAC0499 - Trabalho de formatura supervisionado\\
+  \vspace{2.5cm}
+  \LARGE
+  Proposta de Trabalho
+
+  
+  \vspace{2cm}
+  \includegraphics[height=4cm,width=3cm]{ime}
+  \vspace{2cm}
+  
+  \textbf{Mateus Barros Rodrigues}
+  
+  \vfill
+  
+  Orientador: Prof. Dr. Carlos Eduardo Ferreira
+  
+  \vspace{0.8cm}
+  
+  \Large
+  %Instituto de Matemática e Estatística\\
+  %Universidade de São Paulo\\
+  
+\end{center}
+
+
+
+
+\newpage
+\tableofcontents
+\newpage
+\section{Contextualização do Tema}
+Proveniente da área de análise de algoritmos, a geometria computacional é a área da computação que trata de algoritmos e estruturas de dados para a resolução de problemas geométricos e da complexidade desses problemas com aplicações em: computação gráfica, reconhecimento de padrões, processamento de imagens, robótica, entre outros. Tais problemas são tratados com o uso de objetos geométricos primitivos como: pontos, retas, segmentos de reta, polígonos, etc.\par
+Este trabalho foca-se no problema específico da área de geometria computacional classificado como um problema de busca geométrico. Onde desejamos localizar segmentos e pontos de uma dada coleção no espaço, de forma eficiente.
+
+
+\section{Objetivo do trabalho}
+
+Neste trabalho de formatura supervisionado, irei estudar a literatura e o mestrado de Alvaro Junio Pereira Franco \cite{alvaro} para escrever implementações de algoritmos de busca geométrica em janelas em linguagem \textit{python} 
+
+\section{Planejamento}
+
+\bibliography{bla}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\end{document}
