@@ -70,7 +70,7 @@
 ]{hyperref} 
 \usepackage[all]{hypcap} % Soluciona o problema com o hyperref e capitulos
 %\usepackage[round,sort,nonamebreak]{natbib} % Citação bibliográfica plainnat-ime
-\usepackage{natbib}
+\usepackage{cite}
 %\bibpunct{(}{)}{;}{a}{\hspace{-0.7ex},}{,}  % Estilo de citação
 %\bibpunct{(}{)}{;}{a}{,}{,}
 
@@ -86,12 +86,12 @@
   \vspace{2.5cm}
   \LARGE
   MAC0499 - Trabalho de formatura supervisionado\\
-  \vspace{2.5cm}
+  \vspace{0.3cm}
   \LARGE
-  Proposta de Trabalho
+  \textit{Proposta de Trabalho}
 
   
-  \vspace{2cm}
+  \vspace{4.3cm}
   \includegraphics[height=4cm,width=3cm]{ime}
   \vspace{2cm}
   
@@ -116,17 +116,18 @@
 \tableofcontents
 \newpage
 \section{Contextualização do Tema}
-Proveniente da área de análise de algoritmos, a geometria computacional é a área da computação que trata de algoritmos e estruturas de dados para a resolução de problemas geométricos e da complexidade desses problemas com aplicações em: computação gráfica, reconhecimento de padrões, processamento de imagens, robótica, entre outros. Tais problemas são tratados com o uso de objetos geométricos primitivos como: pontos, retas, segmentos de reta, polígonos, etc.\par
-Este trabalho foca-se no problema específico da área de geometria computacional classificado como um problema de busca geométrico. Onde desejamos localizar segmentos e pontos de uma dada coleção no espaço, de forma eficiente.
+Proveniente da área de análise de algoritmos, a geometria computacional é a área da computação que pode ser definida como o estudo sistemático de algoritmos e estruturas de dados para objetos geométricos, com foco em algoritmos exatos que são assintóticamente rápidos \cite{dbvkos}. A geometria computacional tem aplicações em diversas áreas como: computação gráfica, reconhecimento de padrões, processamento de imagens, robótica, metalurgia, manufatura e estatística \cite{cormen}. Tais problemas são tratados com o uso de objetos geométricos primitivos como: pontos, retas, segmentos de reta, polígonos, etc.\par
+Este trabalho foca-se num problema específico da área de geometria computacional classificado como um problema de busca geométrico. Nesses tipos de problemas a entrada é formada por duas partes: o espaço de busca e a consulta que queremos realizar. É comum que seja necessário realizar um pré-processamento no espaço de busca para que possamos responder várias consultas seguidas de forma eficiente. Alguns exemplos de problemas desse tipo são: localização de pontos, localização de vizinhos mais próximos, \textit{ray tracing} e busca em intervalos.
 
 
 \section{Objetivo do trabalho}
 
-Neste trabalho de formatura supervisionado, irei estudar a literatura e o mestrado de Alvaro Junio Pereira Franco \cite{alvaro} para escrever implementações de algoritmos de busca geométrica em janelas em linguagem \textit{python} 
+Neste trabalho de formatura supervisionado irei estudar o mestrado de Álvaro Junio Pereira Franco \cite{alvaro} juntamente com a literatura existente para resolver o seguinte problema: dado um conjunto de segmentos no plano, identificar rapidamente todos os segmentos (ou pontos) contidos numa janela retangular de lados paralelos aos eixos. \par O objetivo será escrever uma biblioteca em linguagem \textit{python} com implementações dos algoritmos relacionados a esse problema assim como a análise rigorosa dos algoritmos implementados.
 
 \section{Planejamento}
-
-\bibliography{bla}
+\includegraphics{later}
+\bibliography{bla}{}
+\bibliographystyle{plain}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
