@@ -1,7 +1,17 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from  Queue import *
+from  queue import *
+from math import *
+
+class bcolors:
+    HEADER = '\033[95m'
+    OKBLUE = '\033[94m'
+    OKGREEN = '\033[92m'
+    WARNING = '\033[93m'
+    BOLD = "\033[1m"
+    FAIL = '\033[91m'
+    ENDC = '\033[0m'
 
 class Point:
     def __init__(self,x,y):
@@ -20,6 +30,22 @@ class Point:
     def __sub__(self,other):
         return Point(self.x-other.x,self.y-other.y)
 
+    def __gt__(self,other):
+        if(self.x == other.x): return self.y > other.y
+        return self.x > other.x
+
+    def __lt__(self,other):
+        if(self.x == other.x): return self.y < other.y
+        return self.x < other.x
+
+    def __ge__(self,other):
+        if(self.x == other.x): return self.y >= other.y
+        return self.x >= other.x
+
+    def __le__(self,other):
+        if(self.x == other.x): return self.y <= other.y
+        return self.x <= other.x
+
 class Segment:
     def __init__(self,beg,end):
         self.beg = beg
@@ -35,63 +61,40 @@ class Segment:
         return Segment(self.beg-other.beg,self.end-other.end)
 
 class Node:
-    def __init__(self,p,l=None,r=None):
+    def __init__(self,p,l=None,r=None,n=None):
+        '''
+        p = point
+        l = left node
+        r = right node
+        n = next leaf
+        '''
         self.point = p
         self.l = l
         self.r = r
+        self.n = n
+        
 
     def __str__(self):
         return str(self.point)
-    
-class LimitTree:
-    def __init__(self,l):
-        self.size = 0
-        self.points = sorted(l,key = lambda k: k.x)
-        self.root = self.buildTree(l)
 
-    
-    def buildTree(self,points):
-        v = Node(None)
+    def isLeaf(self):
+        return (self.l is None and self.r is None)
 
-        e = points[:len(points)/2]
-        d = points[len(points)/2:]
+    def listSubTree(self,l):
+        l.append(self.point)
+        if self.l is not None:
+            self.l.listSubTree(l)
+        if self.r is not None:
+            self.r.listSubTree(l)
+        return l
 
-        v.point = points[len(points)/2]
-
-        if len(points) == 1:
-            v.l = v.r = None
+    def makeStrings(self,last):
+        if self.isLeaf():
+            if last is not None:
+                last.r = self
+            last = self
         else:
-            v.l = self.buildTree(e)
-            v.r = self.buildTree(d)
-
-        return v
-    
-    def printTree(self):
-        q = Queue()
-        q.put(self.root)
-        level = 0
-        p = []
-
-        for i in range(2*len(self.points)):
-            p.append([])
-        
-        while(not q.empty()):
-         aux = q.get()
-         p[level].append(aux)
-         level+=1
-         
-         if aux.l is not None:
-             q.put(aux.l)
-             p[level].append(aux.l)
-         if aux.r is not None:
-             q.put(aux.r)
-             p[level].append(aux.l)
-
-            
-        for i in range(level):
-            for j in range(len(p[i])):
-                print(str(p[i][j])+ " ")
-            print("\n")
-        
-        
-        
+            #wip
+            last = self.l.makeStrings(last)
+            last = self.r.makeStrings(last)
+        return
