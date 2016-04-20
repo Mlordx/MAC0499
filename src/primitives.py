@@ -18,6 +18,9 @@ class Point:
         self.x = x
         self.y = y
 
+    def __repr__(self):
+        return "("+str(self.x)+","+str(self.y)+")"
+        
     def __str__(self):
         return "("+str(self.x)+","+str(self.y)+")"
 
@@ -61,18 +64,15 @@ class Segment:
         return Segment(self.beg-other.beg,self.end-other.end)
 
 class Node:
-    def __init__(self,p,l=None,r=None,n=None):
+    def __init__(self,p,l=None,r=None):
         '''
         p = point
         l = left node
         r = right node
-        n = next leaf
         '''
         self.point = p
         self.l = l
         self.r = r
-        self.n = n
-        
 
     def __str__(self):
         return str(self.point)
@@ -80,21 +80,16 @@ class Node:
     def isLeaf(self):
         return (self.l is None and self.r is None)
 
-    def listSubTree(self,l):
+    def listSubTree(self):
+        l = []
+        self.makeThreads(l)
         l.append(self.point)
-        if self.l is not None:
-            self.l.listSubTree(l)
-        if self.r is not None:
-            self.r.listSubTree(l)
         return l
 
-    def makeStrings(self,last):
+    def makeThreads(self,l):
         if self.isLeaf():
-            if last is not None:
-                last.r = self
-            last = self
-        else:
-            #wip
-            last = self.l.makeStrings(last)
-            last = self.r.makeStrings(last)
-        return
+            l.append(self.point)
+        
+        if self.l is not None: self.l.makeThreads(l)
+        if self.r is not None: self.r.makeThreads(l)
+
