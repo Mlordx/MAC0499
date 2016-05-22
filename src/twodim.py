@@ -56,7 +56,7 @@ class VerticalTree:
         return div,ind
                 
     def 1dQuery(self,rng):
-        w1,w1 = rng
+        w1,w2 = rng
         div,ind = self.findDividingVerticalNode(rng)
         p = []
         
