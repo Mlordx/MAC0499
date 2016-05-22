@@ -26,18 +26,15 @@ class VerticalTree:
         i = 2*len(v)-2
         
         for j in range(l-1,-1,-1):
-            aux = VerticalNode(v[j],j,j,True)
-            p[i] = aux
+            p[i] = VerticalNode(v[j],j,j,True)
             i -= 1
 
         for j in range(n-1,l-1,-1):
-            aux = VerticalNode(v[j],j,j,True)
-            p[i] = aux
+            p[i] = VerticalNode(v[j],j,j,True)
             i -= 1
             
         while i >= 0:
-            aux = VerticalNode(p[p[2*i+1].pr],p[2*i+2].pr,p[2*i+1].pl)
-            p[i] = aux
+            p[i] = VerticalNode(p[p[2*i+1].pr],p[2*i+2].pr,p[2*i+1].pl)
             i -= 1
 
         return p
@@ -67,12 +64,12 @@ class VerticalTree:
             if w1.y <= div.point.y and div.point.y <= w2.y:
                 p.append(div.point)
         else:
-            ind2 = 2*ind+1
+            ind2 = 2*ind+1 #Caminhando na Subárvore esquerda
             v = self.tree[ind2]
 
             while not v.leaf:
                 if w1.y <= v.point.y:
-                    self.getLeaves(2*ind2+2,p)
+                    p += self.getLeaves(2*ind2+2)
                     ind2 = 2*ind2+1
                     v = self.tree[ind2]
                 else:
@@ -82,12 +79,12 @@ class VerticalTree:
             if w1.y <= v.point.y and v.point.y <= w2.y:
                 p.append(v.point)
 
-            ind2 = 2*ind + 2
+            ind2 = 2*ind+2 #Andando na subárvore direita
             v = self.tree[ind2]
 
             while not v.leaf:
                 if w2.y > v.point.y:
-                    self.getLeaves(2*ind2+1,p)
+                    p += self.getLeaves(2*ind2+1)
                     ind2 = 2*ind2+2
                     v = self.tree[ind2]
                 else:
@@ -100,9 +97,7 @@ class VerticalTree:
             
 class LimitTree2D:
     def __init__(self,v):
-        self.size = 0
         self.root = self.buildTree(sorted(v,key = lambda a: a.x),sorted(v,key = lambda a: a.y))
-        self.tree = None
 
     def inRange(rng,p):
         w1,w2 = rng
@@ -192,8 +187,7 @@ class LimitTree2D:
                 else:
                     v = v.l
 
-            if self.inRange(rng,v.point):
-                p.append(v.point)
+            if self.inRange(rng,v.point): p.append(v.point)
                 
         return p
     
