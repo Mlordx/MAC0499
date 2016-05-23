@@ -113,11 +113,8 @@ class LimitTree2D:
 
         n = len(vx)
 
-        #ly = sorted(lx,key = lambda a : a.y)
-        #ry = sorted(rx,key = lambda a : a.y)
         ly = []
         ry = []
-        
         
         for i in range(n):
             if vy[i].x < vx[n//2-1].x or (vy[i].x == vx[n//2-1].x and vy[i].y <= vx[n//2-1].y):
