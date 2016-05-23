@@ -48,8 +48,8 @@ class VerticalTree:
         ind = 0
         div = self.tree[ind]
         
-        while (not div.leaf) and (w1.y > div.point.y or w2.y <= div.point.y):
-            if w2.y <= div.point.y:
+        while (not div.leaf) and (w1.y > div.point.y or (w2.y < div.point.y or (w2.y == div.point.y and w2.x <= div.point.x))):
+            if w2.y < div.point.y or (w2.y == div.point.y and w2.x <= div.point.x):
                 ind = 2*ind+1
             else:
                 ind = 2*ind+2
@@ -59,17 +59,17 @@ class VerticalTree:
     def oneDimQuery(self,rng):
         w1,w2 = rng
         div,ind = self.findDividingVerticalNode(rng)
-        p = []
+        p = [] 
         
         if div.leaf:
-            if w1.y <= div.point.y and div.point.y <= w2.y:
+            if (w1.y < div.point.y or (w1.y == div.point.y and w1.x <= div.point.x)) and (div.point.y < w2.y or (div.point.y == w2.y and div.point.x <= w2.x)):
                 p.append(div.point)
         else:
             ind2 = 2*ind+1 #Caminhando na Subárvore esquerda
             v = self.tree[ind2]
 
             while not v.leaf:
-                if w1.y <= v.point.y:
+                if w1.y < v.point.y or (w1.y == v.point.y and w1.x <= v.point.x):
                     p += self.getLeaves(2*ind2+2)
                     ind2 = 2*ind2+1
                     v = self.tree[ind2]
@@ -77,7 +77,7 @@ class VerticalTree:
                     ind2 = 2*ind2+2
                     v = self.tree[ind2]
 
-            if w1.y <= v.point.y and v.point.y <= w2.y:
+            if (w1.y < v.point.y or (w1.y == v.point.y and w1.x <= v.point.x)) and (v.point.y < w2.y or (v.point.y == w2.y and v.point.x <= w2.x)):
                 p.append(v.point)
 
             ind2 = 2*ind+2 #Andando na subárvore direita
@@ -92,7 +92,7 @@ class VerticalTree:
                     ind2 = 2*ind2+1
                     v = self.tree[ind2]
 
-            if w1.y <= v.point.y and v.point.y <= w2.y:
+            if (w1.y < v.point.y or (w1.y == v.point.y and w1.x <= v.point.x)) and (v.point.y < w2.y or (v.point.y == w2.y and v.point.x <= w2.x)):
                 p.append(v.point)
         return p
             
@@ -102,7 +102,7 @@ class LimitTree2D:
 
     def inRange(self,rng,p):
         w1,w2 = rng
-        return (w1.x <= p.x and p.x <= w2.x) and (w1.y <= p.y and p.y <= w2.y)
+        return ((w1.x < p.x or (w1.x == p.x and w1.y <= p.y)) and (p.x < w2.x or (p.x == w2.x and p2.y <= w2.y)) and (w1.y < p.y or (w1.y == p.y and w1.x <= p.x) and p.y < w2.y or (p.y == w2.y and p.x <= w2.x)))
 
 
     def buildTree(self,vx,vy):
@@ -113,15 +113,17 @@ class LimitTree2D:
 
         n = len(vx)
 
-        ly = sorted(lx,key = lambda a : a.y)
-        ry = sorted(rx,key = lambda a : a.y)
-
-        """
+        #ly = sorted(lx,key = lambda a : a.y)
+        #ry = sorted(rx,key = lambda a : a.y)
+        ly = []
+        ry = []
+        
+        
         for i in range(n):
-            if vy[i].x <= vx[n//2-1].x:
+            if vy[i].x < vx[n//2-1].x or (vy[i].x == vx[n//2-1].x and vy[i].y <= vx[n//2-1].y):
                 ly.append(vy[i])
             else: ry.append(vy[i])
-        """
+        
         v.point = vx[n//2-1]
         
         if len(vx) == 1:
@@ -170,7 +172,7 @@ class LimitTree2D:
             v = div.l
 
             while not v.isLeaf():
-                if w1.x <= v.point.x:
+                if w1.x < v.point.x or (w1.x == v.point.x and w1.y <= v.point.y):
                     p += v.r.tree.oneDimQuery(rng)
                     v = v.l
                 else:
