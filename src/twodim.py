@@ -18,23 +18,24 @@ class VerticalTree:
     def buildTree(self,v):
         # Curiosidade: Quando v é um filho direito, segue que pl = indice(pai) + 1
         p = []
+        if len(v) == 0 : return
         for i in range(2*len(v)-1): p.append(0)
         
         h = ceil(log(len(v)))
         l2 = pow(2,h) - len(v)
-        l = len(v) - l2
+        l = int(len(v) - l2)
         i = 2*len(v)-2
         
         for j in range(l-1,-1,-1):
-            p[i] = VerticalNode(v[j],j,j,True)
+            p[i] = VerticalNode(v[j],i,i,True)
             i -= 1
 
-        for j in range(n-1,l-1,-1):
-            p[i] = VerticalNode(v[j],j,j,True)
+        for j in range(len(v)-1,l-1,-1):
+            p[i] = VerticalNode(v[j],i,i,True)
             i -= 1
             
         while i >= 0:
-            p[i] = VerticalNode(p[p[2*i+1].pr],p[2*i+2].pr,p[2*i+1].pl)
+            p[i] = VerticalNode(p[p[2*i+1].pr].point,p[2*i+2].pr,p[2*i+1].pl)
             i -= 1
 
         return p
@@ -55,7 +56,7 @@ class VerticalTree:
             div = self.tree[ind]
         return div,ind
                 
-    def 1dQuery(self,rng):
+    def oneDimQuery(self,rng):
         w1,w2 = rng
         div,ind = self.findDividingVerticalNode(rng)
         p = []
@@ -99,7 +100,7 @@ class LimitTree2D:
     def __init__(self,v):
         self.root = self.buildTree(sorted(v,key = lambda a: a.x),sorted(v,key = lambda a: a.y))
 
-    def inRange(rng,p):
+    def inRange(self,rng,p):
         w1,w2 = rng
         return (w1.x <= p.x and p.x <= w2.x) and (w1.y <= p.y and p.y <= w2.y)
 
@@ -108,18 +109,19 @@ class LimitTree2D:
         v = Node(None)
         v.tree = VerticalTree(vy)
         lx = vx[:len(vx)//2]
-        rx = points[len(vx)//2:]
+        rx = vx[len(vx)//2:]
 
         n = len(vx)
 
-        ly = []
-        ry = []
+        ly = sorted(lx,key = lambda a : a.y)
+        ry = sorted(rx,key = lambda a : a.y)
 
+        """
         for i in range(n):
             if vy[i].x <= vx[n//2-1].x:
                 ly.append(vy[i])
             else: ry.append(vy[i])
-
+        """
         v.point = vx[n//2-1]
         
         if len(vx) == 1:
@@ -133,7 +135,6 @@ class LimitTree2D:
     def findDividingNode(self,segment):
         w1,w2 = segment
         div = self.root
-
         while(not div.isLeaf() and (w1 > div.point or w2 <= div.point)):
             if w2 <= div.point:
                 div = div.l
@@ -170,7 +171,7 @@ class LimitTree2D:
 
             while not v.isLeaf():
                 if w1.x <= v.point.x:
-                    p += v.r.tree.1dQuery(rng)
+                    p += v.r.tree.oneDimQuery(rng)
                     v = v.l
                 else:
                     v = v.r
@@ -182,7 +183,7 @@ class LimitTree2D:
 
             while not v.isLeaf():
                 if w2.x > v.point.x:
-                    p += v.l.tree.1dQuery(rng)
+                    p += v.l.tree.oneDimQuery(rng)
                     v = v.r
                 else:
                     v = v.l
