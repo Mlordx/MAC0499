@@ -20,12 +20,12 @@ class VerticalTree:
         p = []
         if len(v) == 0 : return
         for i in range(2*len(v)-1): p.append(0)
-        
-        h = ceil(log(len(v)))
+
+        h = ceil(log(len(v),2))
         l2 = pow(2,h) - len(v)
         l = int(len(v) - l2)
         i = 2*len(v)-2
-        
+
         for j in range(l-1,-1,-1):
             p[i] = VerticalNode(v[j],i,i,True)
             i -= 1
@@ -102,7 +102,7 @@ class LimitTree2D:
 
     def inRange(self,rng,p):
         w1,w2 = rng
-        return ((w1.x < p.x or (w1.x == p.x and w1.y <= p.y)) and (p.x < w2.x or (p.x == w2.x and p2.y <= w2.y)) and (w1.y < p.y or (w1.y == p.y and w1.x <= p.x) and p.y < w2.y or (p.y == w2.y and p.x <= w2.x)))
+        return ((w1.x < p.x or (w1.x == p.x and w1.y <= p.y)) and (p.x < w2.x or (p.x == w2.x and p.y <= w2.y)) and (w1.y < p.y or (w1.y == p.y and w1.x <= p.x) and p.y < w2.y or (p.y == w2.y and p.x <= w2.x)))
 
 
     def buildTree(self,vx,vy):
