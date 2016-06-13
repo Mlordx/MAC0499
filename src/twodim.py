@@ -41,7 +41,7 @@ class VerticalTree:
         return p
 
     def getLeaves(self,ind):
-        return self.tree[self.tree[ind].pl:self.tree[ind].pr]
+        return self.tree[self.tree[ind].pl:self.tree[ind].pr+1]
         
     def findDividingVerticalNode(self,segment):
         w1,w2 = segment
@@ -70,7 +70,7 @@ class VerticalTree:
 
             while not v.leaf:
                 if w1.y < v.point.y or (w1.y == v.point.y and w1.x <= v.point.x):
-                    p += self.getLeaves(2*ind2+2)
+                    for pnt in self.getLeaves(2*ind2+2): p.append(pnt.point)
                     ind2 = 2*ind2+1
                     v = self.tree[ind2]
                 else:
@@ -85,7 +85,8 @@ class VerticalTree:
 
             while not v.leaf:
                 if w2.y > v.point.y:
-                    p += self.getLeaves(2*ind2+1)
+                    for pnt in self.getLeaves(2*ind2+1): p.append(pnt.point)
+
                     ind2 = 2*ind2+2
                     v = self.tree[ind2]
                 else:
@@ -102,7 +103,7 @@ class LimitTree2D:
 
     def inRange(self,rng,p):
         w1,w2 = rng
-        return ((w1.x < p.x or (w1.x == p.x and w1.y <= p.y)) and (p.x < w2.x or (p.x == w2.x and p.y <= w2.y)) and (w1.y < p.y or (w1.y == p.y and w1.x <= p.x) and p.y < w2.y or (p.y == w2.y and p.x <= w2.x)))
+        return ((w1.x < p.x or (w1.x == p.x and w1.y <= p.y)) and (p.x < w2.x or (p.x == w2.x and p.y <= w2.y)) and (w1.y < p.y or (w1.y == p.y and w1.x <= p.x) and (p.y < w2.y or (p.y == w2.y and p.x <= w2.x))))
 
 
     def buildTree(self,vx,vy):
@@ -175,8 +176,7 @@ class LimitTree2D:
                 else:
                     v = v.r
 
-            if self.inRange(rng,v.point):
-                p.append(v.point)
+            if self.inRange(rng,v.point): p.append(v.point)
 
             v = div.r
 
