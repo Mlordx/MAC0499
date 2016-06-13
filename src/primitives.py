@@ -33,6 +33,9 @@ class Point:
     def __sub__(self,other):
         return Point(self.x-other.x,self.y-other.y)
 
+    def __eq__(self,other):
+        return self.x==other.x and self.y==other.y
+
     def __gt__(self,other):
         if(self.x == other.x): return self.y > other.y
         return self.x > other.x
@@ -64,15 +67,17 @@ class Segment:
         return Segment(self.beg-other.beg,self.end-other.end)
 
 class Node:
-    def __init__(self,p,l=None,r=None):
+    def __init__(self,p,l=None,r=None,t=None):
         '''
         p = point
         l = left node
         r = right node
+        t = associated tree ( for the 2d case )
         '''
         self.point = p
         self.l = l
         self.r = r
+        self.tree = t
 
     def __str__(self):
         return str(self.point)
@@ -83,7 +88,6 @@ class Node:
     def listSubTree(self):
         l = []
         self.makeThreads(l)
-        l.append(self.point)
         return l
 
     def makeThreads(self,l):
