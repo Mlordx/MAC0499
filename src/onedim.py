@@ -5,16 +5,18 @@ from primitives import *
 
 class LimitTree:
     def __init__(self,v):
-        self.size = 0
         self.root = self.buildTree(sorted(v,key = lambda k: k.x))
-
+        
+    def inRange(self,rng,p):
+        w1,w2 = rng
+        return w1 <= p and p <= w2
     
     def buildTree(self,points):
         v = Node(None)
         l = points[:len(points)//2]
         r = points[len(points)//2:]
 
-        v.point = points[len(points)//2]
+        v.point = points[len(points)//2-1]
         
         if len(points) == 1:
             v.l = v.r = None
@@ -52,47 +54,48 @@ class LimitTree:
 
 
     def query(self,rng):
-        w1,w2 = rng
+        #w1,w2 = rng
         div = self.findDividingNode(rng)
+        #print(div.point)
         p = []
+        
         if div.isLeaf():
-            if w1 <= div.point and div.point <= w2:
-              print(bcolors.FAIL + "appended 1: " + str(v.point) + bcolors.ENDC)
+            if self.inRange(rng,div.point):
+              #print(bcolors.FAIL + "appended 1: " + str(div.point) + bcolors.ENDC)
               p.append(div.point)
         else:
             v = div.l
             while(not v.isLeaf()):
+                #print(v.point)
                 if w1 <= v.point:
                     subtree = v.r.listSubTree()
-                    print(bcolors.WARNING + "sub: " + str(subtree) + bcolors.ENDC)
+                    #print(bcolors.WARNING + "sub: " + str(subtree) + bcolors.ENDC)
                     
-                    for pnt in subtree:
-                        if w1 <= pnt and pnt <= w1:
-                            p.append(pnt)
+                    p += subtree
                     v = v.l
                 else:
                     v = v.r
-            if w1 <= v.point and v.point <= w2:
+                    
+            if self.inRange(rng,v.point):
                 p.append(v.point)
-                print(bcolors.FAIL + "appended 2: " + str(v.point) + bcolors.ENDC)
+                #print(bcolors.FAIL + "appended 2: " + str(v.point) + bcolors.ENDC)
 
 
-            v = div
+            v = div.r
+            
             while(not v.isLeaf()):
+                #print(v.point)
                 if w2 > v.point:
                     subtree = v.l.listSubTree()
-                    print(bcolors.WARNING + "sub: " + str(subtree) + bcolors.ENDC)
-                    for pnt in subtree:
-                        if w1 <= pnt and pnt <= w1:
-                            p.append(pnt)
+                    p += subtree
+                    #print(bcolors.WARNING + "sub: " + str(subtree) + bcolors.ENDC)
                     v = v.r
                 else:
                     v = v.l
-            if w1 <= v.point and v.point <= w2:
+            if self.inRange(rng,v.point):
                 p.append(v.point)
-                print(bcolors.FAIL + "appended 3: " + str(v.point) + bcolors.ENDC)
+                #print(bcolors.FAIL + "appended 3: " + str(v.point) + bcolors.ENDC)
 
-
-        print(bcolors.OKBLUE + "bla: " + str(p) + bcolors.ENDC)
+        #print(bcolors.OKBLUE + "bla: " + str(sorted(p,key = lambda k: k.x)) + bcolors.ENDC)
         return p
     

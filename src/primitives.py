@@ -14,9 +14,10 @@ class bcolors:
     ENDC = '\033[0m'
 
 class Point:
-    def __init__(self,x,y):
+    def __init__(self,x,y,s=None):
         self.x = x
         self.y = y
+        self.seg = s
 
     def __repr__(self):
         return "("+str(self.x)+","+str(self.y)+")"
@@ -58,7 +59,10 @@ class Segment:
         self.end = end
 
     def __str__(self):
-        return "("+str(self.beg)+","+str(self.end)+")"
+        return "<"+str(self.beg)+"~"+str(self.end)+">"
+
+    def __repr__(self):
+        return "<"+str(self.beg)+"~"+str(self.end)+">"
 
     def __add__(self,other):
         return Segment(self.beg+other.beg,self.end+other.end)
