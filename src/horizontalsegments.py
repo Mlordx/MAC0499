@@ -6,7 +6,7 @@ from primitives import *
 from math import *
 import copy
 
-class HorizontalSegmentNode:
+class HorizontalIntervalNode:
     def __init__(self,p=None,l=None,r=None):
         self.point = p
         self.l = l
@@ -14,7 +14,7 @@ class HorizontalSegmentNode:
         self.L1 = None
         self.L2 = None
 
-class HorizontalSegmentTree:
+class HorizontalIntervalTree:
     def __init__(self,s):
         self.root = self.buildTree(sorted(s,key = lambda a : a.beg))
 
@@ -22,7 +22,7 @@ class HorizontalSegmentTree:
         n = len(s)
 
         if n > 0:
-            v = HorizontalSegmentNode()
+            v = HorizontalIntervalNode()
             l = [] 
             r = []
             l1 = []

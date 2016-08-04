@@ -7,7 +7,7 @@ from onedim import *
 import math
 import copy
 
-class SegmentNode:
+class IntervalNode:
     def __init__(self,p=None,l=None,r=None):
         self.point = p
         self.l = l
@@ -15,14 +15,14 @@ class SegmentNode:
         self.L1 = []
         self.L2 = []
         
-class SegmentTree1D:
+class IntervalTree1D:
     def __init__(self,s):
         self.root = self.buildTree(sorted(s,key = lambda a: a.beg))
 
     def buildTree(self,s):
         n = len(s)
         if n > 0:
-            v = SegmentNode()
+            v = IntervalNode()
             l = []
             r = []
             v.point = s[n//2].beg
