@@ -84,7 +84,7 @@ class Segment:
     def on(self,other):
         return collinear(self.beg,other) and collinear(self.end,other)
 
-    def pseudointercepts(self,other):
+    def pseudointersects(self,other):
         return (left(self.beg,other) and right(self.end,other)) or (right(self.beg,other) and left(self.end,other))
 
 class Node:
@@ -139,4 +139,4 @@ def right(p,s):
     return not(left_on(p,s))
 
 def right_on(p,s):
-    return not(lef(p,s))
+    return not(left(p,s))

@@ -71,7 +71,7 @@ class HorizontalIntervalTree:
 
     def query_r(self,v,seg):
         l = []
-        w1 , w2 = seg
+        w1,w2 = seg
         x = w1.x
         y = w1.y
         y2 = w2.y

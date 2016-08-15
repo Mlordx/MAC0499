@@ -8,12 +8,15 @@ from fractionalcascading import *
 from horizontalsegments import *
 from infinitewindow import *
 from segments1d import *
+from segmenttree1d import *
+from segmenttree2d import *
 from primitives import *
 
 
 
 
 def main():
+    '''
     points = [Point(2,2),Point(2,3),Point(3,2),Point(3,3),Point(0,0),Point(2,5),Point(4,0),Point(0,4),Point(8,8),Point(5,5), Point(7,2)]
     
     t = LimitTree2D(points)
@@ -25,7 +28,7 @@ def main():
     points = [Point(2,0),Point(4,0)]
 
     print("\n\nInfinite windows test:")
-
+    
     rng = (Point(-math.inf,0),Point(4,4))
     t3 = minPrioritySearchTree(points)
 
@@ -53,7 +56,20 @@ def main():
     s = t5.query(target)
     for bla in s:
         print(bla.seg)
-                 
+
+    print("\n\n")
+    '''
+    #segments = [Segment(Point(-4,3),Point(4,3)),Segment(Point(-2,-2),Point(2,2)),Segment(Point(3,-1),Point(3,1)),Segment(Point(-4,1),Point(4,1)),Segment(Point(-1,-3),Point(1,-3))]
+    segments = [Segment(Point(-2,-2),Point(2,2)),Segment(Point(-3,-3),Point(3,-3)),Segment(Point(-4,0),Point(1,5)),Segment(Point(10,0),Point(10,10)),Segment(Point(-5,-4),Point(4,-4))]
+    t6 = SegmentTree2D(segments)
+    target = Segment(Point(0,-5),Point(0,11))
+
+    print("")
+    print("Segmentos cortados por ", target , ":")
+    #t6.printTree()
+    s = t6.query(target)
+    for bla in s:
+        print(bla)
     
 main()
 
