@@ -45,7 +45,9 @@ class SegmentTree2D:
 
         while i >= 0:
             T[i].interval.beg = T[2*i+1].interval.beg
+            T[i].interval.beg_open = T[2*i+1].interval.beg_open            
             T[i].interval.end = T[2*i+2].interval.end
+            T[i].interval.end_open = T[2*i+2].interval.end_open
             i -= 1
 
         for k in range(2*m-1):
@@ -55,19 +57,15 @@ class SegmentTree2D:
         return T[0]
 
     def insertInterval(self,v,s):
-        #print("\n\n")
         u = v
         
         if self.contains(s,u.interval):
-            #print("appending",s,"in",u.interval.beg.x,"~",u.interval.end.x)
             u.L.append(s)
         else:
             if u.l and self.intersects(s,u.l.interval):
-                #print("fui pra esquerda de",u.interval.beg.x,"~",u.interval.end.x)
                 self.insertInterval(u.l,s)
             
             if u.r and self.intersects(s,u.r.interval):
-                #print("fui pra direita de",u.interval.beg.x,"~",u.interval.end.x)
                 self.insertInterval(u.r,s)            
 
     def buildSegmentTree(self,v):
@@ -94,35 +92,23 @@ class SegmentTree2D:
         
 #######################################################################
     def intersects(self,a,b):
-        #print("---------------------------")
         if self.contains(a,b) or self.belongsTo(a.beg,b) or self.belongsTo(a.end,b):
-            #print(a,"contains",b,"=",self.contains(a,b))
-            #print(a.beg,"belongs to",b,"=",self.belongsTo(a.beg,b))
-            #print(a.end,"belongs to",b,"=",self.belongsTo(a.end,b))
-            #print(a," intersecta ",b,"? True")
-            #print("---------------------------")
             return True
         else:
-            #print(a," intersecta ",b,"? False")
-            #print("---------------------------")            
             return False
 
     def contains(self,a,b):# A contains B
-        if a.beg.x == -inf and a.end.x == inf: return False
+        #if a.beg.x == -inf and a.end.x == inf: return False
         
         if a.beg.x <= b.beg.x and b.end.x <= a.end.x:
-            #print("b:",b," contem a:",a,"?: True")
             return True
         else:
-            #print("b:",b," contem a:",a,"?: False")
             return False
 
     def belongsTo(self,p,s):
-        if (s.beg.x < p.x and p.x < s.end.x) or (not s.open and s.beg.x == p.x) or (not s.open and s.end.x == p.x):
-            #print(p," esta em ",s,"? True")
+        if (s.beg.x < p.x and p.x < s.end.x) or (not s.beg_open and s.beg.x == p.x) or (not s.end_open and s.end.x == p.x):
             return True
         else:
-            #print(p," esta em ",s,"? False")
             return False
 
     def removeDuplicates(self,l):
@@ -168,13 +154,13 @@ class SegmentTree2D:
         #for i in range(len(m)):
         for i in range(len(p2)):
             r = p2[i]
-            q.append(Segment(l,r,True))
+            q.append(Segment(l,r,True,True))
             q.append(Segment(r,r))
             l = r
 
         r = Point(inf,0)
 
-        q.append(Segment(l,r,True))
+        q.append(Segment(l,r,True,True))
 
         return q
 
@@ -191,10 +177,8 @@ class SegmentTree2D:
             m = (l + r)//2
 
             if left(p,L[m]):
-                #print(p," está à esquerda de ",L[m])
                 r = m
             elif right_on(p,L[m]):
-                #print(p," está à direita de/em ",L[m])
                 aux = m
                 l = m+1
         
@@ -206,8 +190,28 @@ class SegmentTree2D:
         
         while(not q.empty()):
          aux,level,prev = q.get()
-         if prev is not None : print("(",aux.interval.beg.x,",",aux.interval.end.x,")",level,"(",prev.interval.beg.x,",",prev.interval.end.x,")")
-         else: print(aux.interval,level,None)
+         if prev is not None :
+             aux2 = ""
+             for i in range(level): aux2 += "   "
+             if aux.interval.beg_open: aux2 += "("
+             else: aux2 += "["
+             aux2 += str(aux.interval.beg.x)
+             aux2 += ","
+             aux2 += str(aux.interval.end.x)
+             if aux.interval.end_open: aux2 += ")"
+             else: aux2 += "]"
+             aux2 += " <-"
+
+             if prev.interval.beg_open: aux2 += "("
+             else: aux2 += "["
+             aux2 += str(prev.interval.beg.x)
+             aux2 += ","
+             aux2 += str(prev.interval.end.x)
+             if prev.interval.end_open: aux2 += ")"
+             else: aux2 += "]"
+             
+             print(aux2)
+         else: print("(-inf,inf)")
          
          if aux.l is not None:
              q.put((aux.l,level+1,aux))
@@ -225,12 +229,9 @@ class SegmentTree2D:
         u = v
         l = []
 
-        #print("intervalo: ",u.interval)
-
         j = self.binarySearch(s.beg,u.L)
         
         while j < len(u.L) and left_on(s.end,u.L[j]):
-            #print("Appended ",u.L[j])
             l.append(u.L[j])
             j += 1
 
@@ -238,10 +239,9 @@ class SegmentTree2D:
         if not u.isLeaf():
             if self.belongsTo(x,u.l.interval):
                 l += self.query_r(u.l,s)
-                #return l
-            #else:
-            if self.belongsTo(x,u.r.interval):
+                return l
+            else:
                 l += self.query_r(u.r,s)
-                #return l
+                return l
             
         return l

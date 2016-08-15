@@ -54,10 +54,11 @@ class Point:
         return self.x <= other.x
 
 class Segment:
-    def __init__(self,beg,end,op=False):
+    def __init__(self,beg,end,bo=False,eo=False):
         self.beg = beg
         self.end = end
-        self.open = op
+        self.beg_open = bo
+        self.end_open = eo
 
     def __str__(self):
         return "<"+str(self.beg)+"~"+str(self.end)+">"
