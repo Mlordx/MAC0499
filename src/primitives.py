@@ -129,15 +129,27 @@ def collinear(p,s):
 def left(p,s):
     b = s.beg
     c = s.end
+    if b.x == c.x and p.x == b.x: return p.y > c.y
+    if b.y == c.y and p.y == b.y: return p.x < c.x
     return (b.x - p.x)*(c.y - p.y) - (b.y - p.y)*(c.x - p.x) > 0
 
 def left_on(p,s):
     b = s.beg
     c = s.end
+    if b.x == c.x and p.x == b.x: return p.y >= c.y
+    if b.y == c.y and p.y == b.y: return p.x <= c.x
     return (b.x - p.x)*(c.y - p.y) - (b.y - p.y)*(c.x - p.x) >= 0
 
 def right(p,s):
-    return not(left_on(p,s))
+    b = s.beg
+    c = s.end
+    if b.x == c.x and p.x == b.x: return p.y < b.y
+    if b.y == c.y and p.y == b.y: return p.x > c.x
+    return not(left_on(p,s)) 
 
 def right_on(p,s):
+    b = s.beg
+    c = s.end
+    if b.x == c.x and p.x == b.x: return p.y <= b.y
+    if b.y == c.y and p.y == b.y: return p.x >= c.x
     return not(left(p,s))

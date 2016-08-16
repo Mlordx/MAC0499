@@ -59,17 +59,23 @@ def main():
 
     print("\n\n")
     '''
-    #segments = [Segment(Point(-4,3),Point(4,3)),Segment(Point(-2,-2),Point(2,2)),Segment(Point(3,-1),Point(3,1)),Segment(Point(-4,1),Point(4,1)),Segment(Point(-1,-3),Point(1,-3))]
     segments = [Segment(Point(-2,-2),Point(2,2)),Segment(Point(-3,-3),Point(3,-3)),Segment(Point(-4,0),Point(1,5)),Segment(Point(10,0),Point(10,10)),Segment(Point(-5,-4),Point(4,-4))]
-    t6 = SegmentTree2D(segments)
-    target = Segment(Point(0,-5),Point(0,11))
+    
+    t6 = SegmentTree2Dx(segments)
+    
+    target = Segment(Point(10,5),Point(10,7))
 
     print("")
     print("Segmentos cortados por ", target , ":")
     #t6.printTree()
     s = t6.query(target)
-    for bla in s:
-        print(bla)
-    
+    print(s)
+
+    t7 = SegmentTree2Dy(segments)
+
+    target = Segment(Point(10,-3),Point(20,-3))
+    #t7.printTree()
+    print("\nSegmentos cortados por ", target , ":")
+    print(t7.query(target))
 main()
 
