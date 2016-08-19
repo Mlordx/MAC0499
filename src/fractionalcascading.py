@@ -99,7 +99,11 @@ class LayerTree:
     
     def inRange(self,rng,p):
         w1,w2 = rng
-        return ((w1.x < p.x or (w1.x == p.x and w1.y <= p.y)) and (p.x < w2.x or (p.x == w2.x and p.y <= w2.y)) and (w1.y < p.y or (w1.y == p.y and w1.x <= p.x) and (p.y < w2.y or (p.y == w2.y and p.x <= w2.x))))
+        a = w1.x < p.x or (w1.x == p.x and w1.y <= p.y)
+        b = p.x < w2.x or (p.x == w2.x and p.y <= w2.y)
+        c = w1.y < p.y or (w1.y == p.y and w1.x <= p.x)
+        d = p.y < w2.y or (p.y == w2.y and p.x <= w2.x)
+        return a and b and c and d
 
     def findDividingNode(self,segment):
         w1,w2 = segment

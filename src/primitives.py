@@ -119,7 +119,23 @@ class Node:
         if self.l is not None: self.l.makeThreads(l)
         if self.r is not None: self.r.makeThreads(l)
 
+def intersects(a,b):
+    if contains(a,b) or belongsTo(a.beg,b) or belongsTo(a.end,b):
+        return True
+    else:
+        return False
 
+def contains(a,b):# A contains B
+    if a.beg.x <= b.beg.x and a.end.x >= b.end.x:
+        return True
+    else:
+        return False
+
+def belongsTo(p,s):
+    if (s.beg.x < p.x and p.x < s.end.x) or (not s.beg_open and s.beg.x == p.x) or (not s.end_open and s.end.x == p.x):
+        return True
+    else:
+        return False
     
 def collinear(p,s):
     b = s.beg

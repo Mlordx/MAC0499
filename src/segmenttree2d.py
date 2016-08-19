@@ -59,13 +59,13 @@ class SegmentTree2Dx:
     def insertInterval(self,v,s):
         u = v
 
-        if self.contains(s,u.interval):
+        if contains(s,u.interval):
             u.L.append(s)
         else:
-            if u.l and self.intersects(s,u.l.interval):
+            if u.l and intersects(s,u.l.interval):
                 self.insertInterval(u.l,s)
             
-            if u.r and self.intersects(s,u.r.interval):
+            if u.r and intersects(s,u.r.interval):
                 self.insertInterval(u.r,s)            
 
     def buildSegmentTree(self,v):
@@ -91,24 +91,6 @@ class SegmentTree2Dx:
         if(v.r is not None): self.sortLists(v.r)
         
 #######################################################################
-    def intersects(self,a,b):
-        if self.contains(a,b) or self.belongsTo(a.beg,b) or self.belongsTo(a.end,b):
-            return True
-        else:
-            return False
-
-    def contains(self,a,b):# A contains B
-        if a.beg.x <= b.beg.x and a.end.x >= b.end.x:
-            return True
-        else:
-            return False
-
-    def belongsTo(self,p,s):
-        if (s.beg.x < p.x and p.x < s.end.x) or (not s.beg_open and s.beg.x == p.x) or (not s.end_open and s.end.x == p.x):
-            return True
-        else:
-            return False
-
     def removeDuplicates(self,l):
         seen = set()
         seen_add = seen.add
@@ -244,7 +226,7 @@ class SegmentTree2Dx:
         u = v
         l = []
 
-
+        
         j = self.binarySearch(s.beg,u.L)
         
         while j < len(u.L) and (left(s.end,u.L[j]) or self.inside(s.end,u.L[j])):            
@@ -253,7 +235,7 @@ class SegmentTree2Dx:
 
         x = s.beg
         if not u.isLeaf():
-            if self.belongsTo(x,u.l.interval):
+            if belongsTo(x,u.l.interval):
                 l += self.query_r(u.l,s)
                 return l
             else:
@@ -344,9 +326,9 @@ class SegmentTree2Dy:
 
     def compareIntervals(self,s1,s2):
         if s1.right(s2) or (s1.pseudointersects(s2) and s2.left(s1)):
-            return -1
-        if s1.left(s2) or (s1.pseudointersects(s2) and s2.right(s1)):
             return 1
+        if s1.left(s2) or (s1.pseudointersects(s2) and s2.right(s1)):
+            return -1
         return 0
 
     def sortLists(self,v):
@@ -504,12 +486,8 @@ class SegmentTree2Dy:
         u = v
         l = []
 
-        #print(u.interval,u.L)
-
         j = self.binarySearch(s.beg,u.L)
 
-        #print(j)
-        
         while j < len(u.L) and (right(s.end,u.L[j]) or self.inside(s.end,u.L[j])):            
             l.append(u.L[j])
             j += 1

@@ -11,6 +11,7 @@ from segments1d import *
 from segmenttree1d import *
 from segmenttree2d import *
 from primitives import *
+from windows import *
 
 
 
@@ -58,7 +59,6 @@ def main():
         print(bla.seg)
 
     print("\n\n")
-    '''
     segments = [Segment(Point(-2,-2),Point(2,2)),Segment(Point(-3,-3),Point(3,-3)),Segment(Point(-4,0),Point(1,5)),Segment(Point(10,0),Point(10,10)),Segment(Point(-5,-4),Point(4,-4))]
     
     t6 = SegmentTree2Dx(segments)
@@ -77,5 +77,18 @@ def main():
     #t7.printTree()
     print("\nSegmentos cortados por ", target , ":")
     print(t7.query(target))
+    '''
+    segments = [Segment(Point(-2,-2),Point(2,2)),Segment(Point(-3,-3),Point(3,-3)),Segment(Point(-4,0),Point(1,5)),Segment(Point(10,0),Point(10,10)),Segment(Point(-5,-4),Point(4,-4))]
+    
+    t8 = Window(segments)
+
+    target = (Point(-2,-2),Point(2,2))
+    target2 = Segment(Point(-2,2),Point(2,2))
+
+    t = SegmentTree2Dy(segments)
+    print(t8.query(target))
+
+    #print(t.query(target2))
+
 main()
 
