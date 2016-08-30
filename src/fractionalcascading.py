@@ -120,16 +120,21 @@ class LayerTree:
         l = 0
         r = len(points)-1
         aux = None
-        while l < r :
+        print("x:",x)
+        for p in points:
+            print(p.point)
+        while l < r:
             m = (l + r)//2
             current = points[m].point
-            if current == x: return points[m]
+            if current.y == x.y: return points[m]
             
             elif current.y < x.y:
                 l = m+1
             elif current.y > x.y or ( current.y == x.y and current.x >= x.x):
                 aux = points[m]
-                r = m
+                r = m-1
+            print(l,r)
+
         return aux
 
     def printTree(self):
@@ -144,7 +149,7 @@ class LayerTree:
              print("<> ",v.point)
              if(v.pl is not None): print("<<: ",v.pl.point)
              else: print("<<: None")
-             if(v.pr is not None):print(">>: ",v.pr.point)
+             if(v.pr is not None): print(">>: ",v.pr.point)
              else: print(">>: None")
              print()
          
@@ -158,23 +163,23 @@ class LayerTree:
     def query(self,rng):
         p = []
         w1,w2 = rng
-        #print("w1,w2: ",w1, " ", w2)
+        print("w1,w2: ",w1, " ", w2)
         
         div = self.findDividingNode(rng)
         
-        #print("div: ",div)
+        print("div: ",div)
 
         if div.isLeaf():
             if self.inRange(rng,div.point):
                 p.append(div.point)
         else:
             div2 = self.binarySearch(div.tree,w1) #menor ponto em div.tree >=_y que w1            
-            #print("div2: ",div2.point)
+            print("div2: ",div2.point)
             if div2 is not None:
                 v = div.l
                 v2 = div2.pl
 
-                #print("v :",v.point," v2: ",v2.point)
+                print("v :",v.point," v2: ",v2.point)
                 
                 while not v.isLeaf() and v2 is not None:
                     if w1.x < v.point.x or ( w1.x == v.point.x and w1.y <= v.point.y ):
@@ -184,7 +189,7 @@ class LayerTree:
                         #print(u.point,ind,u.side)
                         #for c in v.tree: print("~~~",c.point)
                         while u.side and (u.point.y < w2.y or ( u.point.y == w2.y and u.point.x <= w2.x)):
-                            #print("appended: ",u.point)#," with ind: ",ind)
+                            print("appended: ",u.point)#," with ind: ",ind)
                             p.append(u.point)
                             '''
                             ind += 1
@@ -205,7 +210,7 @@ class LayerTree:
                         v2 = v2.pr
                     
                 if v2 is not None and self.inRange(rng,v.point):
-                    #print("appended: ",v.point)
+                    print("appended: ",v.point)
                     p.append(v.point)
                 
             if div2 is not None:
@@ -218,7 +223,7 @@ class LayerTree:
                         #ind = v2.il
 
                         while not u.side and (u.point.y < w2.y or ( u.point.y == w2.y and u.point.x <= w2.x)):
-                            #print("appended:", u.point)#," with ind", ind)
+                            print("appended:", u.point)#," with ind", ind)
                             p.append(u.point)
                             '''
                             ind += 1
@@ -236,7 +241,7 @@ class LayerTree:
                         v2 = v2.pl
 
                 if v2 is not None and self.inRange(rng,v.point):
-                    #print("appended: ",v.point)
+                    print("appended: ",v.point)
                     p.append(v.point)
            
         return p

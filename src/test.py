@@ -82,8 +82,7 @@ def main():
     
     t8 = Window(segments)
 
-    target = (Point(-2,-2),Point(2,2))
-    target2 = Segment(Point(-2,2),Point(2,2))
+    target = (Point(-4,-4),Point(4,4))
 
     t = SegmentTree2Dy(segments)
     print(t8.query(target))
