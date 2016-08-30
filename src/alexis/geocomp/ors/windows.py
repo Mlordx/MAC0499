@@ -5,6 +5,8 @@ import math
 from fractionalcascading import *
 from segmenttree2d import *
 from primitives import *
+import geocomp.common as alx
+
 
 class Window:
     def __init__(self,s):
@@ -51,17 +53,24 @@ class Window:
         # rng = (a,b)(c,d)
         # a <= c
         # b <= d
-        print("oi")
         L = self.layer_l.query(rng)
-        print("I")
         R = self.layer_r.query(rng)
-        print("II")
+        
         l = []
         r = []
         
-        for p in L: l.append(p.seg)
-        for p in R: r.append(p.seg)
-        
+        for p in L:
+            l.append(p.seg)
+            alx.segment.Segment(alx.point.Point(p.seg.beg.x,p.seg.beg.y),alx.point.Point(p.seg.end.x,p.seg.end.y)).hilight("blue")
+            alx.control.sleep()
+            
+            
+        for p in R:
+            r.append(p.seg)
+            alx.segment.Segment(alx.point.Point(p.seg.beg.x,p.seg.beg.y),alx.point.Point(p.seg.end.x,p.seg.end.y)).hilight("yellow")
+            alx.control.sleep()
+
+            
         a = rng[0].x
         b = rng[0].y
         c = rng[1].x
@@ -80,11 +89,38 @@ class Window:
         self.S4 = seg4
         
         s1 = self.seg_v.query(seg1)
-        print("III")
         s3 = self.seg_v.query(seg3)
-        print("IV")
         s2 = self.seg_h.query(seg2)
-        print("V")
+
+        p = seg1
+        alx.segment.Segment(alx.point.Point(p.beg.x,p.beg.y),alx.point.Point(p.end.x,p.end.y)).hilight("magenta")
+        alx.control.sleep()
+        alx.segment.Segment(alx.point.Point(p.beg.x,p.beg.y),alx.point.Point(p.end.x,p.end.y)).hilight("green")        
+        alx.control.sleep()
+        for p in s1:
+            alx.segment.Segment(alx.point.Point(p.beg.x,p.beg.y),alx.point.Point(p.end.x,p.end.y)).hilight("magenta")
+            alx.control.sleep()
+
+        p = seg3
+        alx.segment.Segment(alx.point.Point(p.beg.x,p.beg.y),alx.point.Point(p.end.x,p.end.y)).hilight("orange")
+        alx.control.sleep()
+        alx.segment.Segment(alx.point.Point(p.beg.x,p.beg.y),alx.point.Point(p.end.x,p.end.y)).hilight("green")
+        alx.control.sleep()
+
+        for p in s3:
+            alx.segment.Segment(alx.point.Point(p.beg.x,p.beg.y),alx.point.Point(p.end.x,p.end.y)).hilight("orange")
+            alx.control.sleep()
+
+        p = seg2
+        alx.segment.Segment(alx.point.Point(p.beg.x,p.beg.y),alx.point.Point(p.end.x,p.end.y)).hilight("light green")
+        alx.control.sleep()
+        alx.segment.Segment(alx.point.Point(p.beg.x,p.beg.y),alx.point.Point(p.end.x,p.end.y)).hilight("green")
+        alx.control.sleep()
+
+        
+        for p in s2:
+            alx.segment.Segment(alx.point.Point(p.beg.x,p.beg.y),alx.point.Point(p.end.x,p.end.y)).hilight("light green")
+            alx.control.sleep()            
 
         """
         print(seg1,seg2,seg3,seg4)

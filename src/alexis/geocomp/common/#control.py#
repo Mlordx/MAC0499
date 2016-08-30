@@ -30,7 +30,6 @@ def thaw_update (amount = 1):
 	if dont_update <= 0:
 		dont_update = 0
 		update ()
-
 def update ():
 	"Atualiza a tela"
 	if skip: return

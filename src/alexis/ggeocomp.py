@@ -59,8 +59,8 @@ class App:
 		self.delay.set_numeric (TRUE)
 		self.dyn_controls_box.pack_start (self.delay)#, expand=TRUE, fill=FALSE)
 
-		self.step = gtk.CheckButton ('passo a passo')
-		self.step.set_state (TRUE)
+		self.step = gtk.CheckButton ('Passo-a-passo')
+		self.step.set_state (True)
 		self.step.connect_after ('clicked', self.step_clicked)
 		self.dyn_controls_box.pack_start (self.step, fill=FALSE)
 
@@ -73,8 +73,8 @@ class App:
 		self.zoom_in.connect ('clicked', self.zoom, 1.5)
 		self.zoom_out.connect ('clicked', self.zoom, 2.0/3.0)
 
-		self.hide = gtk.CheckButton ('esconder')
-		self.hide.set_state (TRUE)
+		self.hide = gtk.CheckButton ('Esconder')
+		self.hide.set_state (False)
 		self.controls_box.pack_start (self.hide, fill=FALSE)
 
 
@@ -217,8 +217,8 @@ class App:
 
 	def key_release (self, widget, event):
 		#print event
-		if event.keyval == gtk.gdk.space:
-			self.step_completed = 1
+		#if event.keyval == gtk.keysyms.Space:
+		self.step_completed = 1
 
 	def run_algorithm (self, clicked, arg):
 		alg = arg[0]
