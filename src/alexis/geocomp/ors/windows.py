@@ -61,13 +61,21 @@ class Window:
         
         for p in L:
             l.append(p.seg)
-            alx.segment.Segment(alx.point.Point(p.seg.beg.x,p.seg.beg.y),alx.point.Point(p.seg.end.x,p.seg.end.y)).hilight("blue")
+            bla = alx.segment.Segment(alx.point.Point(p.seg.beg.x,p.seg.beg.y),alx.point.Point(p.seg.end.x,p.seg.end.y))
+            bla.init.hilight("blue")
             alx.control.sleep()
-            
-            
+            bla.init.unhilight()
+            alx.control.sleep()
+            bla.hilight("blue")
+
+                        
         for p in R:
             r.append(p.seg)
-            alx.segment.Segment(alx.point.Point(p.seg.beg.x,p.seg.beg.y),alx.point.Point(p.seg.end.x,p.seg.end.y)).hilight("yellow")
+            bla = alx.segment.Segment(alx.point.Point(p.seg.beg.x,p.seg.beg.y),alx.point.Point(p.seg.end.x,p.seg.end.y))
+            bla.to.hilight("yellow")
+            alx.control.sleep()
+            bla.to.unhilight()
+            bla.hilight("yellow")
             alx.control.sleep()
 
             
@@ -122,13 +130,4 @@ class Window:
             alx.segment.Segment(alx.point.Point(p.beg.x,p.beg.y),alx.point.Point(p.end.x,p.end.y)).hilight("light green")
             alx.control.sleep()            
 
-        """
-        print(seg1,seg2,seg3,seg4)
-        print("l:",l)
-        print("r:",r)
-        print("s1:",s1)
-        print("s2:",s2)
-        print("s3:",s3)
-        """
-        
         return list(set(l+r+s1+s2+s3))

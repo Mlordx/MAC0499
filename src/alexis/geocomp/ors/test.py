@@ -22,6 +22,7 @@ def main(l):
 
     x = alx.segment.Segment(alx.point.Point(0,-11),alx.point.Point(0,11))
     y = alx.segment.Segment(alx.point.Point(-11,0),alx.point.Point(11,0))
+
     x.hilight("white" )
     y.hilight("white")
 
@@ -65,11 +66,9 @@ def main(l):
     resp = t8.query(target)
     
     for bla in resp:
-        print(bla)
         aux = alx.point.Point(bla.beg.x,bla.beg.y)
         aux2 = alx.point.Point(bla.end.x,bla.end.y)
         aux.lineto(aux2,'cyan')
         alx.control.sleep()
 
-    #print(t.query(target2))
 
