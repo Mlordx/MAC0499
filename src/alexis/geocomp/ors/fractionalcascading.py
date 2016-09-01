@@ -12,8 +12,6 @@ class LayerNode:
         self.pl = pl
         self.pr = pr
         self.nxt = nxt
-        #self.il = il
-        #self.ir = ir
         self.side = side
 
 class LayerTree:
@@ -183,7 +181,7 @@ class LayerTree:
                         
                         #print(u.point,ind,u.side)
                         #for c in v.tree: print("~~~",c.point)
-                        while u.side and (u.point.y < w2.y or ( u.point.y == w2.y and u.point.x <= w2.x)):
+                        while u and u.side and (u.point.y < w2.y or ( u.point.y == w2.y and u.point.x <= w2.x)):
                             #print("appended: ",u.point)#," with ind: ",ind)
                             p.append(u.point)
                             '''
@@ -217,7 +215,7 @@ class LayerTree:
                         u = v2.pl
                         #ind = v2.il
 
-                        while not u.side and (u.point.y < w2.y or ( u.point.y == w2.y and u.point.x <= w2.x)):
+                        while u and not u.side and (u.point.y < w2.y or ( u.point.y == w2.y and u.point.x <= w2.x)):
                             #print("appended:", u.point)#," with ind", ind)
                             p.append(u.point)
                             '''

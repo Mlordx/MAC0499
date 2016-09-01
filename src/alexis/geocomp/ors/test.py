@@ -14,7 +14,7 @@ from primitives import *
 from windows import *
 import geocomp.common as alx
 
-
+target = None
 
 def main(l):
 
@@ -35,9 +35,7 @@ def main(l):
     
     for bla in segments:
         aux = alx.point.Point(bla.beg.x,bla.beg.y)
-        #aux.hilight()
         aux2 = alx.point.Point(bla.end.x,bla.end.y)
-        #aux2.hilight()
         aux.lineto(aux2,'red')
         alx.control.sleep(0.1)
 
@@ -45,7 +43,7 @@ def main(l):
     
     t8 = Window(segments)
 
-    target = (Point(-2,-2),Point(2,2))
+    print(target)
     a = target[0].x
     b = target[0].y
     c = target[1].x

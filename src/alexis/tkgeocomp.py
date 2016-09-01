@@ -4,6 +4,7 @@ from Tkinter import *
 import geocomp
 from geocomp.gui import tk
 from geocomp import config
+from geocomp.ors import primitives,test
 import os
 import string
 
@@ -33,7 +34,7 @@ class App:
 		self.file_label.pack ()
 		self.file_sub_frame = Frame (self.file_frame)
 		self.file_sub_frame.pack (fill = BOTH)
-		self.selected_file.trace_variable ("w", 
+		self.selected_file.trace_variable ("w",
 				lambda x, y, z, self=self: self.open_file ())
 
 		filename = self.update_files (config.DATADIR)
@@ -42,13 +43,13 @@ class App:
 
 		self.main_frame = Frame (self.tk)
 		self.main_frame.pack (fill=BOTH, expand = 1)
-		self.main_frame.bind ('<Control-q>', 
+		self.main_frame.bind ('<Control-q>',
 				      lambda event, self=self: self.tk.quit ())
 
-		self.canvas = Canvas (self.main_frame, 
-					width = config.WIDTH, 
-					height = config.HEIGHT, 
-					bg = 'black', 
+		self.canvas = Canvas (self.main_frame,
+					width = config.WIDTH,
+					height = config.HEIGHT,
+					bg = 'black',
 					takefocus=1)
 		self.canvas.pack (fill = BOTH, expand=1)
 
@@ -57,30 +58,53 @@ class App:
 		self.controls.pack (fill = BOTH, expand = 1)
 
 		self.step_by_step = IntVar ()
-		self.step_button = Checkbutton (self.controls, 
-						text = 'passo a passo', 
+		self.step_button = Checkbutton (self.controls,
+						text = 'Passo-a-passo',
 						variable = self.step_by_step)
 
 		self.step_button.grid (row=0, column=0, sticky=W+E, padx=20)
 
-		self.print_canvas = Button (self.controls, 
-						text = 'imprimir', 
-						command = self.print_to_file)
-		self.print_canvas.grid (row=0, column = 1, sticky=W+E, padx=20)
+		self.print_canvas3 = Button (self.controls,
+						text = 'Modificar Janela',
+						command = self.modify_window)
+		self.print_canvas3.grid (row=0, column = 1, sticky=W+E, padx=20)
 
 		self.show_var = IntVar ()
-		self.show_button = Checkbutton (self.controls, 
-						text = 'esconder',
+		self.show_button = Checkbutton (self.controls,
+						text = 'Esconder',
 						variable = self.show_var)
 		self.show_button.grid (row=0, column = 2, sticky=W+E, padx=20)
 
-
-		self.delay = Scale (self.main_frame, orient = HORIZONTAL, 
-					from_ = 0, to = config.MAX_DELAY, 
+                '''
+		self.delay = Scale (self.main_frame, orient = HORIZONTAL,
+					from_ = 0, to = config.MAX_DELAY,
 					resolution = 10)
 		self.delay.set (config.DELAY)
 		self.delay.pack (fill = X, side=BOTTOM)
 
+                '''
+                self.delay = 500
+
+                labelText=StringVar()
+                labelText.set("Limite inferior:  ")
+                labelDir=Label(self.main_frame, textvariable=labelText, height=1)
+                labelDir.pack(side="left")
+                
+                self.x = Entry(self.main_frame,width=5)
+                self.x.pack(side="left")        
+                self.y = Entry(self.main_frame,width=5)
+                self.y.pack(side="left")
+
+                labelText2=StringVar()
+                labelText2.set("         Limite superior:  ")
+                labelDir2=Label(self.main_frame, textvariable=labelText2, height=2)
+                labelDir2.pack(side="left")
+
+                self.x2 = Entry(self.main_frame,width=5)
+                self.x2.pack(side="left")        
+                self.y2 = Entry(self.main_frame,width=5)
+                self.y2.pack(side="left")
+                
 		geocomp.init_display (tk, self)
 		self.points = []
 		self.step = IntVar ()
@@ -102,7 +126,7 @@ class App:
 			if os.path.isdir (os.path.join (directory, files[i])):
 				files[i] = files[i] + '/'
 
-		self.filelist = apply (OptionMenu, 
+		self.filelist = apply (OptionMenu,
 			(self.file_frame, self.selected_file) + tuple (files))
 		self.filelist.pack (fill=X)
 		self.filelist['takefocus'] = 1
@@ -153,7 +177,7 @@ class App:
 						self.create_buttons (b)
 				b.problem = getattr (problem, a[0])
 				b.parent = problem
-				b.grid (row = row, column = 0, 
+				b.grid (row = row, column = 0,
 					columnspan = 2, sticky = W+E)
 			else:
 				alg = getattr (problem, a[0])
@@ -169,7 +193,7 @@ class App:
 				b.label = l
 
 			row = row + 1
-			if first: 
+			if first:
 				b.focus_set ()
 				first = 0
 				buttons.focus = b
@@ -179,7 +203,7 @@ class App:
 			b['command'] = lambda b=b, self=self: self.create_buttons (b)
 			b.problem = parent
 			b.parent = parent
-			b.grid (row = row, column = 0, columnspan = 1, 
+			b.grid (row = row, column = 0, columnspan = 1,
 				sticky = W+E)
 		else:
 			b = Button (buttons, text = 'Sair')
@@ -195,7 +219,7 @@ class App:
 	def open_file (self, event=None):
 		"abre um arquivo de entrada"
 		#if self.in_algorithm: return
-		selection = os.path.join (self.filelist.directory, 
+		selection = os.path.join (self.filelist.directory,
 						self.selected_file.get ())
 		if os.path.isdir (selection):
 			self.update_files (selection)
@@ -213,16 +237,12 @@ class App:
 		self.file_entry.insert (END, self.selected_file.get ())
 
 	def disable (self):
-		"""desativa maior parte dos botoes
-
-		(tenta) impedir que outro algoritmo seja iniciado concorrentemente"""
 		#self.main_frame.grab_set ()
 		#self.left['takefocus'] = 0
 		self.filelist['state'] = DISABLED
 		self.filelist['takefocus'] = 0
- 		for b in self.buttons.children.values () :
- 			b['state'] = DISABLED
-		if self.show_var.get ():
+                for b in self.buttons.children.values(): b['state'] = DISABLED
+                if self.show_var.get():
 			self.delay['state'] = DISABLED
 			self.step_button['state'] = DISABLED
 			self.print_canvas['state'] = DISABLED
@@ -242,27 +262,27 @@ class App:
 			self.step_button['state'] = NORMAL
 			self.print_canvas['state'] = NORMAL
 		self.show_button['state'] = NORMAL
-	
+
 	def reset_labels (self):
 		"Joga fora o conteudo de todos os labels"
 		for l in self.labels:
 			l['text'] = '------'
 
 		self.bottom_label['text'] = '----------'
-	
-	def print_to_file (self):
-		"Imprime self.canvas para um arquivo .eps"
-		if self.current_algorithm != None:
-			epsfile = self.current_filename + '-' + \
-				self.current_algorithm + '-' + \
-				`self.file_cont` + '.eps'
-		else:
-			epsfile = self.current_filename + '-' + \
-				`self.file_cont` + '.eps'
-		self.canvas.postscript (file=epsfile)
-		self.file_cont = self.file_cont + 1
-		
-	
+
+
+        def modify_window(self):
+                x = int(self.x.get())
+                y = int(self.y.get())
+                x2 = int(self.x2.get())
+                y2 = int(self.y2.get())
+                if x < x2 and y < y2:
+                        test.target = (primitives.Point(x,y),primitives.Point(x2,y2))
+                        print('\033[92m'+"\n Janela atualizada com sucesso" + '\033[0m')
+                else:
+                        print('\033[91m' +"\nErro! x e y devem ser estritamente menores que x2 e y2!" + '\033[0m')
+                        
+                
 	def run_algorithm (self, alg, widget, alg_name):
 		"""roda o algoritmo alg"""
 		self.file_cont = 0
@@ -284,7 +304,7 @@ class App:
 
 		self.tk.unbind ('<space>')
 		self.enable ()
-			
+
 
 app = App ()
 

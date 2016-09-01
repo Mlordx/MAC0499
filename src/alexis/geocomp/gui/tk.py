@@ -24,7 +24,7 @@ def sleep ():
 	if master.step_by_step.get ():
 		master.tk.wait_variable (master.step)
 	else:
-		master.tk.after (master.delay.get (), master.tk.quit)
+		master.tk.after (master.delay, master.tk.quit)
 		master.tk.mainloop ()
 
 
