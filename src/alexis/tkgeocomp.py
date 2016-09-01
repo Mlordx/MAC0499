@@ -70,10 +70,6 @@ class App:
 		self.print_canvas3.grid (row=0, column = 1, sticky=W+E, padx=20)
 
 		self.show_var = IntVar ()
-		self.show_button = Checkbutton (self.controls,
-						text = 'Esconder',
-						variable = self.show_var)
-		self.show_button.grid (row=0, column = 2, sticky=W+E, padx=20)
 
                 '''
 		self.delay = Scale (self.main_frame, orient = HORIZONTAL,
@@ -246,7 +242,6 @@ class App:
 			self.delay['state'] = DISABLED
 			self.step_button['state'] = DISABLED
 			self.print_canvas['state'] = DISABLED
-		self.show_button['state'] = DISABLED
 
 
 	def enable (self):
@@ -261,7 +256,6 @@ class App:
 			self.delay['state'] = NORMAL
 			self.step_button['state'] = NORMAL
 			self.print_canvas['state'] = NORMAL
-		self.show_button['state'] = NORMAL
 
 	def reset_labels (self):
 		"Joga fora o conteudo de todos os labels"
