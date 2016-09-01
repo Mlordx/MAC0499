@@ -20,19 +20,13 @@ target = None
 
 def main(l):
 
-    segments = [Segment(Point(-2,-2),Point(2,2)),Segment(Point(-3,-3),Point(3,-3)),Segment(Point(-4,-1),Point(1,5)),Segment(Point(10,0),Point(10,10)),Segment(Point(-5,-4),Point(4,-4)),Segment(Point(-10,5),Point(-2,2))]
+    segments = []
 
-    x = seg.Segment(pnt.Point(0,-11),pnt.Point(0,11))
-    y = seg.Segment(pnt.Point(-11,0),pnt.Point(11,0))
-
-    x.hilight("white" )
-    y.hilight("white")
-
-    pnt.Point(11,11).hilight("black")
-    pnt.Point(-11,-11).hilight("black")
-    pnt.Point(11,-11).hilight("black")
-    pnt.Point(-11,11).hilight("black")
-
+    for i in range(0,len(l)-1,2):
+        p1 = Point(l[i].x,l[i].y)
+        p2 = Point(l[i+1].x,l[i+1].y)
+        segments.append(Segment(p1,p2))
+        
     geocomp.common.control.sleep()
     
     for bla in segments:

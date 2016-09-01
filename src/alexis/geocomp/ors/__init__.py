@@ -2,7 +2,7 @@ import test
 
 
 children = (
-	( 'test', 'main', 'Consulta em Janelas' ), 
+	( 'test', 'main', 'Realizar consulta' ), 
 )
 
 __all__ = map (lambda a: a[0], children)

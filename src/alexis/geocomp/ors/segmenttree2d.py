@@ -121,13 +121,13 @@ class SegmentTree2Dx:
         p2 = []
 
         aux = []
-        for i in range(M+1):
+        for i in range(int(M)+1):
             aux.append(-1)
 
         for i in range(len(p)):
-            if aux[p[i].x] == -1:
+            if aux[int(p[i].x)] == -1:
                 p2.append(p[i])
-                aux[p[i].x] = 1337
+                aux[int(p[i].x)] = 1337
 
         #m = self.removeDuplicates(p)
 
@@ -387,12 +387,12 @@ class SegmentTree2Dy:
         p2 = []
 
         aux = []
-        for i in range(M+1): aux.append(-1)
+        for i in range(int(M)+1): aux.append(-1)
 
         for i in range(len(p)):
-            if aux[p[i].y] == -1:
+            if aux[int(p[i].y)] == -1:
                 p2.append(p[i])
-                aux[p[i].y] = 1337
+                aux[int(p[i].y)] = 1337
 
         #m = self.removeDuplicates(p)
 
