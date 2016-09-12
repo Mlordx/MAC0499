@@ -40,7 +40,8 @@
 \usepackage{amsfonts}
 \usepackage{amssymb}
 \usepackage{mathtools}    
-
+\usepackage{algorithm}
+\usepackage{algorithmic}
 % ---------------------------------------------------------------------------- %
 % Cabeçalhos similares ao TAOCP de Donald E. Knuth
 \usepackage{fancyhdr}
@@ -49,8 +50,47 @@
 \renewcommand{\chaptermark}[1]{\markboth{\MakeUppercase{#1}}{}}
 \renewcommand{\sectionmark}[1]{\markright{\MakeUppercase{#1}}{}}
 \renewcommand{\headrulewidth}{0pt}
+% ---------------------------------------------------------------------------- %
+% ---------------------------------------------------------------------------- %
+\usepackage{listings}
+
+ \definecolor{key}{RGB}{0,100,161}
+ \definecolor{comment}{RGB}{100,107,110}
+ \definecolor{number}{RGB}{60,60,60}
+ \definecolor{id}{rgb}{0,0.28,0.45}
+ \definecolor{param}{rgb}{0,0.19,0.32}
+ \definecolor{functions}{rgb}{0,0.19,0.32}
+ \definecolor{type}{RGB}{0,50,160}
+\definecolor{text}{RGB}{20, 20, 20}
+
+\lstset{
+    % escapeinside={\$}{\$)},
+    language=Python,
+    morekeywords={do, nil, where},
+    morecomment=[l]{//},
+    basicstyle=\code\color{text},
+    keywordstyle=\color{key},
+    commentstyle=\color{comment},
+    numberstyle=\color{number},
+    extendedchars=true,
+    emph={[20]Int, Float, Bool, String, Double},
+    emph={[30]true, false,def},
+    emph={[40]rand, read, write, insert, append, push, pop, empty, and, or, not},
+    emphstyle={[20]\color{type}},
+    emphstyle={[30]\color{key}},
+    emphstyle={[40]\color{brown}},
+    literate={á}{{\'a}}1 {ã}{{\~a}}1 {à}{{\`a}}1 {â}{{\^a}}1%
+    {è}{{\`e}}1 {é}{{\'e}}1 {ê}{{\^e}}1%
+    {í}{{\'i}}1%
+    {ó}{{\'o}}1 {õ}{{\~o}}1 {ô}{{\^o}}1%
+    {ú}{{\'u}}1%
+    {ç}{{\,c}}1%
+    {\$}{{\textcolor{blue}{\$}}}1,
+}
+\floatname{algorithm}{Algoritmo}
 
 % ---------------------------------------------------------------------------- %
+
 \graphicspath{{./figuras/}}             % caminho das figuras (recomendável)
 \frenchspacing                          % arruma o espaço: id est (i.e.) e exempli gratia (e.g.) 
 \urlstyle{same}                         % URL com o mesmo estilo do texto e não mono-spaced

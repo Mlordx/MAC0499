@@ -1,4 +1,5 @@
 %% ------------------------------------------------------------------------- %%
+\onehalfspacing
 \chapter{Defini\c{c}\~oes e Primitivas}
 \label{cap:definicoes}
 
@@ -11,5 +12,61 @@ $x,y \in \mathbb{R} $ definimos um ponto no $\mathbb{R}^2$ como um par $ p = (x,
 $ s = \overline{(x_1,y_1)(x_2,y_2)}$ onde $u = (x_1,y_1)$ e $v = (x_2,y_2)$ são pontos chamados de pontos extremos de $s$. 
 \subsection{Comparações}
 \par
-Uma outra noção que será usada copiosamente ao longo desta monografia é a noção de desigualdade em relação a uma dada coordenada. Sejam $u,v$ pontos, dizemos que $u \leq_x v $ caso $x(u) < x(v)$ ou $ x(u) = x(v)$ e $y(u) \leq y(v)$ ( Simetricamente definido para desigualdades em relação à coordenada $y$), ou seja, sempre comparamos primeiro a coordenada de maior interesse e desempatamos pela segunda coordenada nas comparações.
+Uma outra noção que será usada copiosamente ao longo desta monografia é a noção de desigualdade em relação a uma dada
+coordenada. Sejam $u,v$ pontos, dizemos que $u \leq_x v $ caso $x(u) < x(v)$ ou $ x(u) = x(v)$ e $y(u) \leq y(v)$ ( Simetricamente
+definido para desigualdades em relação à coordenada $y$), ou seja, sempre comparamos primeiro a coordenada de maior interesse e
+desempatamos pela segunda coordenada nas comparações.
+
+\subsection{Posição Relativa}
+
+Usaremos também bastante a noção de posição relativa entre pontos e segmentos, isto é, dado um ponto $p$ e um segmento $s$,
+queremos saber se $p$ se encontra \emph{à esquerda}, \emph{à direita} ou \emph{sobre} o segmento $s$.\\
+
+Sejam $p = (x_1,y_1)$, $s = \overline{(x_2,y_2),(x_3,y_3)}$ e 
+\begin{math}
+d = \det{
+\begin{pmatrix}
+  x_1 && y_1 && 1 \\ 
+  x_2 && y_2 && 1 \\
+  x_3 && y_3 && 1 \\
+\end{pmatrix}
+}
+\end{math} 
+
+Dizemos que $p$ está \textbf{à esquerda} de $s$ caso $ d > 0 $, que está \textbf{sobre} $s$ caso $d = 0$ e que está \textbf{à
+  direita} de $s$ caso contrário. Seguem a seguir os trechos de código que foram usados no trabalho para realizarmos essas verificações:
+
+\begin{algorithm}
+\caption{Retorna \textbf{TRUE} caso $p$ esteja à esquerda de $s$}
+\lstset{basicstyle=\ttfamily\color{text}\bfseries}
+\begin{lstlisting}[mathescape]
+def left(p,s):
+    b = s.beg
+    c = s.end
+    if b.x == c.x and p.x == b.x: return p.y > c.y
+    if b.y == c.y and p.y == b.y: return p.x < c.x
+    return (b.x-p.x)*(c.y-p.y) - (b.y-p.y)*(c.x-p.x) > 0
+\end{lstlisting}
+\end{algorithm} 
+
+\begin{algorithm}
+\caption{Retorna \textbf{TRUE} caso $p$ esteja à direita de $s$}
+\lstset{basicstyle=\ttfamily\color{text}\bfseries}
+\begin{lstlisting}[mathescape]
+def right(p,s):
+    b = s.beg
+    c = s.end
+    if b.x == c.x and p.x == b.x: return p.y < b.y
+    if b.y == c.y and p.y == b.y: return p.x > c.x
+    return not(left_on(p,s)) 
+\end{lstlisting}
+\end{algorithm} 
+
+\par Algumas ressalvas sobre essas funções: 
+\begin{itemize}
+\item[-] A única diferença da função \emph{left\_on} em relação à função \emph{left} é que ela também retorna \emph{true} caso o ponto esteja sobre o segmento dado.
+
+\item[-] As modificações presentes nas linhas 4 e 5 foram adicionadas apenas para resolverem os casos degenerados apresentados no
+  capítulo $x$.
+\end{itemize}
 
