@@ -21,15 +21,15 @@ desempatamos pela segunda coordenada nas comparações.
 Usaremos também bastante a noção de posição relativa entre pontos e segmentos, isto é, dado um ponto $p$ e um segmento $s$,
 queremos saber se $p$ se encontra \emph{à esquerda}, \emph{à direita} ou \emph{sobre} o segmento $s$.\\
 
-Sejam $p = (x_1,y_1)$, $s = \overline{(x_2,y_2),(x_3,y_3)}$ e 
+Sejam $p \coloneqq (x_1,y_1) \in \mathbb{R}^2$, $s \coloneqq \overline{(x_2,y_2),(x_3,y_3)} \in \mathbb{R}^2\times\mathbb{R}^2$ e 
 \begin{math}
-d = \det{
+d \coloneqq \det{
 \begin{pmatrix}
   x_1 && y_1 && 1 \\ 
   x_2 && y_2 && 1 \\
   x_3 && y_3 && 1 \\
 \end{pmatrix}
-}
+}\in~\mathbb{R}
 \end{math} 
 
 Dizemos que $p$ está \textbf{à esquerda} de $s$ caso $ d > 0 $, que está \textbf{sobre} $s$ caso $d = 0$ e que está \textbf{à
