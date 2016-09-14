@@ -295,9 +295,10 @@ Explicaremos a seguir algumas das noções fundamentais que serão utilizadas ao lo
 
 \section{Pontos e Segmentos}
 Neste trabalho trataremos basicamente com pontos e segmentos de reta no espaço~($\mathbb{R}~\text{e}~\mathbb{R}^2$). Sejam
-$x,y \in \mathbb{R} $ definimos um \textbf{ponto} no $\mathbb{R}^2$ como um par $ p = (x,y) $. Um \textbf{segmento} $s$ é da forma
-$ s \coloneqq \overline{(x_1,y_1)(x_2,y_2)}\in \mathbb{R}^2\times\mathbb{R}^2$ onde $u = (x_1,y_1)$ e $v = (x_2,y_2)$ são pontos
-chamados de \textbf{pontos extremos} de $s$.
+$x,y \in \mathbb{R} $ definimos um \textbf{ponto} no $\mathbb{R}^2$ como um par $ p = (x,y) $. Um \textbf{segmento} $s$ pode ser
+formalmente definido como o conjunto solução de $s = u + t*v,~ t \in [0,1],~ u,v$ pontos. Seremos um pouco relaxados quanto à isso
+e os representaremos como um par de pontos e um reta por cima para dar destaque: $ s \coloneqq \overline{(x_1,y_1)(x_2,y_2)}$, onde
+$u = (x_1,y_1)$ e $v = (x_2,y_2)$ são pontos chamados de \textbf{pontos extremos} de $s$.
 \section{Comparações entre pontos}
 \par
 Uma outra definição que será usada copiosamente ao longo desta monografia é a relação de desigualdade associada à uma dada
@@ -310,7 +311,7 @@ desempatamos pela segunda coordenada nas comparações.
 Usaremos também bastante a noção de posição relativa entre pontos e segmentos, isto é, dado um ponto $p$ e um segmento $s$,
 queremos saber se $p$ se encontra \textbf{à esquerda}, \textbf{à direita} ou \textbf{sobre} o segmento $s$.\\
 
-Sejam $p \coloneqq (x_1,y_1) \in \mathbb{R}^2$, $s \coloneqq \overline{(x_2,y_2)(x_3,y_3)} \in \mathbb{R}^2\times\mathbb{R}^2$ e 
+Sejam $p \coloneqq (x_1,y_1) \in \mathbb{R}^2$, $s \coloneqq \overline{(x_2,y_2)(x_3,y_3)}$ e 
 \begin{math}
 d \coloneqq \det{
 \begin{pmatrix}
@@ -326,7 +327,7 @@ Dizemos que $p$ está \textbf{à esquerda} de $s$ caso $ d > 0 $, que está \textbf
 verificações:
 
 \begin{algorithm}
-\caption{Retorna \textbf{TRUE} caso $p$ esteja à esquerda de $s$}
+\caption{Retorna \textbf{TRUE} caso $p$ esteja à esquerda de $s$.}
 \lstset{basicstyle=\ttfamily\color{text}\bfseries}
 \begin{lstlisting}[mathescape]
 def left(p,s):
@@ -339,7 +340,7 @@ def left(p,s):
 \end{algorithm} 
 
 \begin{algorithm}
-\caption{Retorna \textbf{TRUE} caso $p$ esteja à direita de $s$}
+\caption{Retorna \textbf{TRUE} caso $p$ esteja à direita de $s$.}
 \lstset{basicstyle=\ttfamily\color{text}\bfseries}
 \begin{lstlisting}[mathescape]
 def right(p,s):
@@ -377,10 +378,11 @@ pontos na reta tais que $u \leq v$, definimos uma \textbf{janela} como sendo um 
 \subsection{Pré-processamento}
 
 Para resolvermos rapidamente sucessivas consultas sobre um dado conjunto de pontos, precisaremos armazenar esses dados em uma
-estrutura de dados apropriada. A estrutura que usaremos será um tipo de \emph{árvore de busca binária balanceada} ( ABBB ) chamada
-de árvore limite, a seguir está o trecho de código referente à construção da árvore:
+estrutura de dados apropriada. A estrutura que usaremos será um tipo de \textbf{árvore de busca binária balanceada} ( ABBB ) chamada
+de árvore limite, onde cada nó terá 3 campos: o ponto associado, um ponteiro para o filho esquerdo e um ponteiro para o filho
+direito. A seguir está o trecho de código referente à construção da árvore:
 
-\begin{algorithm}
+\begin{algorithm}[H]
 \caption{Retorna uma raíz $v$ de uma árvore limite 1D construída sobre um conjunto de pontos ordenados.}
 \lstset{basicstyle=\ttfamily\color{text}\bfseries}
 \begin{lstlisting}[mathescape]
@@ -396,18 +398,17 @@ def buildTree(self,points):
     else:
         v.l = self.buildTree(l)
         v.r = self.buildTree(r)
-
     return v
 \end{lstlisting}
 \end{algorithm} 
 
 \subsection{Realizando a consulta}
 
-Seja $P$ um conjunto de pontos e seja $W = [w_1,w_2]$ uma janela, podemos consultar todos os pontos de $P \subset W$ da seguinte forma:
+Seja $P$ um conjunto de pontos e seja $W = [w_1,w_2]$ uma janela. Podemos consultar todos os pontos de $P \subset W$ da seguinte forma:
 
 \begin{itemize}
-\item[1.] Montamos a ABBB sobre o conjunto P.
-\item[2.] Achamos o \emph{ponto divisor} de $P$, este é o ponto que se encontra na raiz da subárvore que contém os pontos
+\item[1.] Construímos a ABBB sobre o conjunto $P$.
+\item[2.] Achamos o \textbf{ponto divisor} de $P$, este é o ponto que se encontra na raiz da subárvore que contém os pontos
   $S \coloneqq $ ($v~|~w_1 \leq v \leq w_2 $), chamaremos esse ponto de $v_{div}$.
 \item[3.] Percorremos a subàrvore esquerda de $v_{div}$ verificando se o ponto $r$ da raiz é tal que $w_1 \leq r$, caso seja,
   adicionamos todos os pontos dessa subàrvore na resposta e nos movemos para a subàrvore esquerda, caso contrário vamos para a
@@ -418,7 +419,7 @@ Seja $P$ um conjunto de pontos e seja $W = [w_1,w_2]$ uma janela, podemos consul
 Segue a implementação das rotinas supracitadas juntamente com suas funções auxiliares:
 
 \begin{algorithm}
-\caption{Retorna \emph{true} caso o ponto $p$ esteja contido no intervalo \emph{rng}.}
+\caption{Retorna \emph{true} caso $ w_1 \leq_x p \leq_x w_2 $}
 \lstset{basicstyle=\ttfamily\color{text}\bfseries}
 \begin{lstlisting}[mathescape]
 def inRange(self,rng,p):
@@ -426,7 +427,6 @@ def inRange(self,rng,p):
     return w1 <= p and p <= w2
 \end{lstlisting}
 \end{algorithm} 
-
 \begin{algorithm}
 \caption{Retorna o ponto divisor $v_{div}$ de uma ABBB referente à uma dada janela \emph{rng}.}
 \lstset{basicstyle=\ttfamily\color{text}\bfseries}
@@ -443,7 +443,6 @@ def findDividingNode(self,rng):
     return div
 \end{lstlisting}
 \end{algorithm} 
-
 \begin{algorithm}
 \caption{Devolve uma lista com as folhas de uma dada árvore.}
 \lstset{basicstyle=\ttfamily\color{text}\bfseries}
@@ -512,11 +511,139 @@ def query(self,rng):
   aparecer na resposta final. Portanto a complexidade final da consulta é da ordem $\mathcal{O}(n\log n + k)$.
 \end{itemize}
 
+\section{Janela limitada - Caso bidimensional}
 
+Analisaremos agora o problema no espaço do $\mathbb{R}^2$. Sejam $w_1 = (x_1,y_1)$ e $w_2 = (x_2,y_2)$ pontos no $\mathbb{R}^2$,
+os segmentos de reta que formam um retângulo de lados paralelos ao eixos e que passam pelos pontos $w_1$ e $w_2$ são:
+$s_1 = \overline{(x_1,y_1)(x_1,y_2)},~s_2 = \overline{(x_1,y_2)(x_2,y_2)},~s_3 = \overline{(x_2,y_2)(x_2,y_1)}~\text{e}~s_4 =
+\overline{(x_2,y_1)(x_1,y_1)}$, uma \textbf{janela} será definida como a intersecção desses 4 segmentos e sua região interna,
+porém, usaremos uma representação compacta representando a janela pelo segmento $s = \overline{w_1,w_2}$. Mostraremos primeiro o
+algoritmo mais simples que estende a ideia apresentada no algoritmo anterior e então mostraremos o algoritmo para consultas com
+janelas limitadas bidimensionais mais eficiente.
+
+\subsection{Pré-processamento}
+
+Precisaremos de uma estrutura de dados que consiga particionar o espaço de tal forma que consigamos saber a ordem entre os pontos
+em cada semiplano. Uma estrutura que nos fornece isso é a chamada \textbf{kd-tree} ( \emph{k-dimensional tree} ). A kd-tree é uma
+ABBB cuja ordem dos elementos é feita sobre a coordenada $x$ e cada nó terá 4 elementos: uma raíz para uma ABBB cujos elementos
+são os mesmos da subárvore do nó, mas os elementos estão ordenados pela coordenada $y$, um ponto, um ponteiro para o filho
+esquerdo e um ponteiro para o filho direito.
+
+Segue o algoritmo de construção dessa árvore. Omitiremos a implementação da estrutura auxiliar \emph{VerticalTree} cuja
+descrição está presente no trabalho de \citet{junio09:MSc}, essa estrutura é uma ABBB construída sobre um \emph{heap} e tem tempo
+de construção $\mathcal{O}(n)$.
+
+\begin{algorithm}[H]
+  \caption{Retorna uma raiz $v$ para uma ABBB ordenada pela coordenada
+    $x$ a partir de um vetor de pontos ordenados por $x$ e um vetor de
+    pontos ordenados por $y$.}
+\lstset{basicstyle=\ttfamily\color{text}\bfseries}
+\begin{lstlisting}[mathescape]
+def buildTree(self,vx,vy):
+    v = Node(None)
+    v.tree = VerticalTree(vy)
+    lx = vx[:len(vx)//2]
+    rx = vx[len(vx)//2:]
+    n = len(vx)
+    ly = []
+    ry = []
+        
+    for i in range(n):
+        if vy[i].x < vx[n//2-1].x or (vy[i].x == vx[n//2-1].x and vy[i].y <= vx[n//2-1].y):
+            ly.append(vy[i])
+        else: ry.append(vy[i])
+        
+    v.point = vx[n//2-1]
+        
+    if len(vx) == 1:
+        v.l = v.r = None
+    else:
+        v.l = self.buildTree(lx,ly)
+        v.r = self.buildTree(rx,ry)
+
+    return v
+\end{lstlisting}
+\end{algorithm}
+
+\subsection{Realizando a consulta}
+Seja $P$ um conjunto de pontos e seja $W = \overline{(x_1,y_1)(x_2,y_2)}$ uma janela. Podemos consultar todos os pontos de $P \subset W$ da seguinte forma:
+
+\begin{itemize}
+\item[1.] Construímos a kd-tree sobre o conjunto $P$.
+\item[2.] Achamos o \textbf{ponto divisor} no primeiro nível da kd-tree de forma similar ao algoritmo anterior.
+\item[3.] Percorremos a subàrvore esquerda de $v_{div}$ verificando se o ponto $r$ da raiz é tal que $w_1 \leq_{x} r$, caso seja,
+  realizamos a consulta unidimensional na árvore associada ao nó. Caso contrário, caso contrário vamos para a subárvore
+  direita. Ao chegar na folha apenas verificamos se $w_1 \leq_{x} r \leq_{x} w_2$ e adicionamos na resposta caso seja verdade.
+\item[4.] Percorremos a subárvore direita de $v_{div}$ de forma simétrica ao item 3.
+\end{itemize}
+
+Segue a implementação das rotinas supracitadas juntamente com suas funções auxiliares:
+
+\begin{algorithm}[H]
+\caption{Verifica se o ponto $p$ está contido na janela \emph{rng}.}
+\lstset{basicstyle=\ttfamily\color{text}\bfseries}
+\begin{lstlisting}[mathescape]
+def inRange(self,rng,p):
+    w1,w2 = rng
+    a = w1.x < p.x or (w1.x == p.x and w1.y <= p.y)
+    b = p.x < w2.x or (p.x == w2.x and p.y <= w2.y)
+    c = w1.y < p.y or (w1.y == p.y and w1.x <= p.x)
+    d = p.y < w2.y or (p.y == w2.y and p.x <= w2.x)
+    return a and b and c and d
+\end{lstlisting}
+\end{algorithm}
+
+\begin{algorithm}[H]
+  \caption{Retorna uma lista com todos os pontos contidos numa dada janela \emph{rng}.}
+\lstset{basicstyle=\ttfamily\color{text}\bfseries}
+\begin{lstlisting}[mathescape]
+def query(self,rng):
+    p = []
+    w1,w2 = rng
+    div = self.findDividingNode(rng)
+
+    if div.isLeaf():
+        if self.inRange(rng,div.point):
+            p.append(div.point)
+    else:
+        v = div.l
+
+        while not v.isLeaf():
+            if w1.x < v.point.x or (w1.x == v.point.x and w1.y <= v.point.y):
+                p += v.r.tree.oneDimQuery(rng)
+                v = v.l
+            else:
+                v = v.r
+
+        if self.inRange(rng,v.point): p.append(v.point)
+
+        v = div.r
+
+        while not v.isLeaf():
+            if w2.x > v.point.x:
+                p += v.l.tree.oneDimQuery(rng)
+                v = v.r
+            else:
+                v = v.l
+
+        if self.inRange(rng,v.point): p.append(v.point)
+                
+    return p
+\end{lstlisting}
+\end{algorithm}
+
+\subsection{Análise}
+\begin{itemize}
+\item[-] No pré-processamento ordenamos 2 vezes o conjunto de pontos, levando tempo $\mathcal{O}(n \log n)$. A construção em si da
+  primeira árvore leva tempo $\mathcal{O}(n \log n)$ e para cada um dos $\mathcal{O}(\log n)$ nós dela construímos uma estrutura
+  auxiliar consumindo tempo $\mathcal{O}(n)$. O que nos leva ao consumo total de $\mathcal{O}(n \log n )$.
+\item[-] Os caminhos esquerdo e direito a partir de $v_{div}$ têm $\mathcal{O}(\log n)$ nós, e possivelmente chamamos o algoritmo
+  anterior para cada um deles, o que consome tempo $\mathcal{O}(\log n + k)$. O que nos leva ao consumo total de tempo de
+  $\mathcal{O}(\log^2 n + k)$.
+\end{itemize}
 
 %% ------------------------------------------------------------------------- %%
 
-\input cap-desenvolvimentos
 \input cap-conclusoes
 
 % cabeçalho para os apêndices
