@@ -297,17 +297,16 @@ problema proposto. Todo o código desenvolvido foi escrito em linguagem \emph{pyt
 Explicaremos a seguir algumas das noções fundamentais que serão utilizadas ao longo do trabalho:
 
 \section{Pontos e segmentos}
-Neste trabalho trataremos basicamente com pontos e segmentos de reta no espaço~($\mathbb{R}~\text{e}~\mathbb{R}^2$). Sejam
-$x,y \in \mathbb{R} $ definimos um \textbf{ponto} no $\mathbb{R}^2$ como um par $ p = (x,y) $. Um \textbf{segmento} (definido
-pelos pontos $u,v \in \mathbb{R}^2$) é o
-conjunto~$\{p \in \mathbb{R}^2 \colon p = u + t*v~\text{para algum}~t \in [0,1]\} \subseteq \mathbb{R}^2$. Seremos um pouco
-relaxados quanto à isso e os representaremos como um par de pontos e um reta por cima para dar destaque:
-$ s \coloneqq \overline{(x_1,y_1)(x_2,y_2)}$, onde $u = (x_1,y_1)$ e $v = (x_2,y_2)$ são pontos chamados de \textbf{pontos
-  extremos} de $s$.
+Neste trabalho trataremos basicamente com pontos~(no $\mathbb{R}~\text{e}~\mathbb{R}^2$) e segmentos de reta~(restritos ao
+$\mathbb{R}^2$). Sejam $x,y \in \mathbb{R} $ definimos um \textbf{ponto} no $\mathbb{R}^2$ como um par $ p = (x,y) $. Um
+\textbf{segmento} (definido pelos pontos $u,v \in \mathbb{R}^2$) é o conjunto~$\{p \in \mathbb{R}^2 \colon p = u + t*v~\text{para
+  algum}~t \in [0,1]\} \subseteq \mathbb{R}^2$. Seremos um pouco relaxados quanto a isso e os representaremos como um par de
+pontos e um reta por cima para dar destaque: $ s \coloneqq \overline{(x_1,y_1)(x_2,y_2)}$, onde $u = (x_1,y_1)$ e $v = (x_2,y_2)$
+são pontos chamados de \textbf{pontos extremos} de $s$.
 
 \section{Comparações entre pontos}
 \par
-Uma outra definição que será usada copiosamente ao longo desta monografia é a relação de desigualdade associada à uma dada
+Uma outra definição que será usada repetidamente ao longo desta monografia é a relação de desigualdade associada a uma dada
 coordenada. Sejam $u,v$ pontos, dizemos que $u \leq_x v $ caso $x(u) < x(v)$ ou $ x(u) = x(v)$ e $y(u) \leq y(v)$, ou seja, sempre
 comparamos primeiro a coordenada de maior interesse e desempatamos pela segunda coordenada nas comparações. Quando tivermos pontos
 ordenados pela ordem $\leq_x$ diremos que estes pontos estão ordenados \textbf{sobre a coordenada \emph{x}}. Todas essas definições são
@@ -329,8 +328,8 @@ d \coloneqq \det{
 }
 \end{math}\newpage 
 
-\noindent Dizemos que $p$ está \textbf{à esquerda} de $s$ caso $ d > 0 $, que está \textbf{sobre} $s$ caso $d = 0$ e que está \textbf{à
-  direita} de $s$ caso contrário. Seguem a seguir os trechos de código que foram usados no trabalho para realizarmos essas
+\noindent Dizemos que $p$ está \textbf{à esquerda} de $s$ caso $ d > 0 $, que está \textbf{sobre} $s$ caso $d = 0$ e que está
+\textbf{à direita} de $s$ caso contrário. Seguem os trechos de código que foram usados no trabalho para realizarmos essas
 verificações:
 
 \begin{algorithm}
@@ -386,8 +385,10 @@ pontos na reta tais que $u \leq v$, definimos uma \textbf{janela} como sendo um 
 
 Para resolvermos rapidamente sucessivas consultas sobre um dado conjunto de pontos, precisaremos armazenar esses dados em uma
 estrutura de dados apropriada. A estrutura que usaremos será um tipo de árvore de busca binária balanceada (ABBB) chamada de
-\textbf{árvore limite}, onde cada nó terá 3 campos: o ponto associado, um ponteiro para o filho esquerdo e um ponteiro para o filho
-direito. A seguir está o trecho de código referente à construção da árvore:
+\textbf{árvore limite}, onde cada nó terá 3 campos: um ponteiro para um ponto associado, um ponteiro para o filho esquerdo e um
+ponteiro para o filho direito. O balanceamento da árvore virá da sua construção, onde subdividimos o vetor de pontos ordenados e
+colocamos um ponteiro para o ponto central na raíz, conseguimos assim altura $\mathcal{O}(\log n)$. A seguir está o trecho de
+código referente à construção dessa árvore:
 
 \begin{algorithm}[H]
 \caption{Retorna uma raíz $v$ de uma árvore limite 1D construída sobre um conjunto de pontos ordenados.}
@@ -417,8 +418,8 @@ Seja $P$ um conjunto de pontos e seja $W = [w_1,w_2]$ uma janela. Podemos consul
 \item[1.] Construímos a ABBB sobre o conjunto $P$.
 \item[2.] Achamos o \textbf{ponto divisor} de $P$, este é o ponto que se encontra na raiz da subárvore que contém os pontos
   $S \coloneqq $ ($v~\colon~w_1 \leq v \leq w_2 $), chamaremos esse ponto de $v_{div}$.
-\item[3.] Percorremos a subàrvore esquerda de $v_{div}$ verificando se o ponto $r$ da raiz é tal que $w_1 \leq r$, caso seja,
-  adicionamos todos os pontos dessa subàrvore na resposta e nos movemos para a subàrvore esquerda, caso contrário vamos para a
+\item[3.] Percorremos a subárvore esquerda de $v_{div}$ verificando se o ponto $r$ da raiz é tal que $w_1 \leq r$, caso seja,
+  adicionamos todos os pontos dessa subárvore na resposta e nos movemos para a subárvore esquerda, caso contrário vamos para a
   subárvore direita. Ao chegar na folha apenas verificamos se $w_1 \leq r \leq w_2$ e adicionamos na resposta caso seja verdade.
 \item[4.] Percorremos a subárvore direita de $v_{div}$ de forma simétrica ao item 3.
 \end{itemize}
@@ -435,14 +436,15 @@ def inRange(self,rng,p):
 \end{lstlisting}
 \end{algorithm} 
 \begin{algorithm}
-\caption{Retorna o ponto divisor $v_{div}$ de uma ABBB referente à uma dada janela \emph{rng}.}
+\caption{Retorna o ponto divisor $v_{div}$ de uma ABBB referente a uma dada janela \emph{rng}.}
 \lstset{basicstyle=\ttfamily\color{text}\bfseries}
 \begin{lstlisting}[mathescape]
 def findDividingNode(self,rng):
     w1,w2 = rng
     div = self.root
 
-    while(not div.isLeaf() and (w1 > div.point or w2 <= div.point)):
+    while(not div.isLeaf() and
+    (w1 > div.point or w2 <= div.point)):
         if w2 <= div.point:
             div = div.l
         else:
@@ -473,6 +475,7 @@ def findLeaves(self,l):
 \lstset{basicstyle=\ttfamily\color{text}\bfseries}
 \begin{lstlisting}[mathescape]
 def query(self,rng):
+    w1,w2 = rng
     div = self.findDividingNode(rng)
     p = []
         
@@ -521,20 +524,20 @@ def query(self,rng):
 \section{Janela limitada - Caso bidimensional}
 
 Analisaremos agora o problema no espaço do $\mathbb{R}^2$. Sejam $w_1 = (x_1,y_1)$ e $w_2 = (x_2,y_2)$ pontos no $\mathbb{R}^2$,
-os segmentos de reta que formam um retângulo de lados paralelos ao eixos e que passam pelos pontos $w_1$ e $w_2$ são:
-$s_1 \coloneqq \overline{(x_1,y_1)(x_1,y_2)},~s_2 \coloneqq \overline{(x_1,y_2)(x_2,y_2)},~s_3 \coloneqq
+os segmentos de reta que formam um retângulo de lados paralelos ao eixos e que passam pelos pontos $w_1$ e $w_2$ são: $s_1
+\coloneqq \overline{(x_1,y_1)(x_1,y_2)},~s_2 \coloneqq \overline{(x_1,y_2)(x_2,y_2)},~s_3 \coloneqq
 \overline{(x_2,y_2)(x_2,y_1)}~\text{e}~s_4 \coloneqq \overline{(x_2,y_1)(x_1,y_1)}$, uma \textbf{janela} será definida como a
-intersecção desses 4 segmentos e sua região interna, porém, usaremos uma representação compacta representando a janela pelo
-segmento $s \coloneqq \overline{w_1,w_2}$. Mostraremos primeiro o algoritmo mais simples que estende a ideia apresentada no algoritmo
-anterior e no tópico seguinte uma estrutura de dado diferente que pode ser usada neste algoritmo para diminuir o consumo de tempo.
+união desses 4 segmentos e sua região interna, porém, usaremos uma representação compacta representando a janela pelo segmento $s
+\coloneqq \overline{w_1,w_2}$. Mostraremos primeiro o algoritmo mais simples que estende a ideia apresentada no algoritmo anterior
+e no tópico seguinte uma estrutura de dado diferente que pode ser usada neste algoritmo para diminuir o consumo de tempo.
 
 \subsection{Pré-processamento}
 
 Precisaremos de uma estrutura de dados que consiga particionar o espaço de tal forma que consigamos saber a ordem entre os pontos
-em cada semiplano. Uma estrutura que nos fornece isso é a chamada \textbf{Àrvore limite de 2 níveis}. A àrvore limite é uma ABBB
-cuja ordem dos elementos é feita sobre a coordenada $x$ e cada nó terá 4 elementos: uma raíz para uma ABBB cujos elementos são os
-mesmos da subárvore do nó com elementos ordenados pela coordenada $y$ (que seria o ``segundo nível'' da árvore), um ponto, um
-ponteiro para o filho esquerdo e um ponteiro para o filho direito.
+em cada semiplano. Uma estrutura que nos fornece isso é a chamada \textbf{árvore limite de 2 níveis}. A árvore limite é uma ABBB
+cuja ordem dos elementos é feita sobre a coordenada $x$ e cada nó terá 4 elementos: um ponteiro para uma raíz de uma ABBB cujos
+elementos são os mesmos da subárvore do nó com elementos ordenados pela coordenada $y$ (que seria o ``segundo nível'' da árvore),
+um ponteiro para um ponto associado, um ponteiro para o filho esquerdo e um ponteiro para o filho direito.
 
 Segue o algoritmo de construção dessa árvore. Omitiremos a implementação da estrutura auxiliar que utilizamos nesse trabalho com o
 nome de \emph{VerticalTree} cuja descrição está presente no trabalho de \citet{junio09:MSc}, essa estrutura é uma ABBB construída
@@ -542,10 +545,8 @@ sobre um \emph{heap} e tem tempo de construção $\mathcal{O}(n)$. Ela será utiliz
 a coordenada $y$.
 
 \begin{algorithm}[H]
-  \caption{Retorna uma raiz $v$ para uma ABBB ordenada pela coordenada
-    $x$ a partir de um vetor de pontos ordenados por $x$ e um vetor de
-    pontos ordenados por $y$.}
-\lstset{basicstyle=\ttfamily\color{text}\bfseries}
+  \caption{Retorna um ponteiro para uma raiz $v$ de uma ABBB ordenada pela coordenada $x$ a partir de um vetor de pontos ordenados
+    por $x$ e um vetor de pontos ordenados por $y$.}  \lstset{basicstyle=\ttfamily\color{text}\bfseries}
 \begin{lstlisting}[mathescape]
 def buildTree(self,vx,vy):
     v = Node(None)
@@ -557,7 +558,9 @@ def buildTree(self,vx,vy):
     ry = []
         
     for i in range(n):
-        if vy[i].x < vx[n//2-1].x or (vy[i].x == vx[n//2-1].x and vy[i].y <= vx[n//2-1].y):
+        if vy[i].x < vx[n//2-1].x or
+        (vy[i].x == vx[n//2-1].x and
+        vy[i].y <= vx[n//2-1].y):
             ly.append(vy[i])
         else: ry.append(vy[i])
         
@@ -580,7 +583,7 @@ $P \cap W$ da seguinte forma:
 \begin{itemize}
 \item[1.] Construímos a árvore limite sobre o conjunto $P$.
 \item[2.] Achamos o \textbf{ponto divisor} no primeiro nível da árvore limite de forma similar ao algoritmo anterior.
-\item[3.] Percorremos a subàrvore esquerda de $v_{div}$ verificando se o ponto $r$ da raiz é tal que $w_1 \leq_{x} r$, caso seja,
+\item[3.] Percorremos a subárvore esquerda de $v_{div}$ verificando se o ponto $r$ da raiz é tal que $w_1 \leq_{x} r$, caso seja,
   realizamos a consulta unidimensional na árvore associada ao nó. Caso contrário, caso contrário vamos para a subárvore
   direita. Ao chegar na folha apenas verificamos se $w_1 \leq_{x} r \leq_{x} w_2$ e adicionamos na resposta caso seja verdade.
 \item[4.] Percorremos a subárvore direita de $v_{div}$ de forma simétrica ao item 3.
@@ -618,7 +621,8 @@ def query(self,rng):
         v = div.l
 
         while not v.isLeaf():
-            if w1.x < v.point.x or (w1.x == v.point.x and w1.y <= v.point.y):
+            if w1.x < v.point.x or
+            (w1.x == v.point.x and w1.y <= v.point.y):
                 p += v.r.tree.oneDimQuery(rng)
                 v = v.l
             else:
@@ -643,9 +647,9 @@ def query(self,rng):
 
 \subsection{Análise}
 \begin{itemize}
-\item[-] No pré-processamento ordenamos 2 vezes o conjunto de pontos, levando tempo $\mathcal{O}(n \log n)$. A construção em si da
-  primeira árvore leva tempo $\mathcal{O}(n \log n)$ e para cada um dos $\mathcal{O}(\log n)$ nós dela construímos uma estrutura
-  auxiliar consumindo tempo $\mathcal{O}(n)$. O que nos leva ao consumo total de $\mathcal{O}(n \log n )$.
+\item[-] No pré-processamento ordenamos 2 vezes o conjunto de pontos, levando tempo $\mathcal{O}(n \log n)$. Como a construção da
+  estrutura auxiliar leva tempo $\mathcal{O}(n)$, a construção da árvore levará também tempo $\mathcal{O}(n)$. O que nos leva à
+  complexidade total de $\mathcal{O}(n \log n )$.
 \item[-] Os caminhos esquerdo e direito a partir de $v_{div}$ têm $\mathcal{O}(\log n)$ nós, e possivelmente chamamos o algoritmo
   anterior para cada um deles, o que consome tempo $\mathcal{O}(\log n + k)$. O que nos leva ao consumo total de tempo de
   $\mathcal{O}(\log^2 n + k)$.
@@ -655,7 +659,7 @@ def query(self,rng):
 
 Apresentaremos uma estrutura chamada \textbf{árvore limite com camadas} que utilizaremos no segundo nível do algoritmo acima para
 conseguirmos complexidade total $\mathcal{O}(\log n + k)$, juntamente com a consulta modificada associada. A intuição dessa
-técnica vem da seguinte característica das estruturas que vinhamos utilizando: Sempre ao acessarmos o filho de um dado nó passamos
+técnica vem da seguinte característica das estruturas que vínhamos utilizando: Sempre ao acessarmos o filho de um dado nó passamos
 a lidar com um subconjunto do conjunto que tínhamos na subárvore anterior e cujos elementos mantêm a mesma ordem relativa entre
 si.
 
@@ -664,7 +668,7 @@ si.
 O primeiro nível da árvore limite com camadas será exatamente como mostrado anteriormente, a diferença estará presente no segundo
 nível onde teremos uma estrutura que definimos como \textbf{árvore de camadas}. Os ``nós'' dessa árvore são na verdade vetores de
 nós auxiliares ordenados pelos pontos associados.
-\par Seja $P$ o conjunto de pontos associados à um dado vetor da árvore de camadas, sejam $V^x$ e $V^y$ vetores com os pontos de
+\par Seja $P$ o conjunto de pontos associados a um dado vetor da árvore de camadas, sejam $V^x$ e $V^y$ vetores com os pontos de
 $P$ ordenados por $x$ e $y$ respectivamente, particionamos $V^y$ em 2 vetores: $V^y_e$ e $V^y_d$. Essa partição é feita da
 seguinte forma: Seja $v_{max}$ o maior ponto de $V^x$, seja $q \in V^y$, se
 $q \leq_x v_{max},~q \in V^y_e,~ \text{caso contrário}~q \in V^y_d$.
@@ -677,7 +681,7 @@ e finalmente um ponteiro para o próximo elemento do vetor. Esse último ponteiro 
 \citet{junio09:MSc}.
 
 \begin{algorithm}[H]
-  \caption{Retorna uma raiz v para um vetor ordenado de nós verticais a partir de um vetor de pontos ordenados por x e um vetor de
+  \caption{Retorna um ponteiro para um vetor ordenado de nós verticais a partir de um vetor de pontos ordenados por x e um vetor de
     pontos ordenados por y.}
 \lstset{basicstyle=\ttfamily\color{text}\bfseries}
 \begin{lstlisting}[mathescape]
@@ -691,7 +695,9 @@ def buildTree(self,vx,vy):
     ry = []
 
     for i in range(n):
-        if vy[i].point.x < vx[n//2-1].x or ((vy[i].point.x == vx[n//2-1].x) and vy[i].point.y <= vx[n//2-1].y):
+        if vy[i].point.x < vx[n//2-1].x or
+        ((vy[i].point.x == vx[n//2-1].x) and
+        vy[i].point.y <= vx[n//2-1].y):
             ly.append(LayerNode(vy[i].point))
         else:
             ry.append(LayerNode(vy[i].point))
@@ -764,7 +770,7 @@ $P \cap W$ da seguinte forma:
 \item[3.] Na árvore de camadas associada ao nó $v_{div}$ procuramos com uma busca binária o menor ponto
   $v'_{div} \colon v'_{div} \geq_y w_1$, conseguiremos pontos com a mesma característica nas subárvores de $v_{div}$ em tempo
   constante apenas utilizando os ponteiros auxiliares.
-\item[4.] Percorremos a subárvore esquerda de $v_{div}$ , seja $v$ um nó dessa subárvore e $v'$ o nó cujo ponto é o menor tal que
+\item[4.] Percorremos a subárvore esquerda de $v_{div}$, seja $v$ um nó dessa subárvore e $v'$ o nó cujo ponto é o menor tal que
   $\geq_y w_1$ nessa subárvore. Caso $w_1 >_x p(v)$, continuamos a busca na subárvore direita de $v$ e acessamos o nó apontado por
   $pt_d(v')$ na árvore de camadas de $d(v)$. Se $w_1 \leq_x p(v)$, listamos todos os pontos $p \colon p \leq_y w_2$ da árvore de
   camadas de d(v) a partir do nó apontado por $pt_d(v')$. Retomamos a busca na subárvore esquerda de $v$ e acessamos o nó apontado
@@ -793,9 +799,13 @@ def query(self,rng):
             v2 = div2.pl
 
             while not v.isLeaf() and v2 is not None:
-                if w1.x < v.point.x or ( w1.x == v.point.x and w1.y <= v.point.y ):
+                if w1.x < v.point.x or
+                ( w1.x == v.point.x and w1.y <= v.point.y ):
                     u = v2.pr                        
-                    while u and u.side and (u.point.y < w2.y or ( u.point.y == w2.y and u.point.x <= w2.x)):
+                    while u and u.side and
+                    (u.point.y < w2.y or
+                    ( u.point.y == w2.y and
+                    u.point.x <= w2.x)):
                         p.append(u.point)
                         u = u.nxt
                         if u is None: break
@@ -824,10 +834,15 @@ def query(self,rng):
             v2 = div2.pr
 
             while not v.isLeaf() and v2 is not None:
-                if w2.x > v.point.x or (w2.x == v.point.x and w2.y >= v.point.y):
+                if w2.x > v.point.x or
+                (w2.x == v.point.x and
+                w2.y >= v.point.y):
                     u = v2.pl
 
-                    while not u.side and (u.point.y < w2.y or ( u.point.y == w2.y and u.point.x <= w2.x)):
+                    while not u.side and
+                    (u.point.y < w2.y or
+                    ( u.point.y == w2.y and
+                    u.point.x <= w2.x)):
                         p.append(u.point)
                         u = u.nxt
                         if u is None: break
@@ -848,8 +863,9 @@ def query(self,rng):
 \subsection{Análise}
 
 \begin{itemize}
-\item[-] Criamos os ponteiros da árvore de camadas em $\mathcal{O}(n)$, portanto construímos a árvore limite com camadas
-  consumindo tempo total $\mathcal{O}(n \log n)$.
+\item[-] Precisamos inicialmente ordenar os pontos, o que leva $\mathcal{O}(n \log n)$. Criamos os ponteiros da árvore de camadas
+  em $\mathcal{O}(n)$, portanto o algoritmo de construção leva $\mathcal{O}(n)$. Chegamos então no consumo total de $\mathcal{O}(n
+  \log n)$.
 \item[-] Achamos $v_{div}$ e $v'_{div}$ realizando buscas binárias, o que consome tempo $\mathcal{O}(\log n)$. Nas subárvores de
   $v_{div}$ levamos tempo proporcional ao número de pontos que se encontram na janela, nos dando complexidade $O(k)$. Portanto a
   complexidade final de tempo é $\mathcal{O}(\log n + k)$.
