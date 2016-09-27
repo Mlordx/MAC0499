@@ -665,20 +665,16 @@ si.
 
 \subsection{Pré-processamento}
 
-O primeiro nível da árvore limite com camadas será exatamente como mostrado anteriormente, a diferença estará presente no segundo
-nível onde teremos uma estrutura que definimos como \textbf{árvore de camadas}. Os ``nós'' dessa árvore são na verdade vetores de
-nós auxiliares ordenados pelos pontos associados.
-\par Seja $P$ o conjunto de pontos associados a um dado vetor da árvore de camadas, sejam $V^x$ e $V^y$ vetores com os pontos de
-$P$ ordenados por $x$ e $y$ respectivamente, particionamos $V^y$ em 2 vetores: $V^y_e$ e $V^y_d$. Essa partição é feita da
-seguinte forma: Seja $v_{max}$ o maior ponto de $V^x$, seja $q \in V^y$, se
-$q \leq_x v_{max},~q \in V^y_e,~ \text{caso contrário}~q \in V^y_d$.
-\par Portanto, seja $P$ o conjunto de pontos associado ao vetor, seja $p \in P$ o ponto associado ao nó do vetor $V^y$, e sejam
-$V^y_e~\text{e}~V^y_d$ como definidos anteriormente, cada elemento dos nós auxiliares terão os seguintes campos: Um ponteiro para
-o ponto $p$, um ponteiro $pt_{e}(q)$ para o menor ponto $q$ em $V^y_e$ tal que $q \geq_y p$, um ponteiro $pt_{d}(u)$ para o menor
-ponto $u$ em $V^y_d$ tal que $u \geq_y p$, uma variável booleana que indica se o vetor ao qual o nó pertence é $V^y_e$ ou $V^y_d$
-e finalmente um ponteiro para o próximo elemento do vetor. Esse último ponteiro foi uma adaptação ao fato da linguagem
-\emph{python} não apresentar aritmética de ponteiros, que foi utilizada na descrição desse algoritmo na dissertação de
-\citet{junio09:MSc}.
+O primeiro nível da árvore limite com camadas será exatamente como mostrado anteriormente, a diferença estará presente no segundo nível onde teremos
+uma estrutura que definimos como \textbf{árvore de camadas}. Os ``nós'' dessa árvore são na verdade vetores de nós auxiliares ordenados pelos pontos
+associados.  \par Seja $P$ o conjunto de pontos associados a um dado vetor da árvore de camadas, sejam $V^x$ e $V^y$ vetores com os pontos de $P$
+ordenados por $x$ e $y$ respectivamente, particionamos $V^y$ em 2 vetores: $V^y_e$ e $V^y_d$. Essa partição é feita da seguinte forma: Seja $v_{max}$
+o maior ponto de $V^x$, seja $q \in V^y$, se $q \leq_x v_{max},~q \in V^y_e,~ \text{caso contrário}~q \in V^y_d$.  \par Portanto, seja $P$ o conjunto
+de pontos associado ao vetor, seja $p \in P$ o ponto associado ao nó do vetor $V^y$, e sejam $V^y_e~\text{e}~V^y_d$ como definidos anteriormente, cada
+elemento dos nós auxiliares terão os seguintes campos: Um ponteiro para o ponto $p$, um ponteiro $pt_{e}(q)$ para o menor ponto $q$ em $V^y_e$ tal que
+$q \geq_y p$, um ponteiro $pt_{d}(u)$ para o menor ponto $u$ em $V^y_d$ tal que $u \geq_y p$, uma variável booleana que indica se o vetor ao qual o nó
+pertence é $V^y_e$ ou $V^y_d$ e finalmente um ponteiro para o próximo elemento do vetor. Esse último ponteiro foi uma adaptação ao fato da linguagem
+\emph{python} não apresentar aritmética de ponteiros, que foi utilizada na descrição desse algoritmo na dissertação de \citet{junio09:MSc}.
 
 \begin{algorithm}[H]
   \caption{Retorna um ponteiro para um vetor ordenado de nós verticais a partir de um vetor de pontos ordenados por x e um vetor de
@@ -863,22 +859,76 @@ def query(self,rng):
 \subsection{Análise}
 
 \begin{itemize}
-\item[-] Precisamos inicialmente ordenar os pontos, o que leva $\mathcal{O}(n \log n)$. Criamos os ponteiros da árvore de camadas
-  em $\mathcal{O}(n)$, portanto o algoritmo de construção leva $\mathcal{O}(n)$. Chegamos então no consumo total de $\mathcal{O}(n
-  \log n)$.
-\item[-] Achamos $v_{div}$ e $v'_{div}$ realizando buscas binárias, o que consome tempo $\mathcal{O}(\log n)$. Nas subárvores de
-  $v_{div}$ levamos tempo proporcional ao número de pontos que se encontram na janela, nos dando complexidade $O(k)$. Portanto a
-  complexidade final de tempo é $\mathcal{O}(\log n + k)$.
+\item[-] Precisamos inicialmente ordenar os pontos, o que leva $\mathcal{O}(n \log n)$. Criamos os ponteiros da árvore de camadas em $\mathcal{O}(n)$,
+  portanto o algoritmo de construção leva $\mathcal{O}(n)$. Chegamos então no consumo total de $\mathcal{O}(n \log n)$.
+\item[-] Achamos $v_{div}$ e $v'_{div}$ realizando buscas binárias, o que consome tempo $\mathcal{O}(\log n)$. Nas subárvores de $v_{div}$ levamos
+  tempo proporcional ao número de pontos que se encontram na janela, nos dando complexidade $O(k)$. Portanto a complexidade final de tempo é
+  $\mathcal{O}(\log n + k)$.
 \end{itemize}
+\newpage
+\section{Janelas ilimitadas - caso unidimensional}
+
+Seja $p$ um ponto na reta, definiremos uma janela ilimitada $W^{-}$ como o intervalo $(-\infty:p]$, definimos similarmente uma janela ilimitada $W^{+}$
+como o intervalo $[p:\infty)$. A implementação desta seção resolve uma consulta sobre todos os pontos contidos numa janela $W^{-}$, mas a
+implementação para uma janela $W^{+}$ é simétrica. Omitiremos a explicação da construção da estrutura que utilizaremos, pois trata-se de um
+\emph{minheap} simples construído sobre o conjunto de pontos.
+
+
+\subsection{Realizando a consulta}
+
+Seja $P$ um conjunto de pontos e $W^- \coloneqq (-\infty:w]$ uma janela ilimitada, podemos listar todos os pontos em $P \cap W^-$ da seguinte forma:
+
+
+\begin{itemize}
+\item[-] Olhamos para a raíz do heap, caso o ponto associado esteja à esquerda de $w$, listamos o ponto e repetimos a verificação para seus filhos
+  esquerdo e direito.
+\end{itemize}
+
+\begin{algorithm}[H]
+\caption{Retorna uma lista para todos os pontos em um \emph{minheap} v contidos numa dada janela ilimitada \emph{rng}.}
+\lstset{basicstyle=\ttfamily\color{text}\bfseries}
+\begin{lstlisting}[mathescape]
+def query(self, v, rng):
+    l = []
+    w = rng[1]
+    if p is not None:
+        if v.point <= w:
+            l += v.point
+            l += self.query(v.l,rng)
+            l += self.query(v.r,rng)
+    return l     
+\end{lstlisting}
+\end{algorithm}
+
+\subsection{Análise}
+
+\begin{itemize}
+\item[-] Consumimos tempo $\mathcal{O}(1)$ por nó visitado que está na resposta. Portanto, chegamos à complexidade total de $\mathcal{O}(k)$.
+\end{itemize}
+
+
+    
+    
+
+
+
+
+
+
+    
+
+    
+
 
 
 %% ------------------------------------------------------------------------- %%
 
-\input cap-conclusoes
+%% ------------------------------------------------------------------------- %%
+\chapter{Consultas sobre segmentos em janelas}
+\label{cap:segmentos}
 
 % cabeçalho para os apêndices
-\renewcommand{\chaptermark}[1]{\markboth{\MakeUppercase{\appendixname\ \thechapter}} {\MakeUppercase{#1}} }
-\fancyhead[RE,LO]{}
+\renewcommand{\chaptermark}[1]{\markboth{\MakeUppercase{\appendixname\ \thechapter}} {\MakeUppercase{#1}} } \fancyhead[RE,LO]{}
 %\appendix
 
 %\include{ape-exemplo}      % associado ao arquivo: 'ape-conjuntos.tex'
