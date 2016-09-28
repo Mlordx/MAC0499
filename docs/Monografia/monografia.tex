@@ -522,7 +522,7 @@ def query(self,rng):
 \end{itemize}
 
 \section{Janela limitada - Caso bidimensional}
-
+\label{janela2d}
 Analisaremos agora o problema no espaço do $\mathbb{R}^2$. Sejam $w_1 = (x_1,y_1)$ e $w_2 = (x_2,y_2)$ pontos no $\mathbb{R}^2$,
 os segmentos de reta que formam um retângulo de lados paralelos ao eixos e que passam pelos pontos $w_1$ e $w_2$ são: $s_1
 \coloneqq \overline{(x_1,y_1)(x_1,y_2)},~s_2 \coloneqq \overline{(x_1,y_2)(x_2,y_2)},~s_3 \coloneqq
@@ -906,11 +906,20 @@ def query(self, v, rng):
 \item[-] Consumimos tempo $\mathcal{O}(1)$ por nó visitado que está na resposta. Portanto, chegamos à complexidade total de $\mathcal{O}(k)$.
 \end{itemize}
 
+\section{Janelas ilimitadas - caso bidimensional}
 
-    
-    
+Sejam $w_1 = (x_1,y_1)$ e $w_2 = (x_2,y_2)$ pontos no $\mathbb{R}^2$, similarmente à seção \ref{janela2d} iremos definir 4 segmentos de reta que farão
+parte da janela a ser consultada. Porém agora teremos uma pequena modificação: Seja $x_{min}$ o menor e seja $x_{max}$ o maior valor de $x$ do conjunto de
+pontos, definimos arbitrariamente que ou $x_1 = x_{min} - 1$ ou $x_2 = x_{max} + 1$. Chamamos a janela construída com $x_1 = x_{min} - 1$ de $W^-$ e a
+janela construída com $x_2 = x_{max} + 1$ de $W^+$. O algoritmo a seguir resolve um consulta sobre pontos numa janela $W^-$, mas é simétrico para uma
+janela $W^+$ ou mesmo para janelas verticais. Na implementação faremos um certo abuso de linguagem permitido pela linguagem de programação escolhida:
+definiremos $x_1 = -\infty$ e falaremos que $w_1 = (-\infty,y_1)$ é um ponto.
 
+\subsection{Pré-processamento}
 
+A estrutura de dados que utilizaremos para essa consulta é chamada de \textbf{árvore de busca em prioridade}. Os nós da estrutura terão 4 campos: Um
+ponteiro para o ponto associado ao nó, um ponteiro para o filho esquerdo, um ponteiro para o filho direito e um ponteiro para um ponto denominado
+$p_{min}$, através desse ponteiro manteremos a propriedade de \emph{minheap}. Ela será balanceada por construção.
 
 
 
