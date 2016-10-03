@@ -426,7 +426,7 @@ Seja $P$ um conjunto de pontos e seja $W = [w_1,w_2]$ uma janela. Podemos consul
 
 Segue a implementação das rotinas supracitadas juntamente com suas funções auxiliares:
 
-\begin{algorithm}
+\begin{algorithm}[H]
 \caption{Retorna \emph{true} caso $ w_1 \leq p \leq w_2 $}
 \lstset{basicstyle=\ttfamily\color{text}\bfseries}
 \begin{lstlisting}[mathescape]
@@ -435,7 +435,7 @@ def inRange(self,rng,p):
     return w1 <= p and p <= w2
 \end{lstlisting}
 \end{algorithm} 
-\begin{algorithm}
+\begin{algorithm}[H]
 \caption{Retorna o ponto divisor $v_{div}$ de uma ABBB referente a uma dada janela \emph{rng}.}
 \lstset{basicstyle=\ttfamily\color{text}\bfseries}
 \begin{lstlisting}[mathescape]
@@ -452,7 +452,7 @@ def findDividingNode(self,rng):
     return div
 \end{lstlisting}
 \end{algorithm} 
-\begin{algorithm}
+\begin{algorithm}[H]
 \caption{Devolve uma lista com as folhas de uma dada árvore.}
 \lstset{basicstyle=\ttfamily\color{text}\bfseries}
 \begin{lstlisting}[mathescape]
@@ -492,9 +492,17 @@ def query(self,rng):
              else:
                  v = v.r
                     
+\end{lstlisting}
+\end{algorithm}
+\newpage
+\begin{algorithm}[H]
+\ContinuedFloat
+\caption{Continuação do algoritmo 7.}
+\lstset{basicstyle=\ttfamily\color{text}\bfseries}
+\begin{lstlisting}[mathescape]
          if self.inRange(rng,v.point):
              p.append(v.point)
-                
+         
          v = div.r
             
          while(not v.isLeaf()):
@@ -510,7 +518,6 @@ def query(self,rng):
      return p
 \end{lstlisting}
 \end{algorithm} 
-\newpage
 \subsection{Análise}
 
 \begin{itemize}
@@ -520,6 +527,7 @@ def query(self,rng):
   além disso, consumiremos tempo $\mathcal{O}(k)$ para visitar os $k$ pontos das folhas que estão contidos no intervalo e devem
   aparecer na resposta final. Portanto a complexidade final da consulta é da ordem $\mathcal{O}(n\log n + k)$.
 \end{itemize}
+\newpage
 
 \section{Janela limitada - Caso bidimensional}
 \label{janela2d}
@@ -563,7 +571,14 @@ def buildTree(self,vx,vy):
         vy[i].y <= vx[n//2-1].y):
             ly.append(vy[i])
         else: ry.append(vy[i])
-        
+\end{lstlisting}
+\end{algorithm}
+\newpage
+\begin{algorithm}[H]
+\ContinuedFloat
+\caption{Continuação do algoritmo 8.}
+\lstset{basicstyle=\ttfamily\color{text}\bfseries}
+\begin{lstlisting}[mathescape] 
     v.point = vx[n//2-1]
         
     if len(vx) == 1:
@@ -978,12 +993,13 @@ def buildTree(self,vx,vy):
 Seja P um conjunto de pontos e $W^-$ uma janela ilimitada, podemos consultar todos os pontos em $P \cap W^-$ da seguinte forma:
 
 \begin{itemize}
-\item[-] Começamos achando o nó divisor dessa árvore, a estrutura básica é similar à implementada antes, porém agora checamos se o nó checado não é um
-  semi-folha e também já adicionamos na resposta todos os \emph{pmin} dos nós acessados que estão dentro da janela na resposta final.
+\item[-] Começamos achando o nó divisor dessa árvore, a estrutura básica é similar à implementação anterior, porém agora verificamos se o nó checado não é um
+  semi-folha e já adicionamos na resposta todos os \emph{pmin} dos nós acessados que estão dentro da janela na resposta final.
 \item[-] Percorremos a subárvore esquerda de $v_{div}$ enquanto o nó atual não é uma folha ou semi-folha. Seja $v$ o nó que estamos verificando, se o
-  ponto $pmin(v) <_y w_1$, caso seja, adicionamos todas os pontos do \emph{minheap} da subárvore direita de $v$ na resposta e seguimos para a
-  subárvore esquerda de $v$, caso contrário apenas seguimos para a subárvore direita de $v$.
-\item[-] Seja $u$ o último nó verificado, caso $pmin(u)$ esteja na resposta adicionamos esse ponto na resposta. Caso $u$ seja uma semi-folha, verificamos se o $pmin(u.l)$ está na janela e o adicionamos na resposta.
+  ponto $pmin(v) <_y w_1$ adicionamos todas os pontos do \emph{minheap} da subárvore direita de $v$ na resposta e seguimos para a subárvore esquerda
+  de $v$, caso contrário apenas seguimos para a subárvore direita de $v$.
+\item[-] Seja $u$ o último nó verificado, caso $pmin(u)$ esteja na resposta adicionamos esse ponto na resposta. Caso $u$ seja uma semi-folha,
+  verificamos se o $pmin(u.l)$ está na janela e o adicionamos na resposta.
 \item[-] Repetimos o processo simetricamente para a subárvore direita de $v_{div}$.
 \end{itemize}
 
@@ -1067,7 +1083,7 @@ def query(self,rng):
 
             if u.pmin.y < w2.y or (u.pmin.y == w2.y and
             (u.pmin.x <= w2.x)):
-                p += self.pointMinHeap(u.l,rng)
+                p += self.pointsMinHeap(u.l,rng)
                 u = u.r
             else:
                 u = u.l
@@ -1090,6 +1106,16 @@ def query(self,rng):
     return p
 \end{lstlisting}
 \end{algorithm}
+\newpage
+\subsection{Análise}
+\begin{itemize}
+\item[-] Inicialmente ordenamos os pontos da entrada, o que consome tempo $\mathcal{O}(n \log n)$. A construção em si é composta por partes
+  $\theta(n)$ junto com duas chamadas recursivas para metade do tamanho, que consumirá por recorrência tempo $\mathcal{O}(n \log n)$. Chegamos
+  portanto em consumo de tempo total de $\mathcal{O}(n \log n)$.
+\item[-] A consulta seguirá por dois caminhos na árvore de tamanho $\log n$ cada, onde verificar se um dado pmin pertence à janela $W^-$ consome tempo
+  $\mathcal{O}(1)$ e cada chamada de \emph{pointsMinHeap} consome tempo equivalente ao número de pontos da resposta contidos no heap, portando todas as
+  chamadas totalizarão tempo $\mathcal{O}(k)$. Chegamos no total ao consumo de tempo de $\mathcal{O}(\log n + k)$.
+\end{itemize}
 
 
 %% ------------------------------------------------------------------------- %%
