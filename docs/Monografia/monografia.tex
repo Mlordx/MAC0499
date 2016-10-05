@@ -1125,7 +1125,7 @@ def query(self,rng):
 \newpage
 \subsection{Análise}
 \begin{itemize}
-\item[-] Inicialmente ordenamos os pontos da entrada, o que consome tempo $\mathcal{O}(n \log n)$. A construção em si é composta por partes
+\item[-] Na construção, começamos ordenando os pontos da entrada, o que consome tempo $\mathcal{O}(n \log n)$. A construção em si é composta por partes
   $\theta(n)$ junto com duas chamadas recursivas para metade do tamanho, que consumirá por recorrência tempo $\mathcal{O}(n \log n)$. Chegamos
   portanto em consumo de tempo total de $\mathcal{O}(n \log n)$.
 \item[-] A consulta seguirá por dois caminhos na árvore de tamanho $\log n$ cada, onde verificar se um dado pmin pertence à janela $W^-$ consome tempo
@@ -1142,10 +1142,9 @@ def query(self,rng):
 
 Analisaremos nesse capítulo os algoritmos associados às consultas sobre conjuntos de segmentos no espaço. 
 
-\section{Janela limitada - Caso unidimensional}
+\section{Intervalos na reta}
 
-Primeiramente explicaremos um algoritmo que resolve este tipo de consultas no espaço $\mathbb{R}$, ou seja, os segmentos serão intervalos na
-reta. Definiremos a ``janela'' como um dado ponto no espaço e encontraremos todos os segmentos que interceptam esse ponto.
+Primeiramente explicaremos um algoritmo que resolve consultas no espaço $\mathbb{R}$. Definiremos a ``janela'' como um dado ponto no espaço e encontraremos todos os intervalos que contém esse ponto.
 
 Na implementação usaremos intervalos como segmentos de reta, onde seus limites serão dados pelos campos $p_e$ e $p_d$ que denotam o ponto extremo
 esquerdo e direito do segmento, respectivamente. Diremos que um dado conjunto $S = [s_1,s_2,\dots,s_n]$ de segmentos está $p_e$-ordenado caso
@@ -1187,11 +1186,13 @@ def buildTree(self,s):
             if s[i].end < v.point:
                 l.append(s[i])
             else:
-                l1.append(Point(s[i].beg.x,s[i].beg.y,s=s[i])
-                l2.append(Point(s[i].end.x,s[i].end.y,s=s[i])
+                l1.append(Point(s[i].beg.x,
+                                s[i].beg.y,
+                                s=s[i])
+                l2.append(Point(s[i].end.x,
+                                s[i].end.y,
+                                s=s[i])
             i+=1
-
-        l2 = sorted(l2,reverse = True)
 
         v.L1 = buildMinHeap(l1)
         v.L2 = buildMaxHeap(l2)
@@ -1223,7 +1224,7 @@ Segue o algoritmo referente a esta rotina:
 
 
 \begin{algorithm}[H]
-\caption{}
+\caption{Devolve uma lista de intervalos que contenham um dado ponto $p$.}
 \lstset{basicstyle=\ttfamily\color{text}\bfseries}
 \begin{lstlisting}[mathescape]
 def query(self,p):
@@ -1254,6 +1255,91 @@ def query_r(self,v,p):
 
 (As chamadas das linhas 11 e 18 referem-se ao algoritmo descrito na seção \ref{infwdwquery1d})
 
+\subsection{Análise}
+
+\begin{itemize}
+\item[-] Na construção da árvore, gastamos tempo inicial $\mathcal{O}(n \log n)$ para ordenar o conjunto de segmentos. Separar o
+  conjunto de pontos em dois menores e construir os \emph{heaps} auxiliares leva tempo $\mathcal{O}(n)$. Chegaremos portanto no
+  consumo total de tempo de $\mathcal{O}(n \log n)$.
+\item[-] Pelo algoritmo de consulta, visitaremos $O(\log n)$ nós. Em cada nó realizamos algumas operações $\mathcal{O}(1)$, e seja
+  $k'$ o número de pontos do heap que está contido na janela, uma consulta de tempo $O(k')$(O somatório de todos esses k's será
+  k). Chegamos ao consumo total de tempo na consulta de $\mathcal{O}(\log n + k)$.
+\end{itemize}
+\newpage
+\section{Consultas sobre segmentos horizontais e verticais}
+
+O tipo de consulta que resolveremos nessa seção é o seguinte: Seja $S$ um conjunto de segmentos horizontais(ou verticais) não-intersectantes, e seja $w$ um segmento vertical(ou horizontal), queremos achar todos os segmentos de $S$ que intersectam $w$.
+
+\subsection{Pré-processamento}
+
+Utilizaremos uma estrutura que chamaremos de \textbf{árvore de intervalos horizontal}. Ela será idêntica à estrutura da seção bla,
+com modificações nos ponteiros $L_1$, que agora aponta para uma árvore de busca em prioridade mínima, e $L_2$, que agora aponta
+para uma árvore de busca em prioridade máxima.
+
+Segue o seu algoritmo de construção:
+
+\begin{algorithm}[H]
+\caption{Devolve um ponteiro $v$ para uma raíz de uma árvore de intervalos horizontal.}
+\lstset{basicstyle=\ttfamily\color{text}\bfseries}
+\begin{lstlisting}[mathescape]
+def buildTree(self,s):
+    n = len(s)
+
+    if n > 0:
+        v = HorizontalIntervalNode()
+        l = [] 
+        r = []
+        l1 = []
+        l2 = []
+
+        v.point = s[n//2].beg
+
+        i = 0
+
+        while i < n and s[i].beg <= v.point:
+            if s[i].end < v.point:
+                l.append(s[i])
+            else:
+                l1.append(s[i])
+                l2.append(s[i])
+            i+=1
+
+        while i < n:
+            r.append(s[i])
+            i+=1
+
+        aux = []
+        for s in l1:
+            aux.append(Point(s.beg.x,s.beg.y,s))
+
+\end{lstlisting}
+\end{algorithm}
+
+\begin{algorithm}[H]
+\ContinuedFloat
+\caption{Continuação do algoritmo 21.}
+\lstset{basicstyle=\ttfamily\color{text}\bfseries}
+\begin{lstlisting}[mathescape]
+        v.L1 = minPrioritySearchTree(aux)
+
+        aux = []
+
+        for s in l2:
+            aux.append(Point(s.end.x,s.end.y,s))
+
+        v.L2 = maxPrioritySearchTree(aux)
+
+        v.l = self.buildTree(l)
+        v.r = self.buildTree(r)
+
+    else:
+        v = None
+
+    return v
+\end{lstlisting}
+\end{algorithm}
+
+\subsection{Realizando a consulta}
 \subsection{Análise}
 %% ------------------------------------------------------------------------- %%
 
