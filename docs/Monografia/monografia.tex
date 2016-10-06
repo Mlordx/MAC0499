@@ -1279,7 +1279,7 @@ para uma árvore de busca em prioridade máxima.
 Segue o seu algoritmo de construção:
 
 \begin{algorithm}[H]
-\caption{Devolve um ponteiro $v$ para uma raíz de uma árvore de intervalos horizontal.}
+\caption{Devolve um ponteiro $v$ para uma raíz de uma árvore de intervalos horizontal a partir de um vetor $p_e$-ordenado $s$.}
 \lstset{basicstyle=\ttfamily\color{text}\bfseries}
 \begin{lstlisting}[mathescape]
 def buildTree(self,s):
@@ -1340,7 +1340,68 @@ def buildTree(self,s):
 \end{algorithm}
 
 \subsection{Realizando a consulta}
+
+Seja $S$ um conjunto de segmentos horizontais não-intersectantes, e seja $w = \overline{(x,y),(x,y')}$ um segmento vertical,
+podemos encontrar todos os segmentos $S' \coloneqq \{ s \in S \colon s \cap w \ne 0\}$ da seguinte forma: Seja $v$ o nó que estamos
+olhando atualmente, caso $x > x(p(v))$ nenhum segmento que esteja armazenado à esquerda de $v$ pode interceptar $w$, por isso
+seguiremos para $d(v)$. Mas antes disso fazemos uma consulta por todos os pontos finais de segmentos que se encontram à direita do
+segmento $w$, que é equivalente a realizar uma consulta na estrutura $L_2$ com uma janela $\overline{(x,y),(\infty,y')}$. Caso $x <
+x(p(v))$, fazemos uma busca em $L_1$ com janela $\overline{(-\infty,y),(x,y')}$ e seguimos para $e(v)$, simetricamente ao que foi feito
+no outro caso.
+
+Segue o algoritmo referente a essa rotina:
+
+\begin{algorithm}[H]
+\caption{Retorna um lista de segmentos horizontais não-intersectantes que intersectam um dado segmento \emph{seg}.}
+\lstset{basicstyle=\ttfamily\color{text}\bfseries}
+\begin{lstlisting}[mathescape]
+def query(self,seg):
+    return self.query_r(self.root,seg)
+
+def query_r(self,v,seg):
+    l = []
+    w1,w2 = seg
+    x = w1.x
+    y = w1.y
+    y2 = w2.y
+
+    if v is not None:
+        if x > v.point.x:
+            rng = (Point(x,y),Point(inf,y2))
+            l = v.L2.query(rng)
+            l += self.query_r(v.r,seg)
+        else:
+            rng = (Point(-inf,y),Point(x,y2))
+            l = v.L1.query(rng)
+            l += self.query_r(v.l,seg)
+
+    return l
+
+\end{lstlisting}
+\end{algorithm}
+
+
 \subsection{Análise}
+
+\begin{itemize}
+\item[-] Na construção, inicialmente $p_e$-ordenamos o vetor de segmentos, consumindo tempo $\mathcal{O}(n \log n)$. Na construção
+  em si, particionamos um vetor em 2 e preenchemos 2 vetores auxiliares, todas operações $\mathcal{O}(n)$. Além disso, construímos
+  2 árvores de busca em prioridade, que como vimos anteriormente tem complexidade $\mathcal{O}(n_v \log n_v)$, somando-se todas as
+  chamadas que serão feitas à essas funções, teremos também complexidade $\mathcal{O}(n \log n)$. As chamadas para os filhos
+  esquerdo e direito com vetores aproximadamente com a metade de elementos de $v$ resulta num recorrência cuja resolução nos
+  mostra que a complexidade total da construção da árvore será $\mathcal{O}(n \log n)$.
+\item[-] Visitaremos um nó por nível da árvore, portanto visitaremos $\mathcal{O}(\log n)$ nós. Em cada nó realizamos algumas
+  operações $\mathcal{O}(1)$ e uma busca numa árvore de busca em prioridade, consumindo tempo $\mathcal{O}(\log n' + k') =
+  \mathcal{O}(\log n + k')$, onde $n'$ é o número de elementos armazenados na árvore e $k'$ o número de elementos da árvore que
+  intersectam o segmento $w$ ($\sum k' = k$). Assim, chegamos ao consumo total de tempo de consulta de $\mathcal{O}(\log^2 n + k)$.
+\end{itemize}
+
+\section{Consultas sobre segmentos em janelas}
+
+\subsection{Pré-processamento}
+\subsection{Realizando a consulta}
+\subsection{Análise}
+
 %% ------------------------------------------------------------------------- %%
 
 
