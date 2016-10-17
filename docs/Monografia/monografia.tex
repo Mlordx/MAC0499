@@ -1290,14 +1290,14 @@ def query_r(self,v,p):
         if p > v.point:
             aux = []
             rng = (p,Point(math.inf,0))
-            aux = v.L2.maxheap_query(rng) |\label{alg20:11}|
+            aux = v.L2.maxheap_query(rng) |\label{alg23:11}|
             for pnt in aux:
                 l.append(pnt.seg)
             l += self.query_r(v.r,p)
         else:
             aux = []
             rng = (Point(-math.inf,0),p)
-            aux = v.L1.minheap_query(rng) |\label{alg20:18}|
+            aux = v.L1.minheap_query(rng) |\label{alg23:18}|
             for pnt in aux:
                 l.append(pnt.seg)
             l += self.query_r(v.l,p)
@@ -1455,6 +1455,177 @@ def query_r(self,v,seg):
 
 \section{Uma outra abordagem para intervalos na reta.}
 
+Resolveremos agora o mesmo problema apresentado na seção \ref{1dintervals} utilizando uma nova estrutura de dados. Definiremos
+primeiro uma noção que será utilizada nessa estrutura: Seja $S \coloneqq \{s_1,s_2,\dots,s_n\}$ um conjunto de intervalos (ou
+segmentos) e seja $P \coloneqq \{p_1,p_2,\dots,p_{2n}\}$ o conjunto de pontos extremos de $S$ onde $p_1 \leq p_2 \leq \dots \leq p_{2n}$,
+dizemos que o conjunto $ E \coloneqq \{(-\infty;p_1),[p_1;p_1],(p_1;p_2),[p_2;p_2],\dots,[p_n;p_n],(p_n;+\infty)\}$ é o conjunto de
+\textbf{intervalos elementares} sobre o conjunto $S$. Note que esse conjunto tem tamanho no máximo $4n+1$, caso todos os pontos
+extremos de $S$ sejam distintos.
+\subsection{Pré-processamento}
+
+A estrutura que iremos utilizar é chamada \textbf{árvore de segmentos}. Cada nó dessa árvore terá os seguintes campos: um
+intervalo associado, uma lista de segmentos, um ponteiro para o filho esquerdo e um ponteiro para o filho direito desse nó. Seja
+$v$ um nó da árvore de segmentos e seja $int(v)$ o intervalo associado ao nó $v$, esse intervalo terá a seguinte forma: Caso $v$
+seja uma folha, $int(v)$ será um intervalo elementar, caso contrário, $int(v)$ será a união dos intervalos dos seus filhos esquerdo
+e direito. A construção dessa estrutura se dará em 3 partes:
+
+\begin{itemize}
+\item[1.] Seja $S$ um conjunto de intervalos, obtemos o conjunto $E$ de intervalos elementares sobre esse conjunto.
+\item[2.] Construímos uma árvore binária de baixo para cima (similar a um \emph{heap}), colocando os intervalos elementares nas
+  folhas e fazendo as uniões à medida que subimos na árvore.
+\item[3.] Seja $v$ um nó da árvore de segmentos e seja $s \in S$. Se $int(v) \subset s$, inserimos $s$ na lista de $v$. E repetimos para
+  seus filhos caso o intervalo associado a eles intersectem $s$. Note que a raiz terá, por construção, intervalo $(-\infty;+\infty)$ e
+  portanto, terá sempre sua lista vazia.
+\end{itemize}
+
+Seguem os algoritmos descritos acima:
+
+\begin{algorithm}[H]
+\caption{Devolve uma lista de intervalos elementares $q$ construída sobre o conjunto $v$.}
+\lstset{basicstyle=\ttfamily\color{text}\bfseries}
+\begin{lstlisting}
+def buildElementaryIntervals(self,v):
+    p = []
+    q = []
+    n = len(v)
+
+    for i in range(n):
+        p.append(v[i].beg)
+        p.append(v[i].end)
+
+    sort(p)
+
+    m = self.removeDuplicates(p)
+
+    l = Point(-inf,0)
+
+    for i in range(len(m)):
+        r = p[i]
+        q.append(Segment(l,r,True))
+        q.append(Segment(r,r))
+        l = r
+
+    r = Point(inf,0)
+
+    q.append(Segment(l,r,True))
+
+    return q
+\end{lstlisting}
+\end{algorithm}
+
+\begin{algorithm}[H]
+\caption{Devolve uma árvore binária $T$ construída a partir do conjunto de intervalos elementares $e$.}
+\lstset{basicstyle=\ttfamily\color{text}\bfseries}
+\begin{lstlisting}
+def buildTree(self,e):
+    m = len(e)
+    h = ceil(log(m,2))
+    l2 = 2**h - m
+    l = m - l2
+    i = 2*m - 2
+    T = []
+    for k in range(2*m-1):
+        T.append(0)
+        T[k] = SegmentTreeNode()
+    
+    for j in range(l-1,-1,-1):
+        T[i].interval = e[j]
+        T[i].leaf = True
+        i -= 1
+
+    for j in range(m-1,-1,-1):
+        T[i].interval = e[j]
+        T[i].leaf = True
+        i -= 1
+
+    while i >= 0:
+        T[i].interval.beg = T[2*i+1].interval.beg
+        T[i].interval.end = T[2*i+2].interval.end
+        i -= 1
+
+    return T
+\end{lstlisting}
+\end{algorithm}
+
+\begin{algorithm}[H]
+\caption{Insere um dado intervalo $s$ no nó $v$ de uma árvore de segmentos.}
+\lstset{basicstyle=\ttfamily\color{text}\bfseries}
+\begin{lstlisting}
+def insertInterval(self,v,s):
+    u = v
+
+    if self.contains(s,u.interval):
+        u.L.append(s)
+    else:
+        if self.intersects(s,u.l.interval):
+            self.insertInterval(u.l,s)
+        
+        if self.intersects(s,u.r.interval):
+            self.insertInterval(u.r,s)  
+\end{lstlisting}
+\end{algorithm}
+
+\begin{algorithm}[H]
+\caption{Devolve um ponteiro $T$ para uma árvore de segmentos construída sobre a lista de segmentos $v$.}
+\lstset{basicstyle=\ttfamily\color{text}\bfseries}
+\begin{lstlisting}
+def buildSegmentTree(self,v):
+    v2 = self.buildElementaryIntervals(v)
+    T = self.buildTree(v2)
+
+    for i in range(len(v)):
+        self.insertInterval(T,v[i])
+
+    return T
+\end{lstlisting}
+\end{algorithm}
+
+\subsection{Realizando a consulta}
+
+Seja $p$ um ponto e seja $S$ um conjunto de intervalos, podemos encontrar todos os intervalos de $S' \coloneqq \{ i \in S \colon i \ni
+p\}$ da seguinte forma: Começamos a chamada na raiz e adicionamos sua lista na resposta (que por construção será vazia),
+verificamos então se seus filhos esquerdo e direito contém o ponto $p$, caso afirmativo, chamamos recursivamente para esses nós.
+
+Segue o algoritmo que foi descrito acima:
+
+\begin{algorithm}[H]
+\caption{Devolve uma lista $l$ de segmentos que contêm um dado ponto $p$.}
+\lstset{basicstyle=\ttfamily\color{text}\bfseries}
+\begin{lstlisting}
+def query(self,p):
+    return self.query_r(self.root,p)
+
+def query_r(self,v,p):
+    u = v
+
+    l = u.L
+
+    if not u.isLeaf():
+        if self.belongsTo(p,u.l.interval):
+            l += self.query_r(u.l,p)
+            return l
+        else:
+            l += self.query_r(u.r,p)
+            return l
+
+    return l
+\end{lstlisting}
+\end{algorithm}
+
+
+\subsection{Análise}
+
+\begin{itemize}
+\item[-] Inicialmente construímos os intervalos elementares, que requer uma ordenação sobre o conjunto de pontos extremos, levando
+  portanto tempo $\mathcal{O}(n \log n)$. Construir a árvore de baixo para cima e inserir os intervalos de $S$ na árvore levam
+  ambos tempo proporcional ao número de intervalos elementares, isto é, tempo $\mathcal{O}(n)$. Assim, chegamos que o consumo de
+  tempo total da construção dessa estrutura é $\mathcal{O}(n \log n)$.
+\item[-] Por construção, teremos que a árvore terá altura $\mathcal{O}(\log n)$. Em cada nível da árvore levamos tempo
+  $\mathcal{O}(k')$ ($\sum k' = k$) para adicionar todos os segmentos da lista associada ao nó na resposta e tempo constante nas demais
+  operações. Portanto, o consumo de tempo total da consulta é $\mathcal{O}(\log n + k)$.
+\end{itemize}
+
+\section{Consultas sobre segmentos com qualquer orientação}
 
 \subsection{Pré-processamento}
 \subsection{Realizando a consulta}
