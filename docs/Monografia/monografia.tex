@@ -297,16 +297,16 @@ problema proposto. Todo o código desenvolvido foi escrito em linguagem \emph{pyt
 Explicaremos a seguir algumas das noções fundamentais que serão utilizadas ao longo do trabalho:
 
 \section{Pontos}
-Neste trabalho trataremos basicamente com pontos~(no $\mathbb{R}~\text{e}~\mathbb{R}^2$) e segmentos de reta~(restritos ao $\mathbb{R}^2$). Sejam $x,y
-\in \mathbb{R}, $ definimos um \textbf{ponto} no $\mathbb{R}^2$ como um par $ p = (x,y) $. 
+Neste trabalho trataremos basicamente com pontos~(no $\mathbb{R}~\text{e}~\mathbb{R}^2$) e segmentos de reta~(restritos ao
+$\mathbb{R}^2$). Sejam $x,y \in \mathbb{R}, $ definimos um \textbf{ponto} no $\mathbb{R}^2$ como um par $ p = (x,y) $.
 
 \subsection{Comparações entre pontos}
 \par Uma outra definição que será usada repetidamente ao longo desta monografia é a relação de desigualdade associada a uma dada
 coordenada. Sejam $u,v$ pontos, dizemos que $u \leq_x v $ caso $x(u) < x(v)$ ou $ x(u) = x(v)$ e $y(u) \leq y(v)$, ou seja, sempre
 comparamos primeiro a coordenada de maior interesse e desempatamos pela segunda coordenada nas comparações. Quando tivermos pontos
-ordenados pela ordem $\leq_x$ (ou $\geq_{x}$) diremos que estes pontos estão ordenados \textbf{sobre a coordenada \emph{x}}. Além disso, seja $P =
-\{p_1,p_2,\dots,p_n\}$ tal que $p_1 \leq_{x} p_2 \leq_{x} \dots \leq_{x} p_n$, chamaremos $p_1$ de o \textbf{ x-menor} e $p_n$ de o
-\textbf{x-maior} pontos de $P$. Todas essas definições são simétricas para a ordem $\leq_y$.
+ordenados pela ordem $\leq_x$ (ou $\geq_{x}$) diremos que estes pontos estão ordenados \textbf{sobre a coordenada \emph{x}}. Além disso,
+seja $P = \{p_1,p_2,\dots,p_n\}$ tal que $p_1 \leq_{x} p_2 \leq_{x} \dots \leq_{x} p_n$, chamaremos $p_1$ de o \textbf{ x-menor} e $p_n$ de
+o \textbf{x-maior} pontos de $P$. Todas essas definições são simétricas para a ordem $\leq_y$.
 
 \section{Segmentos}
 
@@ -416,6 +416,16 @@ def right(p,s):
 \item[-] As modificações presentes nas linhas \ref{alg4:4} e \ref{alg4:5} foram adicionadas apenas para resolverem os casos
   degenerados apresentados no capítulo $x$.
 \end{itemize}
+
+\subsection{Posição relativa entre segmentos}
+\label{positionbtwsegs}
+Uma noção que será usada na seção \ref{anyorientationsegs} é a de esquerda e direita entre segmentos. Sejam $u$ e $v$ segmentos,
+caso ambos os pontos extremos de $u$ estejam à esquerda de $v$, ou caso um deles esteja à esquerda de $v$ e o outro esteja sobre
+$v$, diremos que \textbf{$u$ está à esquerda de $v$}. Simetricamente, caso ambos seus pontos extremos estejam à direita de $v$, ou
+caso um deles esteja à direita e o outro sobre $v$, diremos que \textbf{$u$ está à direita de $v$}. Além disso, caso ambos os
+pontos extremos de $u$ estejam em lados opostos em relação a $v$, diremos que \textbf{$u$ pseudo-intercepta $v$}.
+
+
 %% ------------------------------------------------------------------------- %%
 
 %% ------------------------------------------------------------------------- %%
@@ -1319,7 +1329,7 @@ def query_r(self,v,p):
 \end{itemize}
 \newpage
 \section{Consultas sobre segmentos horizontais e verticais}
-
+\label{horizontalsegs}
 O tipo de consulta que resolveremos nessa seção é o seguinte: Seja $S$ um conjunto de segmentos horizontais (ou verticais) não-intersectantes, e seja $w$ um segmento vertical (ou horizontal), queremos achar todos os segmentos de $S$ que intersectam $w$.
 
 \subsection{Pré-processamento}
@@ -1454,7 +1464,7 @@ def query_r(self,v,seg):
 \end{itemize}
 
 \section{Uma outra abordagem para intervalos na reta.}
-
+\label{moreonintervals}
 Resolveremos agora o mesmo problema apresentado na seção \ref{1dintervals} utilizando uma nova estrutura de dados. Definiremos
 primeiro uma noção que será utilizada nessa estrutura: Seja $S \coloneqq \{s_1,s_2,\dots,s_n\}$ um conjunto de intervalos (ou
 segmentos) e seja $P \coloneqq \{p_1,p_2,\dots,p_{2n}\}$ o conjunto de pontos extremos de $S$ onde $p_1 \leq p_2 \leq \dots \leq p_{2n}$,
@@ -1626,10 +1636,86 @@ def query_r(self,v,p):
 \end{itemize}
 
 \section{Consultas sobre segmentos com qualquer orientação}
+\label{anyorientationsegs}
+Discutiremos agora como estender o problema apresentado na seção \ref{horizontalsegs}. Agora nosso conjunto $S$ conterá segmentos
+com qualquer orientação, porém ainda não-intersectantes e nossa ``janela'' será um segmento vertical (ou horizontal).
 
 \subsection{Pré-processamento}
+
+Utilizaremos novamente uma árvore de segmentos como na seção anterior, com a alteração que a lista associada a cada nó é agora um
+vetor ordenado. A relação de ordem que usaremos é: Sejam $u$ e $v$ segmentos, diremos que $u < v$ caso $u$ esteja à direita de
+$v$, ou caso $u$ pseudo-intercepte $v$ e $v$ esteja à esquerda de $u$.
+
+Segue a implementação dessa árvore:
+
+\begin{algorithm}[H]
+\caption{Devolve um ponteiro para uma raiz v de uma árvore de segmentos 2D.}
+\lstset{basicstyle=\ttfamily\color{text}\bfseries}
+\begin{lstlisting}[escapechar=|]
+def buildSegmentTree(self,v):
+    v2 = self.buildElementaryIntervals(v) |\label{alg30:2}| 
+    t = self.buildTree(v2) |\label{alg30:3}|
+
+    for i in range(len(v)):
+        self.insertInterval(t,v[i]) |\label{alg30:6}|
+
+    self.sortLists(t) |\label{alg30:8}|
+
+    return t
+\end{lstlisting}
+\end{algorithm}
+
+(As chamadas nas linhas \ref{alg30:2},\ref{alg30:3} e \ref{alg30:6} são as mesmas descritas na seção \ref{moreonintervals} e a
+chamada da linha \ref{alg30:8} ordena as listas de todos os nós da árvore, seguindo a relação de ordem descrita acima.)
+
 \subsection{Realizando a consulta}
+
+Seja $S$ um conjunto de segmentos não-intersectantes e seja $w$ um segmento vertical. Podemos consultar todos os
+segmentos de $S$ que intersectam $w$ da seguinte forma:
+
+Seja $v$ um nó da árvore e seja $L_{ord}$ o vetor ordenado de $v$. Achamos o menor índice $j$ tal que $p_e(L_{ord}[j])$ está à
+esquerda do ponto extremo esquerdo de $w$. A partir de $L_{ord}[j]$, adicionamos todos os segmentos $s_i$ de $L_{ord}$ tais que
+$p_d(w)$ esteja à esquerda de $s_i$ ou que $s_i \ni p_d(w)$. Verificamos então se $p_e(w)$ está contido no intervalo associado ao
+filho esquerdo de $v$, caso afirmativo chamamos a função para seu filho esquerdo, caso contrário chamamos a função para seu filho
+direito.
+
+Segue a implementação da rotina descrita acima:
+\begin{algorithm}[H]
+\caption{Devolve uma lista $l$ de todos os segmentos que interceptam um dado segmento $s$.}
+\lstset{basicstyle=\ttfamily\color{text}\bfseries}
+\begin{lstlisting}[escapechar=|]
+def query(self,s):
+    return self.query_r(self.root,s)
+
+def query_r(self,v,s):
+    u = v
+    l = []
+    j = self.binarySearch(s.beg,u.L)
+    
+    while j < len(u.L) and (left(s.end,u.L[j]) or
+    self.inside(s.end,u.L[j])):            
+        l.append(u.L[j])
+        j += 1
+
+    x = s.beg
+    if not u.isLeaf():
+        if belongsTo(x,u.l.interval):
+            l += self.query_r(u.l,s)
+            return l
+        else:
+            l += self.query_r(u.r,s)
+            return l
+        
+    return l
+\end{lstlisting}
+\end{algorithm}
+
 \subsection{Análise}
+
+\begin{itemize}
+\item[-]
+\item[-]
+\end{itemize}
 
 %% ------------------------------------------------------------------------- %%
 
