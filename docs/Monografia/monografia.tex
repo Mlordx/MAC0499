@@ -363,7 +363,7 @@ def contains(self,a,b):
 \end{algorithm}
 
 \section{Posição relativa entre ponto e segmento}
-
+\label{leftright}
 Usaremos também bastante a noção de posição relativa entre pontos e segmentos, isto é, dado um ponto $p$ e um segmento $s$,
 queremos saber se $p$ se encontra à esquerda, à direita ou sobre o segmento $s$.\\
 
@@ -414,7 +414,7 @@ def right(p,s):
   ponto esteja sobre o segmento dado.
 
 \item[-] As modificações presentes nas linhas \ref{alg4:4} e \ref{alg4:5} foram adicionadas apenas para resolverem os casos
-  degenerados apresentados no capítulo $x$.
+  degenerados apresentados na seção \ref{anyorientationsegs}.
 \end{itemize}
 
 \subsection{Posição relativa entre segmentos}
@@ -476,7 +476,6 @@ def buildTree(self,points):
 Seja $P$ um conjunto de pontos e seja $W = [w_1,w_2]$ uma janela. Podemos consultar todos os pontos em $P \cap W$ da seguinte forma:
 
 \begin{itemize}
-\item[0.] Construímos a ABBB sobre o conjunto $P$.
 \item[1.] Achamos o \textbf{ponto divisor} de $P$, este é o ponto que se encontra na raiz da subárvore que contém os pontos
   $S \coloneqq $ ($v~\colon~w_1 \leq v \leq w_2 $), chamaremos esse ponto de $v_{div}$.
 \item[2.] Percorremos a subárvore esquerda de $v_{div}$. Tome $r$ como o ponto da raiz desta subárvore. Se $w_1 \leq r$, adicionamos
@@ -656,7 +655,6 @@ Seja $P$ um conjunto de pontos e seja $W = \overline{(x_1,y_1)(x_2,y_2)}$ uma ja
 $P \cap W$ da seguinte forma:
 
 \begin{itemize}
-\item[0.] Construímos a árvore limite sobre o conjunto $P$.
 \item[1.] Achamos o \textbf{ponto divisor} no primeiro nível da árvore limite de forma similar ao algoritmo anterior.
 \item[2.] Percorremos a subárvore esquerda de $v_{div}$ verificando se o ponto $r$ da raiz é tal que $w_1 \leq_{x} r$, caso seja,
   realizamos a consulta unidimensional na árvore associada ao nó. Caso contrário, seguimos para a subárvore direita. Ao chegar na
@@ -731,7 +729,7 @@ def query(self,rng):
 \end{itemize}
 
 \section{Cascateamento fracionário}
-
+\label{fraccascading}
 Apresentaremos uma estrutura chamada \textbf{árvore limite com camadas} que utilizaremos no segundo nível do algoritmo acima para
 conseguirmos complexidade total $\mathcal{O}(\log n + k)$, juntamente com a consulta modificada associada. A intuição dessa
 técnica vem da seguinte característica das estruturas que vínhamos utilizando: Sempre ao acessarmos o filho de um dado nó passamos
@@ -739,7 +737,7 @@ a lidar com um subconjunto do conjunto que tínhamos na subárvore anterior e cujo
 si.
 
 \subsection{Pré-processamento}
-
+\label{fraccascading:1}
 O primeiro nível da árvore limite com camadas será exatamente como mostrado anteriormente, a diferença estará presente no segundo
 nível onde teremos uma estrutura que definimos como \textbf{árvore de camadas}. Os ``nós'' dessa árvore são na verdade vetores de
 nós auxiliares ordenados pelos pontos associados. \par Seja $P$ o conjunto de pontos associados a um dado vetor da árvore de camadas,
@@ -833,12 +831,11 @@ def createPointers(self,v,l,r):
 \end{algorithm}
 
 \subsection{Realizando a consulta}
-
+\label{fraccascading:2}
 Seja P um conjunto de pontos e seja $W = \overline{(x_1,y_1)(x_2,y_2)}$ uma janela. Podemos consultar todos os pontos em
 $P \cap W$ da seguinte forma:
 
 \begin{itemize}
-\item[0.] Construímos a árvore limite com camadas sobre o conjunto $P$.
 \item[1.] Achamos o \textbf{ponto divisor} no primeiro nível da árvore limite com camadas de forma similar ao algoritmo anterior.
 \item[2.] Na árvore de camadas associada ao nó $v_{div}$ procuramos com uma busca binária o menor ponto
   $v'_{div} \colon v'_{div} \geq_y w_1$, conseguiremos pontos com a mesma característica nas subárvores de $v_{div}$ em tempo
@@ -1201,10 +1198,11 @@ def query(self,rng):
 %% ------------------------------------------------------------------------- %%
 
 %% ------------------------------------------------------------------------- %%
-\chapter{Consultas sobre segmentos em janelas}
+\chapter{Consultas sobre intersecções de segmentos}
 \label{cap:segmentos}
 
-Analisaremos nesse capítulo os algoritmos associados às consultas sobre conjuntos de segmentos no espaço. 
+Analisaremos nesse capítulo os algoritmos relacionados com achar intersecções de um dado segmento com um conjunto de segmentos no
+espaço, esses algoritmos serão posteriormente usados para resolver o problema proposto no próximo capítulo.
 
 \section{Intervalos na reta}
 \label{1dintervals}
@@ -1272,7 +1270,6 @@ def buildTree(self,s):
         v = None
 
     return v
-
 \end{lstlisting}
 \end{algorithm}
 
@@ -1641,10 +1638,11 @@ Discutiremos agora como estender o problema apresentado na seção \ref{horizontal
 com qualquer orientação, porém ainda não-intersectantes e nossa ``janela'' será um segmento vertical (ou horizontal).
 
 \subsection{Pré-processamento}
-
+\label{anyorientationsegs:1}
 Utilizaremos novamente uma árvore de segmentos como na seção anterior, com a alteração que a lista associada a cada nó é agora um
-vetor ordenado. A relação de ordem que usaremos é: Sejam $u$ e $v$ segmentos, diremos que $u < v$ caso $u$ esteja à direita de
-$v$, ou caso $u$ pseudo-intercepte $v$ e $v$ esteja à esquerda de $u$.
+vetor ordenado. Chamaremos essa árvore de \textbf{árvore de segmentos 2D horizontal} quando utilizada para responder uma consulta
+sobre um segmento vertical (Definição simétrica para segmentos horizontais). A relação de ordem que usaremos é: Sejam $u$ e $v$
+segmentos, diremos que $u < v$ caso $u$ esteja à direita de $v$, ou caso $u$ pseudo-intercepte $v$ e $v$ esteja à esquerda de $u$.
 
 Segue a implementação dessa árvore:
 
@@ -1669,7 +1667,7 @@ def buildSegmentTree(self,v):
 chamada da linha \ref{alg30:8} ordena as listas de todos os nós da árvore, seguindo a relação de ordem descrita acima.)
 
 \subsection{Realizando a consulta}
-
+\label{anyorientationsegs:2}
 Seja $S$ um conjunto de segmentos não-intersectantes e seja $w$ um segmento vertical. Podemos consultar todos os
 segmentos de $S$ que intersectam $w$ da seguinte forma:
 
@@ -1677,7 +1675,10 @@ Seja $v$ um nó da árvore e seja $L_{ord}$ o vetor ordenado de $v$. Achamos o men
 esquerda do ponto extremo esquerdo de $w$. A partir de $L_{ord}[j]$, adicionamos todos os segmentos $s_i$ de $L_{ord}$ tais que
 $p_d(w)$ esteja à esquerda de $s_i$ ou que $s_i \ni p_d(w)$. Verificamos então se $p_e(w)$ está contido no intervalo associado ao
 filho esquerdo de $v$, caso afirmativo chamamos a função para seu filho esquerdo, caso contrário chamamos a função para seu filho
-direito.
+direito. \par Inicialmente a implementação continha um caso patológico: Caso existisse algum $u \in S$ tal que $u \subseteq w$ ou $w \subseteq u$, esse
+elemento não seria incluso na consulta, pois pela definição de posição relativa entre pontos e segmentos, os pontos extremos de
+$u$ não estariam nem à esquerda ou à direita de $w$. Esse problema foi resolvido estendendo o conceito de esquerda e direita, e
+pode ser visto na seção \ref{leftright}.
 
 Segue a implementação da rotina descrita acima:
 \begin{algorithm}[H]
@@ -1713,15 +1714,127 @@ def query_r(self,v,s):
 \subsection{Análise}
 
 \begin{itemize}
-\item[-]
-\item[-]
+\item[-] O único trecho novo que precisamos analisar na construção é a chamada da linha \ref{alg30:8}. Sejam $v_i$, com $i = \{1,
+  \dots, k\}$,~$k \leq 2n$, nós da árvore. Para cada $v_i$ realizamos uma ordenação que terá complexidade $\mathcal{O}(n_i \log
+  n_i)$, onde $n_i$ é o número de segmentos armazenados em $v_i$. Teremos que a ordenação de um dado nível da árvore consumirá
+  tempo $\sum n_i \log n_i \leq 2n \log n = \mathcal{O}(n \log n)$, como temos $\mathcal{O}(\log n)$ níveis, chegamos à complexidade
+  total de $\mathcal{O}(n \log^2 n)$.
+\item[-] Visitamos $\mathcal{O}(\log n)$ nós da árvore na consulta. Em cada nó $i$ realizamos uma busca binária que consome tempo
+  $\mathcal{O}(\log n_i) = \mathcal{O}(\log n)$ e percorremos $O(k_i)$ elementos de $L_{ord}(i)$, onde $n_i$ é o número de
+  elementos em $L_{ord}(i)$ e $k_i$ o número de elementos de $L_{ord}(i)$ que está na resposta. Teremos entao complexidade total
+  na consulta da ordem de $\mathcal{O}(\log^2 n + k)$ (Pois $\sum k_i = k$).
 \end{itemize}
 
 %% ------------------------------------------------------------------------- %%
+\chapter{Consultas sobre segmentos em janelas}
 
+Nesse capítulo iremos finalmente resolver o problema inicialmente proposto: Dado um conjunto de segmentos não-intersectantes $S$,
+quais segmentos de $S$ estão contidos numa certa janela de lados paralelos $W$? As estruturas que utilizaremos são as versões mais
+eficientes de todos os algoritmos que apresentamos até este ponto.
+
+\section{Pré-processamento}
+Utilizaremos 4 árvores construídas a partir do conjunto $S$: Duas árvores limite com camadas, uma sobre o conjunto de pontos
+esquerdos de $S$ e outra sobre o conjunto de pontos direitos de $S$, e duas árvores de segmentos 2D, uma horizontal e a outra
+vertical.
+
+Segue o trecho de código referente às chamadas das construções dessas estruturas:
+
+\begin{algorithm}[H]
+\caption{Constroi as 4 estruturas auxiliares a serem utilizadas na consulta a partir de uma lista de segmentos $s$.}
+\lstset{basicstyle=\ttfamily\color{text}\bfseries}
+\begin{lstlisting}[escapechar=|]
+def __init__(self,s):
+    self.l = []
+    self.r = []
+    for seg in s:
+        self.l.append(Point(seg.beg.x,seg.beg.y,seg)) 
+        self.r.append(Point(seg.end.x,seg.end.y,seg)) 
+
+    self.layer_l = LayerTree(self.l) |\label{alg33:8}|
+    self.layer_r = LayerTree(self.r) |\label{alg33:9}|
+
+    self.seg_v = SegmentTree2Dx(s) |\label{alg33:11}|
+    self.seg_h = SegmentTree2Dy(s) |\label{alg33:12}|
+\end{lstlisting}
+\end{algorithm}
+
+(As chamadas nas linhas \ref{alg33:8} e \ref{alg33:9} referem-se à estrutura descrita na seção \ref{fraccascading:1}, e as
+chamadas das linhas \ref{alg33:11} e \ref{alg33:12} à estrutura descrita na seção \ref{anyorientationsegs:1}.)
+
+\section{Realizando a consulta}
+
+Seja $W = \overline{(x_1,y_1),(x_2,y_2)}$ com lados: $w_1 = \overline{(x_1,y_1)(x_1,y_2)},~w_2 =
+\overline{(x_1,y_2)(x_2,y_2)},~w_3 = \overline{(x_2,y_2)(x_2,y_1)}$ e $w_4 = \overline{(x_2,y_1)(x_1,y_1)}$. A consulta será
+divida em 5 subconsultas:
+
+\begin{itemize}
+\item[1.] Encontramos todos os $s \in S$ tais que $p_e(s) \in W$. 
+\item[2.] Encontramos todos os $s \in S$ tais que $p_d(s) \in W$.
+\item[3.] Encontramos todos os $s \in S$ que interceptam $w_1$.
+\item[4.] Encontramos todos os $s \in S$ que interceptam $w_3$.
+\item[5.] Encontramos todos os $s \in S$ que interceptam $w_2$.
+\end{itemize}
+
+Perceba que poderão haver repetições entre essas consultas, portanto apenas retiramos os segmentos repetidos no final. Segue a
+implementação referente à rotina descrita:
+
+\begin{algorithm}[H]
+\caption{Constroi as 4 estruturas auxiliares a serem utilizadas na consulta a partir de uma lista de segmentos $s$.}
+\lstset{basicstyle=\ttfamily\color{text}\bfseries}
+\begin{lstlisting}[escapechar=|]
+def query(self,rng):
+    L = self.layer_l.query(rng) |\label{alg34:2}| 
+    R = self.layer_r.query(rng) |\label{alg34:3}|
+    l = []
+    r = []
+    
+    for p in L: l.append(p.seg)
+    for p in R: r.append(p.seg)
+    
+    a = rng[0].x
+    b = rng[0].y
+    c = rng[1].x
+    d = rng[1].y
+    
+    seg1 = Segment(Point(a,b),Point(a,d))    
+    seg2 = Segment(Point(a,d),Point(c,d))
+    seg3 = Segment(Point(c,b),Point(c,d))
+    seg4 = Segment(Point(a,b),Point(c,b))
+    
+    s1 = self.seg_v.query(seg1) |\label{alg34:20}|
+    s3 = self.seg_v.query(seg3) |\label{alg34:21}|
+    s2 = self.seg_h.query(seg2) |\label{alg34:22}|
+
+    return list(set(l+r+s1+s2+s3))
+\end{lstlisting}
+\end{algorithm}
+(As chamadas nas linhas \ref{alg34:2} e \ref{alg34:3} referem-se ao algoritmo descrito na seção \ref{fraccascading:2}, e as
+chamadas das linhas \ref{alg34:20}, \ref{alg34:21} e \ref{alg34:22} referem-se ao algoritmo descrito na seção
+\ref{anyorientationsegs:2}.)
+\newpage
+\section{Análise}
+
+\begin{itemize}
+\item[-] Na construção, construimos listas com os pontos extremos dos segmentos consumindo tempo $\mathcal{O}(n)$ e realizamos
+  ordenações consumindo tempo $\mathcal{O}(n \log n)$. Além disso, construímos 2 árvores limite com camadas consumindo tempo
+  $\mathcal{O}(n \log n)$ e 2 árvores de segmentos 2D, consumido tempo $\mathcal{O}(n \log^2 n)$. Portanto, o consumo total será
+  da ordem de $\mathcal{O}(n \log^2 n)$.
+\item[-] Na consulta, separamos os elementos de $s$ em duas listas com seus pontos extremos, consumindo tempo
+  $\mathcal{O}(n)$. Realizamos uma consulta em árvore limite com camadas que levará tempo $\mathcal{O}(\log n + k_e)$ e outra que
+  levará tempo $\mathcal{O}(\log n + k_d)$, onde $k_e$ e $k_d$ são o número de segmentos de $s$ que satisfez cada uma dessas
+  consultas. Além disso realizamos 3 consultas em árvores de segmentos 2D, consumindo tempos $\mathcal{O}(\log^2 n + k_{w_1})$,
+  $\mathcal{O}(\log^2 n + k_{w_2})$ e $\mathcal{O}(\log^2 n + k_{w_3})$ respectivamente. Teremos que $k_e + k_d + k_{w_1} +
+  k_{w_2}+ k_{w_3} \leq 5k = \mathcal{O}(k)$. Portanto, o consumo de tempo total será $\mathcal{O}(\log^2 n + k)$.
+\end{itemize}
+
+%% ------------------------------------------------------------------------- %%
+\chapter{Conclusão}
+
+%% ------------------------------------------------------------------------- %%
 
 % cabeçalho para os apêndices
-\renewcommand{\chaptermark}[1]{\markboth{\MakeUppercase{\appendixname\ \thechapter}} {\MakeUppercase{#1}} } \fancyhead[RE,LO]{}
+\renewcommand{\chaptermark}[1]{\markboth{\MakeUppercase{\appendixname\ \thechapter}}
+  {\MakeUppercase{#1}} } \fancyhead[RE,LO]{}
 %\appendix
 
 %\include{ape-exemplo}      % associado ao arquivo: 'ape-conjuntos.tex'
