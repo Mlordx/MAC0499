@@ -582,11 +582,10 @@ def query(self,rng):
 \begin{itemize}
 \item[-] O pré-processamento requer que seja feita uma ordenação sobre o conjunto de pontos de entrada, portanto tem complexidade
   $\Theta(n\log n)$.
-\item[-] A árvore terá altura $\mathcal{O}(\log n)$ e visitaremos $\mathcal{O}(\log n)$ pontos em cada subàrvore de $v_{div}$,
-  além disso, consumiremos tempo $\mathcal{O}(k)$ para visitar os $k$ pontos das folhas que estão contidos no intervalo e devem
+\item[-] A árvore terá altura $\mathcal{O}(\log n)$ e visitaremos $\mathcal{O}(\log n)$ pontos. Além disso, consumiremos tempo
+  $\mathcal{O}(k)$ para visitar os $k$ pontos das folhas em cada subàrvore de $v_{div}$ que estão contidos no intervalo e devem
   aparecer na resposta final. Portanto a complexidade final da consulta é da ordem $\mathcal{O}(\log n + k)$.
 \end{itemize}
-\newpage
 
 \section{Janela limitada - Caso bidimensional}
 \label{janela2d}
@@ -630,14 +629,7 @@ def buildTree(self,vx,vy):
         vy[i].y <= vx[n//2-1].y):
             ly.append(vy[i])
         else: ry.append(vy[i])
-\end{lstlisting}
-\end{algorithm}
-\newpage
-\begin{algorithm}[H]
-\ContinuedFloat
-\caption{Continuação do algoritmo 8.}
-\lstset{basicstyle=\ttfamily\color{text}\bfseries}
-\begin{lstlisting}[name=alg8]
+
     v.point = vx[n//2-1]
         
     if len(vx) == 1:
@@ -646,8 +638,7 @@ def buildTree(self,vx,vy):
         v.l = self.buildTree(lx,ly)
         v.r = self.buildTree(rx,ry)
 
-    return v
-\end{lstlisting}
+    return v\end{lstlisting}
 \end{algorithm}
 
 \subsection{Realizando a consulta}
@@ -723,9 +714,9 @@ def query(self,rng):
 \item[-] No pré-processamento ordenamos 2 vezes o conjunto de pontos, levando tempo $\mathcal{O}(n \log n)$. Como a construção da
   estrutura auxiliar leva tempo $\mathcal{O}(n)$, a construção da árvore levará também tempo $\mathcal{O}(n)$. O que nos leva à
   complexidade total de $\mathcal{O}(n \log n )$.
-\item[-] Os caminhos esquerdo e direito a partir de $v_{div}$ têm $\mathcal{O}(\log n)$ nós, e possivelmente chamamos o algoritmo
-  anterior para cada um deles, o que consome tempo $\mathcal{O}(\log n + k)$. O que nos leva ao consumo total de tempo de
-  $\mathcal{O}(\log^2 n + k)$.
+\item[-] Na consulta, os caminhos esquerdo e direito a partir de $v_{div}$ têm $\mathcal{O}(\log n)$ nós, e possivelmente chamamos
+  o algoritmo anterior para cada um deles, o que consome tempo $\mathcal{O}(\log n + k)$. O que nos leva ao consumo total de tempo
+  de $\mathcal{O}(\log^2 n + k)$.
 \end{itemize}
 
 \section{Cascateamento fracionário}
@@ -894,7 +885,7 @@ def query(self,rng):
 
 \begin{algorithm}[H]
 \ContinuedFloat
-\caption{Continuação do algoritmo 13.}
+\caption{Continuação do algoritmo 16.}
 \lstset{basicstyle=\ttfamily\color{text}\bfseries}
 \begin{lstlisting}[name=alg13]
         if div2 is not None:
@@ -931,11 +922,12 @@ def query(self,rng):
 \subsection{Análise}
 
 \begin{itemize}
-\item[-] Precisamos inicialmente ordenar os pontos, o que leva $\mathcal{O}(n \log n)$. Criamos os ponteiros da árvore de camadas em $\mathcal{O}(n)$,
-  portanto o algoritmo de construção leva $\mathcal{O}(n)$. Chegamos então no consumo total de $\mathcal{O}(n \log n)$.
-\item[-] Achamos $v_{div}$ e $v'_{div}$ realizando buscas binárias, o que consome tempo $\mathcal{O}(\log n)$. Nas subárvores de $v_{div}$ levamos
-  tempo proporcional ao número de pontos que se encontram na janela, nos dando complexidade $O(k)$. Portanto a complexidade final de tempo é
-  $\mathcal{O}(\log n + k)$.
+\item[-] No pré-processamento, precisamos inicialmente ordenar os pontos, o que leva $\mathcal{O}(n \log n)$. Criamos os ponteiros
+  da árvore de camadas em $\mathcal{O}(n)$, portanto o algoritmo de construção leva $\mathcal{O}(n)$. Chegamos então no consumo
+  total de $\mathcal{O}(n \log n)$.
+\item[-] Na consulta, achamos $v_{div}$ e $v'_{div}$ realizando buscas binárias, o que consome tempo $\mathcal{O}(\log n)$. Nas
+  subárvores de $v_{div}$ levamos tempo proporcional ao número de pontos que se encontram na janela, nos dando complexidade
+  $O(k)$. Portanto a complexidade final de tempo é $\mathcal{O}(\log n + k)$.
 \end{itemize}
 \newpage
 \section{Janelas ilimitadas - caso unidimensional}
@@ -975,12 +967,11 @@ def query(self, v, rng):
 \subsection{Análise}
 
 \begin{itemize}
-\item[-] Consumimos tempo $\mathcal{O}(1)$ por nó visitado que está na resposta e só continuamos a fazer chamadas da função quando $p \leq w_1$. Portanto, chegamos à complexidade total de $\mathcal{O}(k)$.
+\item[-] Consumimos tempo $\mathcal{O}(1)$ por nó visitado e só continuamos a fazer chamadas da função quando $p \leq
+  w_1$. Portanto, teremos feito $\mathcal{O}(k)$ chamadas paras os nós na resposta e $\mathcal{O}(k)$ chamadas para os nós que não
+  estão na resposta, isto é, $p > w_1$. Logo, a complexidade total será $\mathcal{O}(k)$.
 \end{itemize}
 
-%%%%%%%%%%%%%%%%%%%%%%%
-% Melhorar essa seção, é O(k) mas precisa explicar melhor.
-%%%%%%%%%%%%%%%%%%%%%%%
 \section{Janelas ilimitadas - caso bidimensional}
 
 Sejam $w_1 = (x_1,y_1)$ e $w_2 = (x_2,y_2)$ pontos no $\mathbb{R}^2$, similarmente à seção \ref{janela2d} iremos definir 4 segmentos de reta que farão
@@ -1036,7 +1027,7 @@ def buildTree(self,vx,vy):
 
 \begin{algorithm}[H]
 \ContinuedFloat
-\caption{Continuação do algoritmo 15.}
+\caption{Continuação do algoritmo 18.}
 \lstset{basicstyle=\ttfamily\color{text}\bfseries}
 \begin{lstlisting}[name=alg15]
 
@@ -1112,7 +1103,7 @@ def findDividingNode(self,rng):
 \end{algorithm}
 
 \begin{algorithm}[H]
-\caption{.}
+\caption{Devolve uma lista de pontos contidos numa janela infinita \emph{rng}.}
 \lstset{basicstyle=\ttfamily\color{text}\bfseries}
 \begin{lstlisting}[name=alg18]
 def query(self,rng):
@@ -1141,7 +1132,7 @@ def query(self,rng):
 
 \begin{algorithm}[H]
 \ContinuedFloat
-\caption{Continuação do algoritmo 18.}
+\caption{Continuação do algoritmo 21.}
 
 \lstset{basicstyle=\ttfamily\color{text}\bfseries}
 \begin{lstlisting}[name=alg18]
@@ -1202,7 +1193,7 @@ def query(self,rng):
 \label{cap:segmentos}
 
 Analisaremos nesse capítulo os algoritmos relacionados com achar intersecções de um dado segmento com um conjunto de segmentos no
-espaço, esses algoritmos serão posteriormente usados para resolver o problema proposto no próximo capítulo.
+espaço, esses algoritmos serão posteriormente usados nas chamadas do algoritmo da seção \ref{segments}.
 
 \section{Intervalos na reta}
 \label{1dintervals}
@@ -1235,14 +1226,6 @@ def buildTree(self,s):
         v.point = s[n//2].beg
         l1 = []
         l2 = []
-\end{lstlisting}
-\end{algorithm}
-\newpage
-\begin{algorithm}[H]
-\ContinuedFloat
-\caption{Continuação do algoritmo 19.}
-\lstset{basicstyle=\ttfamily\color{text}\bfseries}
-\begin{lstlisting}[name=alg19]
         i = 0
         while i < n and s[i].beg <= v.point:
             if s[i].end < v.point:
@@ -1269,9 +1252,9 @@ def buildTree(self,s):
     else:
         v = None
 
-    return v
-\end{lstlisting}
+    return v\end{lstlisting}
 \end{algorithm}
+
 
 \subsection{Realizando a consulta}
 
@@ -1375,7 +1358,7 @@ def buildTree(self,s):
 
 \begin{algorithm}[H]
 \ContinuedFloat
-\caption{Continuação do algoritmo 21.}
+\caption{Continuação do algoritmo 24.}
 \lstset{basicstyle=\ttfamily\color{text}\bfseries}
 \begin{lstlisting}[name=alg21]
         v.L1 = minPrioritySearchTree(aux)
@@ -1426,7 +1409,7 @@ def query_r(self,v,seg):
 \end{algorithm}
 \begin{algorithm}[H]
 \ContinuedFloat
-\caption{Continuação do algoritmo 22.}
+\caption{Continuação do algoritmo 25.}
 \lstset{basicstyle=\ttfamily\color{text}\bfseries}
 \begin{lstlisting}[name=alg22]
     if v is not None:
@@ -1727,7 +1710,7 @@ def query_r(self,v,s):
 
 %% ------------------------------------------------------------------------- %%
 \chapter{Consultas sobre segmentos em janelas}
-
+\label{segments}
 Nesse capítulo iremos finalmente resolver o problema inicialmente proposto: Dado um conjunto de segmentos não-intersectantes $S$,
 quais segmentos de $S$ estão contidos numa certa janela de lados paralelos $W$? As estruturas que utilizaremos são as versões mais
 eficientes de todos os algoritmos que apresentamos até este ponto.
@@ -1815,7 +1798,7 @@ chamadas das linhas \ref{alg34:20}, \ref{alg34:21} e \ref{alg34:22} referem-se a
 \section{Análise}
 
 \begin{itemize}
-\item[-] Na construção, construimos listas com os pontos extremos dos segmentos consumindo tempo $\mathcal{O}(n)$ e realizamos
+\item[-] Na construção, preenchemos listas com os pontos extremos dos segmentos consumindo tempo $\mathcal{O}(n)$ e realizamos
   ordenações consumindo tempo $\mathcal{O}(n \log n)$. Além disso, construímos 2 árvores limite com camadas consumindo tempo
   $\mathcal{O}(n \log n)$ e 2 árvores de segmentos 2D, consumido tempo $\mathcal{O}(n \log^2 n)$. Portanto, o consumo total será
   da ordem de $\mathcal{O}(n \log^2 n)$.
