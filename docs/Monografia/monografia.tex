@@ -34,7 +34,7 @@
 %\usepackage[pdftex,plainpages=false,pdfpagelabels,pagebackref,colorlinks=true,citecolor=black,linkcolor=black,urlcolor=black,filecolor=black,bookmarksopen=true]{hyperref} % links em preto
 \usepackage[pdftex,plainpages=false,pdfpagelabels,pagebackref,colorlinks=true,citecolor=DarkGreen,linkcolor=NavyBlue,urlcolor=DarkRed,filecolor=green,bookmarksopen=true]{hyperref} % links coloridos
 \usepackage[all]{hypcap}                    % soluciona o problema com o hyperref e capitulos
-\usepackage[round,sort,nonamebreak]{natbib} % citação bibliográfica textual(plainnat-ime.bst)
+\usepackage[round,sort,nonamebreak,numbers]{natbib} % citação bibliográfica textual(plainnat-ime.bst)
 \usepackage{emptypage}  % para não colocar número de página em página vazia
 \fontsize{60}{62}\usefont{OT1}{cmr}{m}{n}{\selectfont}
 \usepackage{amsfonts}
@@ -270,18 +270,52 @@ exposição dos resultados obtidos.
 \chapter{Introdução}
 \label{cap:introducao}
 
-Neste trabalho de conclusão de curso foi abordado o problema de \emph{consultas de segmentos em janelas}, um problema de
-\emph{buscas em intervalos ortogonais}, que é um dos tópicos fundamentais da área de geometria computacional.\par
-Dado um conjunto $S$ de segmentos no espaço (Seja no $\mathbb{R}\ ,\ \mathbb{R}^{2}$, etc.) e uma janela W de lados paralelos,
-queremos responder rapidamente a seguinte pergunta: \emph{quais segmentos de $S$ estão contidos na ou intersectam a janela W?}
-\par
-Este trabalho foi baseado em \emph{Consultas de segmentos em janelas: algoritmos e estruturas de dados} de \citet{junio09:MSc},
-portanto seguiremos a mesma divisão do problema que foi proposta nessa dissertação: Encontrar pontos contidos em janelas e achar
-todos os segmentos que intersectam com um dado segmento (Horizontal ou vertical). Seguiremos também a mesma divisão de capítulos:
-Primeiramente apresentaremos definições e primitivas geométricas, dedicaremos um capítulo para falar de consultas de pontos em
-janelas, um para falar de encontrar intersecção de segmentos e finalmente um onde agregaremos esses algoritmos para resolver o
-problema proposto. Todo o código desenvolvido foi escrito em linguagem \emph{python} e está disponível no
-\href{http://github.com/mlordx/MAC0499/}{gitHub}.
+Proveniente da área de análise de algoritmos, a geometria computacional é a área da computação que pode ser definida como o estudo
+sistemático de algoritmos e estruturas de dados para objetos geométricos, com foco em algoritmos exatos que são assintóticamente
+rápidos \cite{dbvkos}. A geometria computacional tem aplicações em diversas áreas como: computação gráfica, reconhecimento de
+padrões, processamento de imagens, robótica, metalurgia, manufatura e estatística \cite{clrs}. Tais problemas são tratados com o
+uso de objetos geométricos primitivos como: pontos, retas, segmentos de reta, polígonos.
+
+Imagine que temos um banco de dados com diversas informações como: Altura, idade, etc. Podemos resolver perguntas, ou
+\emph{consultas}, interpretando o problema de forma geométrica \cite{dbvkos}. Caso queiramos saber, por exemplo, todas as pessoas de altura
+entre $1,50m$ e $1,70m$ de altura que têm entre 15 e 20 anos, podemos representar essas pessoas como pontos no espaço
+Altura$\times$Idade e a resposta seriam todos os pontos contidos na janela de lados paralelos que queremos (Como pode ser visto na
+figura a seguir), note que a cada característica que queremos adicionar no conjunto aumenta a dimensão do espaço de buscas.
+
+\begin{center}
+  \begin{figure}[H]
+    \centering
+    \includegraphics[width=10cm]{figuras/graf.png}
+    \caption{\label{fig:graph}Exemplo de uma consulta num banco de dados.}
+  \end{figure}
+\end{center}
+
+A subárea da geometria computacional que trata de problemas como esse é chamada de \emph{buscas em intervalos ortogonais}. Em
+geral, vários desses problemas seguem a mesma estrutura: Temos um conjunto conhecido que é dado, construímos uma estrutura de
+dados em cima desse conjunto (que de costume é a parte mais custosa computacionalmente) e a partir daí conseguimos responder
+rapidamente diversas consultas feitas sobre tal conjunto.
+
+Neste trabalho de conclusão de curso foi abordado o problema de \emph{consultas de segmentos em janelas}, um problema de buscas em
+intervalos ortogonais. Dado um conjunto $S$ de segmentos no espaço (Seja no $\mathbb{R}$ , $\mathbb{R}^{2}$, etc.) queremos
+responder rapidamente a seguinte pergunta: Seja $W$ uma janela de lados paralelos, \emph{quais segmentos de $S$ estão contidos na ou
+  intersectam a janela $W$?}
+
+Este trabalho foi baseado em \emph{Consultas de segmentos em janelas: algoritmos e estruturas de dados} de Álvaro J. P. Franco
+\cite{junio09:MSc}, tendo o foco no estudo e implementação dos algoritmos e das estruturas de dados descritas. Ao longo desta
+monografia tomaremos uma postura mais intuitiva e didática e menos formal nas descrições dos algoritmos e nas suas respectivas
+análises de complexidade. Caso o leitor sinta falta de alguma prova formal, estão todas disponíveis em \cite{junio09:MSc}.
+
+Seguiremos a mesma divisão do problema que foi proposta na dissertação de Álvaro J. P. Franco: Primeiramente encontraremos pontos
+contidos em janelas e acharemos todos os segmentos que intersectam com um dado segmento (Horizontal ou vertical). Seguiremos
+também a mesma divisão de capítulos: Primeiramente apresentaremos definições e primitivas geométricas, dedicaremos um capítulo
+para falar de consultas de pontos em janelas, um para falar de encontrar intersecção de segmentos e finalmente um onde agregaremos
+esses algoritmos para resolver o problema proposto.
+
+Todo o código desenvolvido foi escrito em linguagem \emph{python}. A escolha dessa linguagem se deu pela facilidade de escrita e
+pela existência de um visualizador de algoritmos geométricos criado por Alexis Sakurai Landgraf. Visto isso, na prática a
+implementação não foi otimizada para velocidade, apesar de usar os algoritmos mais eficientes dentre os que apresentaremos. Toda a
+implementação está disponível no \href{http://github.com/mlordx/MAC0499/}{gitHub} juntamente com a adaptação do visualizador
+geométrico que foi feita.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %-
@@ -305,8 +339,8 @@ $\mathbb{R}^2$). Sejam $x,y \in \mathbb{R}, $ definimos um \textbf{ponto} no $\m
 coordenada. Sejam $u,v$ pontos, dizemos que $u \leq_x v $ caso $x(u) < x(v)$ ou $ x(u) = x(v)$ e $y(u) \leq y(v)$, ou seja, sempre
 comparamos primeiro a coordenada de maior interesse e desempatamos pela segunda coordenada nas comparações. Quando tivermos pontos
 ordenados pela ordem $\leq_x$ (ou $\geq_{x}$) diremos que estes pontos estão ordenados \textbf{sobre a coordenada \emph{x}}. Além disso,
-seja $P = \{p_1,p_2,\dots,p_n\}$ tal que $p_1 \leq_{x} p_2 \leq_{x} \dots \leq_{x} p_n$, chamaremos $p_1$ de o \textbf{ x-menor} e $p_n$ de
-o \textbf{x-maior} pontos de $P$. Todas essas definições são simétricas para a ordem $\leq_y$.
+seja $P = \{p_1,p_2,\dots,p_n\}$ tal que $p_1 \leq_{x} p_2 \leq_{x} \dots \leq_{x} p_n$, chamaremos $p_1$ de \textbf{o x-menor} e $p_n$ de
+\textbf{o x-maior} pontos de $P$. Todas essas definições são simétricas para a ordem $\leq_y$.
 
 \section{Segmentos}
 
@@ -1813,6 +1847,8 @@ chamadas das linhas \ref{alg34:20}, \ref{alg34:21} e \ref{alg34:22} referem-se a
 %% ------------------------------------------------------------------------- %%
 \chapter{Conclusão}
 
+Neste trabalho foi feito 
+
 %% ------------------------------------------------------------------------- %%
 
 % cabeçalho para os apêndices
@@ -1826,7 +1862,7 @@ chamadas das linhas \ref{alg34:20}, \ref{alg34:21} e \ref{alg34:22} referem-se a
 % ---------------------------------------------------------------------------- %
 % Bibliografia
 \backmatter \singlespacing   % espaçamento simples
-\bibliographystyle{plainnat-ime} % citação bibliográfica textual
+\bibliographystyle{ieeetr} % citação bibliográfica textual
 \bibliography{bibliografia}  % associado ao arquivo: 'bibliografia.bib'
 
 
