@@ -270,16 +270,16 @@ exposição dos resultados obtidos.
 \chapter{Introdução}
 \label{cap:introducao}
 
-Proveniente da área de análise de algoritmos, a geometria computacional é a área da computação que pode ser definida como o estudo
-sistemático de algoritmos e estruturas de dados para objetos geométricos, com foco em algoritmos exatos que são assintóticamente
+Proveniente da área de análise de algoritmos, a geometria computacional é uma área da computação que pode ser definida como o
+estudo sistemático de algoritmos e estruturas de dados para objetos geométricos, com foco em algoritmos exatos assintóticamente
 rápidos \cite{dbvkos}. A geometria computacional tem aplicações em diversas áreas como: computação gráfica, reconhecimento de
 padrões, processamento de imagens, robótica, metalurgia, manufatura e estatística \cite{clrs}. Tais problemas são tratados com o
-uso de objetos geométricos primitivos como: pontos, retas, segmentos de reta, polígonos.
+uso de objetos geométricos primitivos como: pontos, retas, segmentos de reta.
 
 Para exemplificar uma dessas aplicações: Imagine que temos um banco de dados com diversas informações como: Altura, idade,
 etc. Podemos resolver perguntas, ou \textbf{consultas}, interpretando o problema de forma geométrica \cite{dbvkos}. Caso queiramos
 saber todas as pessoas de altura entre $1,50m$ e $1,70m$ de altura que têm entre 15 e 20 anos, podemos representar essas pessoas
-como pontos no espaço Altura$\times$Idade e a resposta seriam todos os pontos contidos na janela de lados paralelos que queremos (Como
+como pontos indexados por altura e idade e a resposta seriam todos os pontos contidos na janela de lados paralelos que queremos (Como
 pode ser visto na figura a seguir), note que cada característica que adicionemos na busca aumentaria a dimensão do espaço de
 buscas.
 
@@ -292,9 +292,9 @@ buscas.
 \end{center}
 
 A subárea da geometria computacional que trata de problemas como esse é chamada de \emph{buscas em intervalos ortogonais}. Em
-geral, os algoritmos que veremos dessa área seguirão a mesma estrutura: Temos um conjunto conhecido que é dado, construímos uma
-estrutura de dados em cima desse conjunto (que de costume é a parte mais custosa computacionalmente) e a partir daí conseguimos
-responder rapidamente diversas consultas feitas sobre tal conjunto.
+geral, os algoritmos que veremos dessa área seguirão a mesma estrutura: Temos um conjunto conhecido que é dado (de pontos ou
+segmentos), construímos uma estrutura de dados baseado nesse conjunto (que usualmente é a parte mais custosa computacionalmente) e
+a partir daí conseguimos responder rapidamente diversas consultas feitas sobre tal conjunto.
 
 Neste trabalho de conclusão de curso foi abordado o problema de \emph{consultas de segmentos em janelas}, um problema de buscas em
 intervalos ortogonais. Dado um conjunto $S$ de segmentos no espaço (seja em $\mathbb{R}$ ou $\mathbb{R}^2$) queremos organizar os
@@ -304,7 +304,7 @@ segmentos em estruturas de dados para que possamos responder eficientemente cons
 Este trabalho foi baseado em \emph{Consultas de segmentos em janelas: algoritmos e estruturas de dados} de Álvaro J. P. Franco
 \cite{junio09:MSc}, tendo o foco no estudo e implementação dos algoritmos e das estruturas de dados descritas. Ao longo desta
 monografia tomaremos uma postura mais intuitiva e didática nas descrições dos algoritmos e nas suas respectivas análises de
-complexidade. Caso o leitor sinta falta de alguma prova formal, estão todas disponíveis em \cite{junio09:MSc}.
+complexidade. Caso o leitor sinta falta de alguma prova formal, estão todas disponíveis em~\cite{junio09:MSc}.
 
 Seguiremos a mesma divisão do problema que foi proposta na dissertação de Álvaro J. P. Franco: Primeiramente encontraremos pontos
 contidos em janelas e acharemos todos os segmentos que intersectam com um dado segmento (Horizontal ou vertical). Seguiremos
