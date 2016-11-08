@@ -255,6 +255,7 @@ exposição dos resultados obtidos.
 % ---------------------------------------------------------------------------- %
 % Capítulos do trabalho
 \mainmatter
+\setcitestyle{square}
 
 % cabeçalho para as páginas de todos os capítulos
 \fancyhead[RE,LO]{\thesection}
@@ -270,13 +271,13 @@ exposição dos resultados obtidos.
 \chapter{Introdução}
 \label{cap:introducao}
 
-Proveniente da área de análise de algoritmos, a geometria computacional é uma área da computação que pode ser definida como o
-estudo sistemático de algoritmos e estruturas de dados para objetos geométricos, com foco em algoritmos exatos assintóticamente
-rápidos \cite{dbvkos}. A geometria computacional tem aplicações em diversas áreas como: computação gráfica, reconhecimento de
+Proveniente da área de análise de algoritmos, geometria computacional é uma área da computação que pode ser definida como o
+estudo sistemático de algoritmos e estruturas de dados para objetos geométricos, com foco em algoritmos exatos assintoticamente
+rápidos \cite{dbvkos}. Geometria computacional tem aplicações em diversas áreas como: computação gráfica, reconhecimento de
 padrões, processamento de imagens, robótica, metalurgia, manufatura e estatística \cite{clrs}. Tais problemas são tratados com o
-uso de objetos geométricos primitivos como: Pontos, retas e segmentos de reta.
+uso de objetos geométricos primitivos como: pontos, retas e segmentos de reta.
 
-Para exemplificar uma dessas aplicações: Imagine que temos um banco de dados com diversas informações como: Altura, idade,
+Vamos exemplificar algumas dessas aplicações. Imagine que temos um banco de dados com diversas informações como: altura, idade,
 etc. Podemos resolver perguntas, ou \textbf{consultas}, interpretando o problema de forma geométrica \cite{dbvkos}. Caso queiramos
 saber todas as pessoas de altura entre $1,50m$ e $1,70m$ de altura que têm entre 15 e 20 anos, podemos representar essas pessoas
 como pontos indexados por altura e idade e a resposta seriam todos os pontos contidos na janela de lados paralelos que queremos (como
@@ -291,32 +292,47 @@ buscas.
   \end{figure}
 \end{center}
 
-A subárea da geometria computacional que trata de problemas como esse é chamada de \emph{buscas em intervalos ortogonais}. Em
-geral, os algoritmos que veremos dessa área seguirão a mesma estrutura: Temos um conjunto conhecido que é dado (de pontos ou
-segmentos), construímos uma estrutura de dados baseado nesse conjunto (que usualmente é a parte mais custosa computacionalmente) e
-a partir daí conseguimos responder rapidamente diversas consultas feitas sobre tal conjunto.
+Em processamento de imagens, por exemplo, podemos imaginar uma imagem (já devidamente tratada) como a mostrada abaixo em que os
+segmentos representam imperfeições de um determinado material. Se encontrarmos uma janela, como na figura, com um número muito
+grande destes segmentos, isso pode indicar um problema no material que deve ser corrigido.
+
+\begin{center}
+  \begin{figure}[H]
+    \centering
+    \includegraphics[width=10cm]{figuras/lena.png}
+    \caption{\label{fig:graph}Exemplo de uma figura tratada com imperfeições representadas como segmentos.}
+  \end{figure}
+\end{center}
+
+
+Em geometria computacional estamos interessados em problemas que tratam de \emph{buscas em intervalos ortogonais}. Em geral, os
+algoritmos que veremos dessa área seguirão a mesma estrutura: temos um conjunto conhecido que é dado (de pontos ou segmentos),
+construímos uma estrutura de dados baseado nesse conjunto (que usualmente é a parte mais custosa computacionalmente) e a partir
+daí conseguimos responder rapidamente diversas consultas feitas sobre tal conjunto.
 
 Neste trabalho de conclusão de curso foi abordado o problema de \emph{consultas de segmentos em janelas}, um problema de buscas em
 intervalos ortogonais. Dado um conjunto $S$ de segmentos no espaço (seja em $\mathbb{R}$ ou $\mathbb{R}^2$) queremos organizar os
 segmentos em estruturas de dados para que possamos responder eficientemente consultas do tipo: \emph{dada uma janela $W$ de lados
   paralelos, quais segmentos de S estão contidos ou intersectam a janela W?}.
 
-Este trabalho foi baseado em \emph{Consultas de segmentos em janelas: algoritmos e estruturas de dados} de Álvaro J. P. Franco
-\cite{junio09:MSc}, tendo o foco no estudo e implementação dos algoritmos e das estruturas de dados descritas. Ao longo desta
-monografia tomaremos uma postura mais intuitiva e didática nas descrições dos algoritmos e nas suas respectivas análises de
-complexidade. Caso o leitor sinta falta de alguma prova formal, estão todas disponíveis em~\cite{junio09:MSc}.
+Este trabalho foi baseado na dissertação de mestrado \emph{Consultas de segmentos em janelas: algoritmos e estruturas de dados} de
+Álvaro J. P. Franco \cite{junio09:MSc}, tendo o foco no estudo e implementação dos algoritmos e das estruturas de dados
+descritas. Ao longo desta monografia tomaremos uma postura mais intuitiva e didática nas descrições dos algoritmos e nas suas
+respectivas análises de complexidade. Caso o leitor sinta falta de alguma prova formal, estão todas disponíveis
+em~\cite{junio09:MSc}.
 
-Seguiremos a mesma divisão do problema que foi proposta na dissertação de Álvaro J. P. Franco: Primeiramente encontraremos pontos
-contidos em janelas e acharemos todos os segmentos que intersectam com um dado segmento (horizontal ou vertical). Seguiremos
-também a mesma divisão de capítulos: Primeiramente apresentaremos definições e primitivas geométricas, dedicaremos um capítulo
-para falar de consultas de pontos em janelas, um para falar de encontrar intersecção de segmentos e finalmente um onde agregaremos
-esses algoritmos para resolver o problema proposto.
+Seguiremos a mesma divisão do problema que foi proposta na dissertação de Álvaro J. P. Franco: primeiramente encontraremos pontos
+contidos em janelas e acharemos todos os segmentos que intersectam com um dado segmento (horizontal ou vertical). Este trabalho
+tem os seguintes capítulos: primeiramente apresentaremos definições e primitivas geométricas, dedicaremos um capítulo para falar
+de consultas de pontos em janelas, um para falar de encontrar intersecção de segmentos e finalmente um onde agregaremos esses
+algoritmos para resolver o problema proposto.
 
 Todo o código desenvolvido foi escrito em linguagem \emph{python}. A escolha dessa linguagem se deu pela facilidade de escrita e
-pela existência de um visualizador de algoritmos geométricos criado por Alexis Sakurai Landgraf. Visto isso, na prática a
-implementação não foi otimizada para velocidade, apesar de usar os algoritmos mais eficientes dentre os que apresentaremos. Toda a
-implementação está disponível no \href{http://github.com/mlordx/MAC0499/}{gitHub} juntamente com a adaptação do visualizador
-geométrico que foi feita.
+pela existência de um visualizador de algoritmos geométricos criado por Alexis Sakurai Landgraf. Visto isso, não visamos, nesse
+trabalho, obter uma implementação eficiente e otimizada destes algoritmos. Mas, sempre fazendo a melhor implementação conhecida
+para os algoritmos, visamos obter uma implementação fácil de acompanhar para um leitor com experiência em algoritmos de geometria
+computacional. Toda a implementação está disponível no \href{http://github.com/mlordx/MAC0499/}{gitHub} juntamente com a adaptação
+do visualizador geométrico que foi feita.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %-
@@ -1863,7 +1879,7 @@ Neste trabalho foi feito
 % ---------------------------------------------------------------------------- %
 % Bibliografia
 \backmatter \singlespacing   % espaçamento simples
-\bibliographystyle{ieeetr} % citação bibliográfica textual
+\bibliographystyle{abbrv} % citação bibliográfica textual
 \bibliography{bibliografia}  % associado ao arquivo: 'bibliografia.bib'
 
 
