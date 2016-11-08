@@ -485,7 +485,7 @@ pontos extremos de $u$ estejam em lados opostos em relação a $v$, diremos que \t
 
 Nesse capítulo mostraremos os algoritmos implementados para localizarmos todos os pontos numa dada janela e algumas variações
 desse problema. Todas as provas de corretude e de eficiência dos algoritmos expostos, tanto deste capítulo quanto dos próximos,
-poderão ser encontradas na dissertação de \citet{junio09:MSc}.
+poderão ser encontradas na dissertação de Álvaro J. P. Franco \cite{junio09:MSc}.
 
 \section{Janela limitada - Caso unidimensional}
 \label{janela1d}
@@ -657,7 +657,7 @@ elementos são os mesmos da subárvore do nó com elementos ordenados pela coordena
 um ponteiro para um ponto associado, um ponteiro para o filho esquerdo e um ponteiro para o filho direito.
 
 Segue o algoritmo de construção dessa árvore. Omitiremos a implementação da estrutura auxiliar que utilizamos nesse trabalho com o
-nome de \emph{VerticalTree} cuja descrição está presente no trabalho de \citet{junio09:MSc}, essa estrutura é uma ABBB construída
+nome de \emph{VerticalTree} cuja descrição está presente no trabalho de \cite{junio09:MSc}, essa estrutura é uma ABBB construída
 sobre um \emph{heap} e tem tempo de construção $\mathcal{O}(n)$. Ela será utilizada para fazermos consultas unidimensionais sobre
 a coordenada $y$.
 
@@ -791,7 +791,7 @@ auxiliares terão os seguintes campos: Um ponteiro para o ponto $p$, um ponteiro 
 que $q \geq_y p$, um ponteiro $pt_{d}(u)$ para o menor ponto $u$ em $V^y_d$ tal que $u \geq_y p$, uma variável booleana que indica se o
 vetor ao qual o nó pertence é $V^y_e$ ou $V^y_d$ e finalmente um ponteiro para o próximo elemento do vetor. Esse último ponteiro
 foi uma adaptação ao fato da linguagem \emph{python} não apresentar aritmética de ponteiros, que foi utilizada na descrição desse
-algoritmo na dissertação de \citet{junio09:MSc}.
+algoritmo em \cite{junio09:MSc}.
 
 \begin{algorithm}[H]
   \caption{Retorna um ponteiro para um vetor ordenado de nós verticais a partir de um vetor de pontos ordenados por x e um vetor de
@@ -1864,7 +1864,11 @@ chamadas das linhas \ref{alg34:20}, \ref{alg34:21} e \ref{alg34:22} referem-se a
 %% ------------------------------------------------------------------------- %%
 \chapter{Conclusão}
 
-Neste trabalho foi feito 
+Neste trabalho foi feito coisas.
+
+\chapter{Parte subjetiva}
+
+
 
 %% ------------------------------------------------------------------------- %%
 
