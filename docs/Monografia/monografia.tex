@@ -27,7 +27,6 @@
 \usepackage{listings}                   % para formatar código-fonte (ex. em Java)
 \usepackage{titletoc}
 %\usepackage[bf,small,compact]{titlesec} % cabeçalhos dos títulos: menores e compactos
-\usepackage[fixlanguage]{babelbib}
 \usepackage[font=small,format=plain,labelfont=bf,up,textfont=it,up]{caption}
 \usepackage[usenames,svgnames,dvipsnames]{xcolor}
 \usepackage[a4paper,top=2.54cm,bottom=2.0cm,left=2.0cm,right=2.54cm]{geometry} % margens
@@ -214,10 +213,9 @@ consultas de segmentos em janelas}}
 
 Este trabalho de conclusão de curso fundamentou-se na compreensão e implementação em linguagem \emph{python} de um algoritmo para
 consultas de intersecções de segmentos de retas com janelas retangulares no espaço, um subproblema de geometria computacional
-conhecido por: buscas em regiões ortogonais. Este algoritmo foi o foco da tese de mestrado de Álvaro Junio Pereira Franco. Além da
-implementação, foi feita também a adaptação do visualizador de algoritmos geométricos feito por Alexis Sakurai Landgraf para
-exposição dos resultados obtidos.
-\\
+conhecido por: buscas em regiões ortogonais. Este algoritmo foi o foco da tese de mestrado de Álvaro Junio Pereira Franco
+\cite{junio09:MSc}. Além da implementação, foi feita também a adaptação do visualizador de algoritmos geométricos feito por Alexis
+Sakurai Landgraf para exposição dos resultados obtidos.  \\
 
 \noindent \textbf{Palavras-chave:} Geometria, janelas, segmentos, buscas. 
 
@@ -311,9 +309,9 @@ construímos uma estrutura de dados baseado nesse conjunto (que usualmente é a pa
 daí conseguimos responder rapidamente diversas consultas feitas sobre tal conjunto.
 
 Neste trabalho de conclusão de curso foi abordado o problema de \emph{consultas de segmentos em janelas}, um problema de buscas em
-intervalos ortogonais. Dado um conjunto $S$ de segmentos no espaço (seja em $\mathbb{R}$ ou $\mathbb{R}^2$) queremos organizar os
-segmentos em estruturas de dados para que possamos responder eficientemente consultas do tipo: \emph{dada uma janela $W$ de lados
-  paralelos, quais segmentos de S estão contidos ou intersectam a janela W?}.
+intervalos ortogonais. Dado um conjunto $S$ de segmentos não-intersectantes no espaço (seja em $\mathbb{R}$ ou $\mathbb{R}^2$)
+queremos organizar os segmentos em estruturas de dados para que possamos responder eficientemente consultas do tipo: \emph{dada
+  uma janela $W$ de lados paralelos, quais segmentos de S estão contidos ou intersectam a janela W?}
 
 Este trabalho foi baseado na dissertação de mestrado \emph{Consultas de segmentos em janelas: algoritmos e estruturas de dados} de
 Álvaro J. P. Franco \cite{junio09:MSc}, tendo o foco no estudo e implementação dos algoritmos e das estruturas de dados
@@ -774,7 +772,7 @@ def query(self,rng):
 \label{fraccascading}
 Apresentaremos uma estrutura chamada \textbf{árvore limite com camadas} que utilizaremos no segundo nível do algoritmo acima para
 conseguirmos complexidade total $\mathcal{O}(\log n + k)$, juntamente com a consulta modificada associada. A intuição dessa
-técnica vem da seguinte característica das estruturas que vínhamos utilizando: Sempre ao acessarmos o filho de um dado nó passamos
+técnica vem da seguinte característica das estruturas que vínhamos utilizando: sempre ao acessarmos o filho de um dado nó passamos
 a lidar com um subconjunto do conjunto que tínhamos na subárvore anterior e cujos elementos mantêm a mesma ordem relativa entre
 si.
 
@@ -784,10 +782,10 @@ O primeiro nível da árvore limite com camadas será exatamente como mostrado ante
 nível onde teremos uma estrutura que definimos como \textbf{árvore de camadas}. Os ``nós'' dessa árvore são na verdade vetores de
 nós auxiliares ordenados pelos pontos associados. \par Seja $P$ o conjunto de pontos associados a um dado vetor da árvore de camadas,
 sejam $V^x$ e $V^y$ vetores com os pontos de $P$ ordenados por $x$ e $y$ respectivamente, particionamos $V^y$ em 2 vetores:
-$V^y_e$ e $V^y_d$. Essa partição é feita da seguinte forma: Seja $v_{max}$ o maior ponto de $V^x$, seja $q \in V^y$, se $q \leq_y
+$V^y_e$ e $V^y_d$. Essa partição é feita da seguinte forma: seja $v_{max}$ o maior ponto de $V^x$, seja $q \in V^y$, se $q \leq_y
 v_{max},~q \in V^y_e,~ \text{caso contrário}~q \in V^y_d$.  \par Portanto, seja $P$ o conjunto de pontos associado ao vetor, seja $p \in P$
 o ponto associado ao nó do vetor $V^y$, e sejam $V^y_e~\text{e}~V^y_d$ como definidos anteriormente, cada elemento dos nós
-auxiliares terão os seguintes campos: Um ponteiro para o ponto $p$, um ponteiro $pt_{e}(q)$ para o menor ponto $q$ em $V^y_e$ tal
+auxiliares terão os seguintes campos: um ponteiro para o ponto $p$, um ponteiro $pt_{e}(q)$ para o menor ponto $q$ em $V^y_e$ tal
 que $q \geq_y p$, um ponteiro $pt_{d}(u)$ para o menor ponto $u$ em $V^y_d$ tal que $u \geq_y p$, uma variável booleana que indica se o
 vetor ao qual o nó pertence é $V^y_e$ ou $V^y_d$ e finalmente um ponteiro para o próximo elemento do vetor. Esse último ponteiro
 foi uma adaptação ao fato da linguagem \emph{python} não apresentar aritmética de ponteiros, que foi utilizada na descrição desse
@@ -1025,21 +1023,22 @@ def query(self, v, rng):
 
 \section{Janelas ilimitadas - caso bidimensional}
 
-Sejam $w_1 = (x_1,y_1)$ e $w_2 = (x_2,y_2)$ pontos no $\mathbb{R}^2$, similarmente à seção \ref{janela2d} iremos definir 4 segmentos de reta que farão
-parte da janela a ser consultada. Porém agora teremos uma pequena modificação: Seja $x_{min}$ o menor e seja $x_{max}$ o maior valor de $x$ do conjunto de
-pontos, definimos arbitrariamente que ou $x_1 = x_{min} - 1$ ou $x_2 = x_{max} + 1$. Chamamos a janela construída com $x_1 = x_{min} - 1$ de $W^-$ e a
-janela construída com $x_2 = x_{max} + 1$ de $W^+$. O algoritmo a seguir resolve um consulta sobre pontos numa janela $W^-$, mas é simétrico para uma
-janela $W^+$ ou mesmo para janelas verticais. Na implementação faremos um certo abuso de linguagem permitido pela linguagem de programação escolhida:
+Sejam $w_1 = (x_1,y_1)$ e $w_2 = (x_2,y_2)$ pontos no $\mathbb{R}^2$, similarmente à seção \ref{janela2d} iremos definir 4
+segmentos de reta que farão parte da janela a ser consultada. Porém agora teremos uma pequena modificação: seja $x_{min}$ o menor
+e seja $x_{max}$ o maior valor de $x$ do conjunto de pontos, definimos arbitrariamente que ou $x_1 = x_{min} - 1$ ou $x_2 =
+x_{max} + 1$. Chamamos a janela construída com $x_1 = x_{min} - 1$ de $W^-$ e a janela construída com $x_2 = x_{max} + 1$ de
+$W^+$. O algoritmo a seguir resolve um consulta sobre pontos numa janela $W^-$, mas é simétrico para uma janela $W^+$ ou mesmo
+para janelas verticais. Na implementação faremos um certo abuso de linguagem permitido pela linguagem de programação escolhida:
 definiremos $x_1 = -\infty$ e falaremos que $w_1 = (-\infty,y_1)$ é um ponto.
 
 \subsection{Pré-processamento}
 
 A estrutura de dados que utilizaremos para essa consulta é chamada de \textbf{árvore de busca em prioridade}, uma árvore de busca
-balanceada sobre a coordenada $y$. Os nós da estrutura terão 4 campos: Um ponteiro para o ponto associado ao nó, um ponteiro para
+balanceada sobre a coordenada $y$. Os nós da estrutura terão 4 campos: um ponteiro para o ponto associado ao nó, um ponteiro para
 o filho esquerdo, um ponteiro para o filho direito e um ponteiro para um ponto denominado $p_{min}$, através desse último ponteiro
 manteremos a propriedade de \emph{minheap}. Essa estrutura será balanceada por construção, pois em cada nó pegamos o x-menor ponto
 $v_{min}$ do conjunto de pontos, em seguida atribuímos ao nó um ponto $v$ tal que ao retirarmos $v$, os tamanhos das partições que
-serão usadas para construção dos filhos difiram em no máximo 1. Uma definição adicional que será usada no algoritmo é: Dado um nó
+serão usadas para construção dos filhos difiram em no máximo 1. Uma definição adicional que será usada no algoritmo é: dado um nó
 de uma árvore de busca em prioridade, caso o ponteiro para o filho direito desse nó seja nulo e o ponteiro para o filho esquerdo
 seja não-nulo, chamaremos esse nó de \textbf{semi-folha}. Segue o código referente a essa implementação:
 
@@ -1259,7 +1258,7 @@ $p_e(s_1) \leq p_e(s_2) \leq \dots \leq p_e(s_n)$.
 \subsection{Pré-processamento}
 
 Armazenaremos os intervalos num tipo de árvore binária que chamaremos de \textbf{árvore de intervalos}. Cada nó dessa estrutura terá os seguintes
-campos: Um ponteiro para um ponto associado, um ponteiro para o nó esquerdo, um ponteiro para o nó direito, um ponteiro para um \emph{minheap} de
+campos: um ponteiro para um ponto associado, um ponteiro para o nó esquerdo, um ponteiro para o nó direito, um ponteiro para um \emph{minheap} de
 segmentos $p_e$-ordenados (que chamaremos de $L_1$) e um ponteiro para um \emph{maxheap} de segmentos $p_d$-ordenados (que chamaremos de $L_2$).
 
 Segue o código referente à construção dessa estrutura:
@@ -1310,7 +1309,7 @@ def buildTree(self,s):
 \subsection{Realizando a consulta}
 
 Dado um ponto $w$ e um conjunto $S$ de segmentos, podemos consultar todos os segmentos de $S'= \{s \in S \colon s \ni w\}$ da seguinte forma:
-Verificamos se o ponto associado ao nó está à esquerda do ponto $w$, caso esteja, adicionamos todos os segmentos que têm $p_e \leq w$, o que é
+verificamos se o ponto associado ao nó está à esquerda do ponto $w$, caso esteja, adicionamos todos os segmentos que têm $p_e \leq w$, o que é
 equivalente à fazer uma consulta de janela ilimitada da forma $W^- = (-\infty,w)$. Caso contrário, adicionamos todos os segmentos que têm $p_e \geq
 w$, o que é equivalente à fazer uma consulta de janela ilimitada da forma $W^+ = (w,\infty)$.
 
@@ -1361,7 +1360,7 @@ def query_r(self,v,p):
 \newpage
 \section{Consultas sobre segmentos horizontais e verticais}
 \label{horizontalsegs}
-O tipo de consulta que resolveremos nessa seção é o seguinte: Seja $S$ um conjunto de segmentos horizontais (ou verticais) não-intersectantes, e seja $w$ um segmento vertical (ou horizontal), queremos achar todos os segmentos de $S$ que intersectam $w$.
+O tipo de consulta que resolveremos nessa seção é o seguinte: seja $S$ um conjunto de segmentos horizontais (ou verticais) não-intersectantes, e seja $w$ um segmento vertical (ou horizontal), queremos achar todos os segmentos de $S$ que intersectam $w$.
 
 \subsection{Pré-processamento}
 
@@ -1434,7 +1433,7 @@ def buildTree(self,s):
 \subsection{Realizando a consulta}
 
 Seja $S$ um conjunto de segmentos horizontais não-intersectantes, e seja $w = \overline{(x,y),(x,y')}$ um segmento vertical,
-podemos encontrar todos os segmentos $S' \coloneqq \{ s \in S \colon s \cap w \ne 0\}$ da seguinte forma: Seja $v$ o nó que estamos
+podemos encontrar todos os segmentos $S' \coloneqq \{ s \in S \colon s \cap w \ne 0\}$ da seguinte forma: seja $v$ o nó que estamos
 olhando atualmente, caso $x > x(p(v))$ nenhum segmento que esteja armazenado à esquerda de $v$ pode interceptar $w$, por isso
 seguiremos para $d(v)$. Mas antes disso fazemos uma consulta por todos os pontos finais de segmentos que se encontram à direita do
 segmento $w$, que é equivalente a realizar uma consulta na estrutura $L_2$ com uma janela $\overline{(x,y),(\infty,y')}$. Caso $x <
@@ -1497,7 +1496,7 @@ def query_r(self,v,seg):
 \section{Uma outra abordagem para intervalos na reta.}
 \label{moreonintervals}
 Resolveremos agora o mesmo problema apresentado na seção \ref{1dintervals} utilizando uma nova estrutura de dados. Definiremos
-primeiro uma noção que será utilizada nessa estrutura: Seja $S \coloneqq \{s_1,s_2,\dots,s_n\}$ um conjunto de intervalos (ou
+primeiro uma noção que será utilizada nessa estrutura: seja $S \coloneqq \{s_1,s_2,\dots,s_n\}$ um conjunto de intervalos (ou
 segmentos) e seja $P \coloneqq \{p_1,p_2,\dots,p_{2n}\}$ o conjunto de pontos extremos de $S$ onde $p_1 \leq p_2 \leq \dots \leq p_{2n}$,
 dizemos que o conjunto $ E \coloneqq \{(-\infty;p_1),[p_1;p_1],(p_1;p_2),[p_2;p_2],\dots,[p_n;p_n],(p_n;+\infty)\}$ é o conjunto de
 \textbf{intervalos elementares} sobre o conjunto $S$. Note que esse conjunto tem tamanho no máximo $4n+1$, caso todos os pontos
@@ -1506,7 +1505,7 @@ extremos de $S$ sejam distintos.
 
 A estrutura que iremos utilizar é chamada \textbf{árvore de segmentos}. Cada nó dessa árvore terá os seguintes campos: um
 intervalo associado, uma lista de segmentos, um ponteiro para o filho esquerdo e um ponteiro para o filho direito desse nó. Seja
-$v$ um nó da árvore de segmentos e seja $int(v)$ o intervalo associado ao nó $v$, esse intervalo terá a seguinte forma: Caso $v$
+$v$ um nó da árvore de segmentos e seja $int(v)$ o intervalo associado ao nó $v$, esse intervalo terá a seguinte forma: caso $v$
 seja uma folha, $int(v)$ será um intervalo elementar, caso contrário, $int(v)$ será a união dos intervalos dos seus filhos esquerdo
 e direito. A construção dessa estrutura se dará em 3 partes:
 
@@ -1624,7 +1623,7 @@ def buildSegmentTree(self,v):
 \subsection{Realizando a consulta}
 
 Seja $p$ um ponto e seja $S$ um conjunto de intervalos, podemos encontrar todos os intervalos de $S' \coloneqq \{ i \in S \colon i \ni
-p\}$ da seguinte forma: Começamos a chamada na raiz e adicionamos sua lista na resposta (que por construção será vazia),
+p\}$ da seguinte forma: começamos a chamada na raiz e adicionamos sua lista na resposta (que por construção será vazia),
 verificamos então se seus filhos esquerdo e direito contém o ponto $p$, caso afirmativo, chamamos recursivamente para esses nós.
 
 Segue o algoritmo que foi descrito acima:
@@ -1675,7 +1674,7 @@ com qualquer orientação, porém ainda não-intersectantes e nossa ``janela'' será 
 \label{anyorientationsegs:1}
 Utilizaremos novamente uma árvore de segmentos como na seção anterior, com a alteração que a lista associada a cada nó é agora um
 vetor ordenado. Chamaremos essa árvore de \textbf{árvore de segmentos 2D horizontal} quando utilizada para responder uma consulta
-sobre um segmento vertical (Definição simétrica para segmentos horizontais). A relação de ordem que usaremos é: Sejam $u$ e $v$
+sobre um segmento vertical (Definição simétrica para segmentos horizontais). A relação de ordem que usaremos é: sejam $u$ e $v$
 segmentos, diremos que $u < v$ caso $u$ esteja à direita de $v$, ou caso $u$ pseudo-intercepte $v$ e $v$ esteja à esquerda de $u$.
 
 Segue a implementação dessa árvore:
@@ -1702,17 +1701,15 @@ chamada da linha \ref{alg30:8} ordena as listas de todos os nós da árvore, segui
 
 \subsection{Realizando a consulta}
 \label{anyorientationsegs:2}
-Seja $S$ um conjunto de segmentos não-intersectantes e seja $w$ um segmento vertical. Podemos consultar todos os
-segmentos de $S$ que intersectam $w$ da seguinte forma:
-
-Seja $v$ um nó da árvore e seja $L_{ord}$ o vetor ordenado de $v$. Achamos o menor índice $j$ tal que $p_e(L_{ord}[j])$ está à
-esquerda do ponto extremo esquerdo de $w$. A partir de $L_{ord}[j]$, adicionamos todos os segmentos $s_i$ de $L_{ord}$ tais que
-$p_d(w)$ esteja à esquerda de $s_i$ ou que $s_i \ni p_d(w)$. Verificamos então se $p_e(w)$ está contido no intervalo associado ao
-filho esquerdo de $v$, caso afirmativo chamamos a função para seu filho esquerdo, caso contrário chamamos a função para seu filho
-direito. \par Inicialmente a implementação continha um caso patológico: Caso existisse algum $u \in S$ tal que $u \subseteq w$ ou $w \subseteq u$, esse
-elemento não seria incluso na consulta, pois pela definição de posição relativa entre pontos e segmentos, os pontos extremos de
-$u$ não estariam nem à esquerda ou à direita de $w$. Esse problema foi resolvido estendendo o conceito de esquerda e direita, e
-pode ser visto na seção \ref{leftright}.
+Seja $S$ um conjunto de segmentos não-intersectantes e seja $w$ um segmento vertical. Podemos consultar todos os segmentos de $S$
+que intersectam $w$ da seguinte forma: seja $v$ um nó da árvore e seja $L_{ord}$ o vetor ordenado de $v$. Achamos o menor índice
+$j$ tal que $p_e(L_{ord}[j])$ está à esquerda do ponto extremo esquerdo de $w$. A partir de $L_{ord}[j]$, adicionamos todos os
+segmentos $s_i$ de $L_{ord}$ tais que $p_d(w)$ esteja à esquerda de $s_i$ ou que $s_i \ni p_d(w)$. Verificamos então se $p_e(w)$
+está contido no intervalo associado ao filho esquerdo de $v$, caso afirmativo chamamos a função para seu filho esquerdo, caso
+contrário chamamos a função para seu filho direito. \par Inicialmente a implementação continha um caso patológico: caso existisse
+algum $u \in S$ tal que $u \subseteq w$ ou $w \subseteq u$, esse elemento não seria incluso na consulta, pois pela definição de
+posição relativa entre pontos e segmentos, os pontos extremos de $u$ não estariam nem à esquerda ou à direita de $w$. Esse
+problema foi resolvido estendendo o conceito de esquerda e direita, e pode ser visto na seção \ref{leftright}.
 
 Segue a implementação da rotina descrita acima:
 \begin{algorithm}[H]
@@ -1762,12 +1759,12 @@ def query_r(self,v,s):
 %% ------------------------------------------------------------------------- %%
 \chapter{Consultas sobre segmentos em janelas}
 \label{segments}
-Nesse capítulo iremos finalmente resolver o problema inicialmente proposto: Dado um conjunto de segmentos não-intersectantes $S$,
+Nesse capítulo iremos finalmente resolver o problema inicialmente proposto: dado um conjunto de segmentos não-intersectantes $S$,
 quais segmentos de $S$ estão contidos numa certa janela de lados paralelos $W$? As estruturas que utilizaremos são as versões mais
 eficientes de todos os algoritmos que apresentamos até este ponto.
 
 \section{Pré-processamento}
-Utilizaremos 4 árvores construídas a partir do conjunto $S$: Duas árvores limite com camadas, uma sobre o conjunto de pontos
+Utilizaremos 4 árvores construídas a partir do conjunto $S$: duas árvores limite com camadas, uma sobre o conjunto de pontos
 esquerdos de $S$ e outra sobre o conjunto de pontos direitos de $S$, e duas árvores de segmentos 2D, uma horizontal e a outra
 vertical.
 
