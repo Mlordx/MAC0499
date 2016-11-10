@@ -261,8 +261,8 @@
 %------------------------------------------------------------------------------%
 
 {\colorlet{blocktitlebgcolor}{my-blue}\block{Introdução}{ Este trabalho de conclusão de curso fundamentou-se na compreensão e
-    implementação em linguagem \emph{python} de um algoritmo para consultas de intersecções de segmentos de retas com janelas
-    retangulares no espaço, um subproblema de geometria computacional conhecido por: buscas em regiões ortogonais. Este algoritmo
+    implementação (em linguagem \emph{python}) de um algoritmo para consultas de intersecções de segmentos de retas com janelas
+    retangulares no espaço. Este é  um problema de geometria computacional conhecido por: buscas em regiões ortogonais. Este algoritmo
     foi o foco da tese de mestrado de Álvaro Junio Pereira Franco \cite{junio09:MSc}. Além da implementação, foi feita também a
     adaptação do visualizador de algoritmos geométricos feito por Alexis Sakurai Landgraf para exposição dos resultados obtidos.
 }}
@@ -304,27 +304,11 @@
 {\colorlet{blocktitlebgcolor}{my-green}\block{Simulação}{ Para exemplificarmos o tipo de problema resolvido, segue uma série
     de imagens tiradas do visualizador geométrico na resolução de uma consulta de segmentos:
 
-    \begin{tikzfigure}
-      \centering
-      \includegraphics[width=0.9\linewidth]{0}
-      %\captionsetup{type=diagram}
-      \captionof{figure}{Conjunto de segmentos e janela a ser utilizada na consulta.}
-      \label{diag:0}
-    \end{tikzfigure}
 
     \begin{tikzfigure}
-      \centering
-      \includegraphics[width=0.9\linewidth]{1}
-      %\captionsetup{type=diagram}
-      \captionof{figure}{Destacamos em azul os segmentos cuja ponta esquerda está na janela.}
-      \label{diag:1}
-    \end{tikzfigure}
-
-    \begin{tikzfigure}
-      \centering
-      \includegraphics[width=0.9\linewidth]{2}
-      %\captionsetup{type=diagram}
-      \captionof{figure}{Destacamos em amarelo os segmentos cuja ponta direita está na janela.}
+      \centering \includegraphics[width=0.9\linewidth]{2}
+      \captionof{figure}{Destacamos em azul os segmentos cuja ponta esquerda
+        está na janela e em amarelo os segmentos cuja ponta direita está na janela.}
       \label{diag:2}
     \end{tikzfigure}
 
@@ -336,12 +320,6 @@
       \label{diag:3}
     \end{tikzfigure}
 
-
-}}
-
-\column{0.35}
-
-{\colorlet{blocktitlebgcolor}{my-green}\block{}{
     \begin{tikzfigure}
       \centering
       \includegraphics[width=0.9\linewidth]{4}
@@ -358,6 +336,12 @@
       \label{diag:5}
     \end{tikzfigure}
 
+}}
+
+\column{0.35}
+
+{\colorlet{blocktitlebgcolor}{my-green}\block{}{
+
     \begin{tikzfigure}
       \centering
       \includegraphics[width=0.9\linewidth]{6}
@@ -366,6 +350,18 @@
       \label{diag:6}
     \end{tikzfigure}
 }}
+
+{\colorlet{blocktitlebgcolor}{my-darkblue}\block{Mais exemplos}{
+    \begin{tikzfigure}
+      \centering
+      \includegraphics[width=0.9\linewidth]{7}
+      %\captionsetup{type=diagram}
+      \captionof{figure}{Dois exemplos de janelas em partes de um mapa de municípios do Brasil.}
+      \label{diag:7}
+    \end{tikzfigure}
+
+}}
+
 
 {\colorlet{blocktitlebgcolor}{my-blue}\block{Conclusão}{ Todos os algoritmos, sejam os utilizados efetivamente na consulta que nos
     propomos a resolver ou os mais básicos utilizados para fins de estudo, foram descritos de forma didática no trabalho, contando
