@@ -22,6 +22,7 @@ class Point:
 		"Desenha o ponto na cor especificada"
 		self.plot_id = control.plot_disc (self.x, self.y, color,
 							config.RADIUS)
+                #self.plot_id = 1
 		return self.plot_id
 
 	def hilight (self, color=config.COLOR_HI_POINT):

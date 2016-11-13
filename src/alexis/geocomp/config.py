@@ -8,7 +8,7 @@ WIDTH = 600
 HEIGHT = 600
 
 # delay entre um passo e outro (em milissegundos)
-DELAY = 500
+DELAY = 1
 
 # maximo valor para DELAY (em milissegundos)
 MAX_DELAY = 1000

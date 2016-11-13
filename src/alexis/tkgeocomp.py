@@ -266,10 +266,10 @@ class App:
 
 
         def modify_window(self):
-                x = int(self.x.get())
-                y = int(self.y.get())
-                x2 = int(self.x2.get())
-                y2 = int(self.y2.get())
+                x = float(self.x.get())
+                y = float(self.y.get())
+                x2 = float(self.x2.get())
+                y2 = float(self.y2.get())
                 if x < x2 and y < y2:
                         test.target = (primitives.Point(x,y),primitives.Point(x2,y2))
                         print('\033[92m'+"\n Janela atualizada com sucesso" + '\033[0m')

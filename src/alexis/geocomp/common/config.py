@@ -26,8 +26,8 @@ LINEWIDTH_SPECIAL = 1
 # um ponto é desenhado como um circulo
 # raio desse circulo para um ponto normal e em destaque
 #RADIUS = 2
-RADIUS = 3
-RADIUS_HILIGHT = 5
+RADIUS = 0.5
+RADIUS_HILIGHT = 1
 
 # cores usadas
 

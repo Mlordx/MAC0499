@@ -1,15 +1,19 @@
 \begin{thebibliography}{1}
-\providecommand{\natexlab}[1]{#1}
-\providecommand{\url}[1]{\texttt{#1}}
-\expandafter\ifx\csname urlstyle\endcsname\relax
-  \providecommand{\doi}[1]{doi: #1}\else
-  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
 
-\bibitem[Álvaro Junio(2009)]{junio09:MSc}{\bf Álvaro Junio(2009)}
-Álvaro Junio.
+\bibitem{clrs}
+T.~H. Cormen, C.~E. Leiserson, R.~L. Rivest, and C.~Stein.
+\newblock {\em Introduction to Algorithms}.
+\newblock The MIT Press, 3 edition, 2009.
+
+\bibitem{dbvkos}
+M.~de~Berg, O.~Cheong, M.~van Kreveld, and M.~Overmars.
+\newblock {\em Computational Geometry: Algorithms and Applications}.
+\newblock Springer, 3 edition, 2008.
+
+\bibitem{junio09:MSc}
+Álvaro J.~P.~Franco.
 \newblock Consultas de segmentos em janelas: algoritmos e estruturas de dados.
-\newblock Disserta\c{c}\~{a}o de Mestrado, Instituto de Matemática e
-  Estatística, Universidade de São Paulo, Brasil.   {\scriptsize Citado na
-  p\'{a}g.}
+\newblock Master's thesis, Instituto de Matemática e Estatística, Universidade
+  de São Paulo, Brasil, Aug. 2009.
 
 \end{thebibliography}

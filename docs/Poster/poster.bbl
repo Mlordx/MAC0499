@@ -1,0 +1,69 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 2.8 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated as
+% required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+\sortlist[entry]{nty/global/}
+  \entry{junio09:MSc}{thesis}{}
+    \name{author}{1}{}{%
+      {{hash=ÁJPF}{%
+         prefix={Álvaro},
+         prefixi={Á\bibinitperiod},
+         family={J.\bibnamedelima P.\bibnamedelima Franco},
+         familyi={J\bibinitperiod\bibinitdelim P\bibinitperiod\bibinitdelim
+  F\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{JPFÁ1}
+    \strng{fullhash}{JPFÁ1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{J}
+    \field{sortinithash}{J}
+    \field{title}{Consultas de segmentos em janelas: algoritmos e estruturas de
+  dados}
+    \list{institution}{1}{%
+      {Instituto de Matemática e Estatística, Universidade de São Paulo,
+  Brasil}%
+    }
+    \field{type}{mathesis}
+    \field{month}{08}
+    \field{year}{2009}
+  \endentry
+
+  \entry{site}{online}{}
+    \name{author}{1}{}{%
+      {{hash=RMB}{%
+         family={Rodrigues},
+         familyi={R\bibinitperiod},
+         given={Mateus\bibnamedelima Barros},
+         giveni={M\bibinitperiod\bibinitdelim B\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{RMB1}
+    \strng{fullhash}{RMB1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{R}
+    \field{sortinithash}{R}
+    \field{title}{gitHub}
+    \verb{url}
+    \verb https://github.com/Mlordx/MAC0499/tree/master/src
+    \endverb
+    \field{year}{2016}
+  \endentry
+\endsortlist
+\endinput

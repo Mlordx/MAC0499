@@ -68,7 +68,7 @@ class Window:
             alx.control.sleep()
             bla.hilight("blue")
 
-        alx.control.sleep()            
+                        
         for p in R:
             r.append(p.seg)
             bla = alx.segment.Segment(alx.point.Point(p.seg.beg.x,p.seg.beg.y),alx.point.Point(p.seg.end.x,p.seg.end.y))
@@ -77,7 +77,7 @@ class Window:
             bla.to.unhilight()
             bla.hilight("yellow")
             alx.control.sleep()
-        alx.control.sleep()
+
             
         a = rng[0].x
         b = rng[0].y
@@ -99,7 +99,7 @@ class Window:
         s1 = self.seg_v.query(seg1)
         s3 = self.seg_v.query(seg3)
         s2 = self.seg_h.query(seg2)
-        alx.control.sleep()
+
         p = seg1
         alx.segment.Segment(alx.point.Point(p.beg.x,p.beg.y),alx.point.Point(p.end.x,p.end.y)).hilight("magenta")
         alx.control.sleep()
@@ -108,7 +108,7 @@ class Window:
         for p in s1:
             alx.segment.Segment(alx.point.Point(p.beg.x,p.beg.y),alx.point.Point(p.end.x,p.end.y)).hilight("magenta")
             alx.control.sleep()
-        alx.control.sleep()
+
         p = seg3
         alx.segment.Segment(alx.point.Point(p.beg.x,p.beg.y),alx.point.Point(p.end.x,p.end.y)).hilight("orange")
         alx.control.sleep()
@@ -118,7 +118,7 @@ class Window:
         for p in s3:
             alx.segment.Segment(alx.point.Point(p.beg.x,p.beg.y),alx.point.Point(p.end.x,p.end.y)).hilight("orange")
             alx.control.sleep()
-            
+
         p = seg2
         alx.segment.Segment(alx.point.Point(p.beg.x,p.beg.y),alx.point.Point(p.end.x,p.end.y)).hilight("light green")
         alx.control.sleep()
@@ -129,6 +129,5 @@ class Window:
         for p in s2:
             alx.segment.Segment(alx.point.Point(p.beg.x,p.beg.y),alx.point.Point(p.end.x,p.end.y)).hilight("light green")
             alx.control.sleep()            
-        alx.control.sleep()
-        
+
         return list(set(l+r+s1+s2+s3))
