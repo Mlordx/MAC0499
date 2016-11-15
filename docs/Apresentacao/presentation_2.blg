@@ -1,46 +1,64 @@
 This is BibTeX, Version 0.99d (TeX Live 2016/Arch Linux)
 Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
 The top-level auxiliary file: presentation_2.aux
-The style file: unsrt.bst
-Database file #1: sample.bib
-You've used 1 entry,
-            1791 wiz_defined-function locations,
-            452 strings with 3611 characters,
-and the built_in function-call counts, 192 in all, are:
-= -- 15
-> -- 8
-< -- 0
-+ -- 3
-- -- 2
-* -- 9
-:= -- 36
-add.period$ -- 3
-call.type$ -- 1
-change.case$ -- 1
-chr.to.int$ -- 0
-cite$ -- 1
-duplicate$ -- 10
-empty$ -- 20
-format.name$ -- 2
-if$ -- 42
+The style file: biblatex.bst
+Reallocated glb_str_ptr (elt_size=8) to 20 items from 10.
+Reallocated global_strs (elt_size=20001) to 20 items from 10.
+Reallocated glb_str_end (elt_size=8) to 20 items from 10.
+Reallocated singl_function (elt_size=8) to 100 items from 50.
+Reallocated singl_function (elt_size=8) to 100 items from 50.
+Reallocated singl_function (elt_size=8) to 100 items from 50.
+Reallocated wiz_functions (elt_size=8) to 6000 items from 3000.
+Reallocated singl_function (elt_size=8) to 100 items from 50.
+Reallocated singl_function (elt_size=8) to 100 items from 50.
+Reallocated singl_function (elt_size=8) to 100 items from 50.
+Reallocated singl_function (elt_size=8) to 100 items from 50.
+Reallocated singl_function (elt_size=8) to 100 items from 50.
+Reallocated singl_function (elt_size=8) to 100 items from 50.
+Reallocated singl_function (elt_size=8) to 100 items from 50.
+Database file #1: presentation_2-blx.bib
+Database file #2: sample.bib
+Biblatex version: 3.3
+Reallocated wiz_functions (elt_size=8) to 9000 items from 6000.
+Reallocated singl_function (elt_size=8) to 100 items from 50.
+You've used 3 entries,
+            6256 wiz_defined-function locations,
+            1186 strings with 8857 characters,
+and the built_in function-call counts, 11589 in all, are:
+= -- 801
+> -- 293
+< -- 128
++ -- 228
+- -- 74
+* -- 595
+:= -- 1011
+add.period$ -- 0
+call.type$ -- 3
+change.case$ -- 92
+chr.to.int$ -- 36
+cite$ -- 4
+duplicate$ -- 1067
+empty$ -- 1079
+format.name$ -- 95
+if$ -- 2620
 int.to.chr$ -- 0
-int.to.str$ -- 1
-missing$ -- 2
-newline$ -- 8
-num.names$ -- 1
-pop$ -- 6
+int.to.str$ -- 5
+missing$ -- 0
+newline$ -- 66
+num.names$ -- 158
+pop$ -- 694
 preamble$ -- 1
-purify$ -- 0
+purify$ -- 96
 quote$ -- 0
-skip$ -- 3
+skip$ -- 586
 stack$ -- 0
-substring$ -- 0
-swap$ -- 1
-text.length$ -- 0
-text.prefix$ -- 0
-top$ -- 0
-type$ -- 0
+substring$ -- 1197
+swap$ -- 314
+text.length$ -- 66
+text.prefix$ -- 2
+top$ -- 1
+type$ -- 89
 warning$ -- 0
-while$ -- 1
-width$ -- 2
-write$ -- 13
+while$ -- 124
+width$ -- 0
+write$ -- 64

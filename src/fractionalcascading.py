@@ -33,18 +33,22 @@ class LayerTree:
 
         r = l = 0
 
-        for i in range(n):
-            if vy[i].point.x < vx[n//2-1].x or ((vy[i].point.x == vx[n//2-1].x) and vy[i].point.y <= vx[n//2-1].y):
-                ly.append(LayerNode(vy[i].point))
-            else:
-                ry.append(LayerNode(vy[i].point))
-
-        v.tree = self.createPointers(vy,ly,ry)
-        v.point = vx[n//2-1]
-
         if n == 1:
+            v.point = vx[0]
             v.l = v.r = None
+            return v
         else:
+            for i in range(n):
+                if i >= len(vy): break
+                if vy[i].point.x < vx[n//2-1].x or ((vy[i].point.x == vx[n//2-1].x) and vy[i].point.y <= vx[n//2-1].y):
+                    ly.append(LayerNode(vy[i].point))
+                else:
+                    ry.append(LayerNode(vy[i].point))
+
+            v.tree = self.createPointers(vy,ly,ry)
+            v.point = vx[n//2-1]
+
+        
             for k in range(len(ly)-1):
                 ly[k].nxt = ly[k+1]
                 
@@ -114,9 +118,6 @@ class LayerTree:
         l = 0
         r = len(points)-1
         aux = None
-        print("x:",x)
-        for p in points:
-            print(p.point)
         while l < r:
             m = (l + r)//2
             current = points[m].point
@@ -127,7 +128,6 @@ class LayerTree:
             elif current.y > x.y or ( current.y == x.y and current.x >= x.x):
                 aux = points[m]
                 r = m-1
-            print(l,r)
 
         return aux
 
@@ -194,7 +194,7 @@ class LayerTree:
                     if w2.x > v.point.x or (w2.x == v.point.x and w2.y >= v.point.y):
                         u = v2.pl
 
-                        while not u.side and (u.point.y < w2.y or ( u.point.y == w2.y and u.point.x <= w2.x)):
+                        while u and not u.side and (u.point.y < w2.y or ( u.point.y == w2.y and u.point.x <= w2.x)):
                             p.append(u.point)
                             u = u.nxt
                             if u is None: break

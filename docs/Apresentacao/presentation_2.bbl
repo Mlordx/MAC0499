@@ -1,8 +1,69 @@
-\begin{thebibliography}{1}
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 2.8 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated as
+% required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
 
-\bibitem{Smith:2012qr}
-J.~M. Smith and A.~B. Jones.
-\newblock {\em Book Title}.
-\newblock Publisher, 7th edition, 2012.
+\sortlist[entry]{nty/global/}
+  \entry{junio09:MSc}{thesis}{}
+    \name{author}{1}{}{%
+      {{hash=√JPF}{%
+         prefix={√Ålvaro},
+         prefixi={√\bibinitperiod},
+         family={J.\bibnamedelima P.\bibnamedelima Franco},
+         familyi={J\bibinitperiod\bibinitdelim P\bibinitperiod\bibinitdelim
+  F\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{JPF√1}
+    \strng{fullhash}{JPF√1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{J}
+    \field{sortinithash}{J}
+    \field{title}{Consultas de segmentos em janelas: algoritmos e estruturas de
+  dados}
+    \list{institution}{1}{%
+      {Instituto de Matem√°tica e Estat√≠stica, Universidade de S√£o Paulo,
+  Brasil}%
+    }
+    \field{type}{mathesis}
+    \field{month}{08}
+    \field{year}{2009}
+  \endentry
 
-\end{thebibliography}
+  \entry{site3}{online}{}
+    \name{author}{1}{}{%
+      {{hash=√A}{%
+         family={√úng√∂r},
+         familyi={√\bibinitperiod},
+         given={Alper},
+         giveni={A\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{√A1}
+    \strng{fullhash}{√A1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{√}
+    \field{sortinithash}{√}
+    \field{title}{Lecture 15: Windowing queries}
+    \verb{url}
+    \verb https://www.cise.ufl.edu/class/cot5520fa09/CG_WindowingMoreCh10.pdf
+    \endverb
+    \field{year}{2010}
+  \endentry
+\endsortlist
+\endinput

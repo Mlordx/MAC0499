@@ -102,28 +102,22 @@ class SegmentTree2Dx:
         q = []
         n = len(v)
 
-        M = -inf
+        m = []
         for i in range(n):
-            p.append(v[i].beg)
-            p.append(v[i].end)
-            if(v[i].beg.x > M): M = v[i].beg.x
-            if(v[i].end.x > M): M = v[i].end.x
+            p.append(v[i].beg.x)
+            p.append(v[i].end.x)
+            #m.append(v[i].beg.x)
+            #m.append(v[i].end.x)
 
-        p = sorted(p)
+        #M = max(m)
+        #p = sorted(p)
+        p2 = list(set(p))
+        p = sorted(p2)
 
-        ### tirando duplicatas 
         p2 = []
+        for pnt in p:
+            p2.append(Point(pnt,0))
 
-        aux = []
-        for i in range(M+1):
-            aux.append(-1)
-
-        for i in range(len(p)):
-            if aux[p[i].x] == -1:
-                p2.append(p[i])
-                aux[p[i].x] = 1337
-
-        #m = self.removeDuplicates(p)
 
         ################################
     
@@ -363,27 +357,16 @@ class SegmentTree2Dy:
         q = []
         n = len(v)
 
-        M = -inf
         for i in range(n):
-            p.append(v[i].beg)
-            p.append(v[i].end)
-            if(v[i].beg.y > M): M = v[i].beg.y
-            if(v[i].end.y > M): M = v[i].end.y
+            p.append(v[i].beg.y)
+            p.append(v[i].end.y)
 
-        p = sorted(p,key = lambda a: a.y)
+        p2 = list(set(p))
+        p = sorted(p2)
 
-        ### tirando duplicatas 
         p2 = []
-
-        aux = []
-        for i in range(M+1): aux.append(-1)
-
-        for i in range(len(p)):
-            if aux[p[i].y] == -1:
-                p2.append(p[i])
-                aux[p[i].y] = 1337
-
-        #m = self.removeDuplicates(p)
+        for pnt in p:
+            p2.append(Point(0,pnt))
 
         ################################
     

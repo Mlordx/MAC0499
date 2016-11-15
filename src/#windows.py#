@@ -17,7 +17,7 @@ class Window:
         self.layer_l = LayerTree(self.l)
         self.layer_r = LayerTree(self.r)
 
-        self.seg_v = SegmentTree2Dx(s)
+        self.seg_v = SegmentTree2Dx([x for x in s])
         self.seg_h = SegmentTree2Dy(s)
 
         self.S1 = None
@@ -51,7 +51,9 @@ class Window:
         # rng = (a,b)(c,d)
         # a <= c
         # b <= d
+        print("oi")
         L = self.layer_l.query(rng)
+        print("seu bosta")
         R = self.layer_r.query(rng)
         l = []
         r = []
@@ -65,13 +67,28 @@ class Window:
         d = rng[1].y
         
         seg1 = Segment(Point(a,b),Point(a,d))
+        #self.S1 = seg1
+        
         seg2 = Segment(Point(a,d),Point(c,d))
+        #self.S2 = seg2
+        
         seg3 = Segment(Point(c,b),Point(c,d))
+        #self.S3 = seg3
+        
         seg4 = Segment(Point(a,b),Point(c,b))
+        #self.S4 = seg4
         
         s1 = self.seg_v.query(seg1)
         s3 = self.seg_v.query(seg3)
         s2 = self.seg_h.query(seg2)
 
+        """
+        print(seg1,seg2,seg3,seg4)
+        print("l:",l)
+        print("r:",r)
+        print("s1:",s1)
+        print("s2:",s2)
+        print("s3:",s3)
+        """
         
         return list(set(l+r+s1+s2+s3))

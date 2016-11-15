@@ -44,17 +44,16 @@ class HorizontalIntervalTree:
                 r.append(s[i])
                 i+=1
 
-
             aux = []
-            for lft in l1:
-                aux.append(Point(lft.beg.x,lft.beg.y,lft))
+            for s in l1:
+                aux.append(Point(s.beg.x,s.beg.y,s))
                 
             v.L1 = minPrioritySearchTree(aux)
 
             aux = []
 
-            for lft in l2:
-                aux.append(Point(lft.end.x,lft.end.y,lft))
+            for s in l2:
+                aux.append(Point(s.end.x,s.end.y,s))
 
             v.L2 = maxPrioritySearchTree(aux)
 

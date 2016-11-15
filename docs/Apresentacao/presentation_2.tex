@@ -33,18 +33,16 @@ parskip=half-, % Paragraphs separated by half a line
 % Colors
 \usepackage{xcolor}	 % Required for custom colors
 % Define a few colors for making text stand out within the presentation
-%\definecolor{mygreen}{RGB}{44,85,17}
-%\definecolor{myblue}{RGB}{34,31,217}
-%\definecolor{mybrown}{RGB}{194,164,113}
-%\definecolor{myred}{RGB}{255,66,56}
 
 \definecolor{myblack}{HTML}{594F4F}
 \definecolor{mydarkblue}{HTML}{547980}
 \definecolor{myblue}{HTML}{45ADA8}
 \definecolor{mygreen}{HTML}{9DE0AD}
+\definecolor{mygreentwo}{HTML}{92bf9d}
 \definecolor{mylightgreen}{HTML}{E5FCC2}
 % Use these colors within the presentation by enclosing text in the commands below
 \newcommand*{\mygreen}[1]{\textcolor{mygreen}{#1}}
+\newcommand*{\mygreentwo}[1]{\textcolor{mygreentwo}{#1}}
 \newcommand*{\myblue}[1]{\textcolor{myblue}{#1}}
 \newcommand*{\myblack}[1]{\textcolor{myblack}{#1}}
 \newcommand*{\mylightgreen}[1]{\textcolor{mylightgreen}{#1}}
@@ -54,7 +52,7 @@ parskip=half-, % Paragraphs separated by half a line
 % Margins
 \usepackage[ % Page margins settings
 includeheadfoot,
-top=3.5mm,
+top=3.0mm,
 bottom=3.5mm,
 left=5.5mm,
 right=5.5mm,
@@ -68,8 +66,8 @@ footskip=8.5mm
 \usepackage[brazilian]{babel}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}	 % For correct hyphenation and T1 encoding
-\usepackage{lmodern} % Default font: latin modern font
-\usepackage{fourier} % Alternative font: utopia
+%\usepackage{lmodern} % Default font: latin modern font
+%\usepackage{utopia} % Alternative font: utopia
 %\usepackage{charter} % Alternative font: low-resolution roman font
 %\renewcommand{\familydefault}{\sfdefault} % Sans serif - this may need to be commented to see the alternative fonts
 %------------------------------------------------
@@ -137,7 +135,11 @@ shadow
 
 \ofoot[\pagemark/\pageref{LastPage}\hspace{-2mm}]{\pagemark/\pageref{LastPage}\hspace{-2mm}} % Right side
 %------------------------------------------------
+\usepackage{csquotes}
+\usepackage[backend=bibtex]{biblatex}
 
+
+\bibliography{sample}
 %------------------------------------------------
 % Section spacing - deeper section titles are given less space due to lesser importance
 \usepackage{titlesec} % Required for customizing section spacing
@@ -193,6 +195,8 @@ shadow
 
 \begin{document}
 
+\graphicspath{{./figuras/}}
+
 %----------------------------------------------------------------------------------------
 %	TITLE SLIDE
 %----------------------------------------------------------------------------------------
@@ -243,7 +247,7 @@ shadow
 \begin{flushleft}
 \vspace{0.6cm}
 \color{white}\sffamily
-{\bfseries\Huge Displaying Text\par} % Request for questions text
+{\bfseries\Huge O problema a ser resolvido\par} % Request for questions text
 \vfill
 \end{flushleft}
 
@@ -252,127 +256,31 @@ shadow
 
 %------------------------------------------------
 
-\subsection{Paragraphs of Text and Formatting}
+%\subsection{O problema a ser resolvido}
 
-\textit{Sed iaculis} dapibus gravida. Morbi sed tortor erat, nec interdum arcu. Sed id lorem lectus. Quisque viverra augue id sem ornare non aliquam nibh tristique. Aenean in ligula nisl. Nulla sed tellus ipsum.
-
-\begin{multicols}{2} % Divide text into multiple columns
-\mygreen{Sed diam enim, sagittis nec} condimentum sit amet, ullamcorper sit amet libero. \mybrown{Aliquam vel dui orci}, a porta odio. \myred{Nullam id suscipit} ipsum. \myblue{Aenean lobortis} commodo sem, ut commodo leo gravida vitae. Pellentesque vehicula ante iaculis arcu pretium rutrum eget sit amet purus. Integer ornare nulla quis neque ultrices lobortis. Vestibulum ultrices tincidunt libero, quis commodo erat ullamcorper id.
-\end{multicols}
-
-\clearpage
-
-%------------------------------------------------
-
-\subsection{Bullet Points and Numbered Lists}
-
-\begin{itemize}
-\item Lorem ipsum dolor sit amet, consectetur adipiscing elit
-\item Aliquam blandit faucibus nisi, sit amet dapibus enim tempus eu
-\end{itemize}
-
-\begin{enumerate}
-\item Nulla commodo, erat quis gravida posuere, elit lacus lobortis est, quis porttitor odio mauris at libero
-\item Nam cursus est eget velit posuere pellentesque
-\item Vestibulum faucibus velit a augue condimentum quis convallis nulla gravida
-\end{enumerate}
-
-\clearpage
-
-%------------------------------------------------
-
-\subsection{Verbatim}
-How to include a theorem in this presentation:
-\begin{verbatim}
-\mybox{0.8\textwidth}{
-\begin{theorem}[Murphy (1949)]
-Anything that can go wrong, will go wrong.
-\end{theorem}
-}
-\end{verbatim}
-
-\clearpage
-
-%------------------------------------------------
-
-
-\section{Displaying Information}
-
-\clearpage
-
-%------------------------------------------------
-
-\subsection{Table}
-
-\begin{table}[h]
 \centering
-\begin{tabular}{l l l}
-\toprule
-\textbf{Treatments} & \textbf{Response 1} & \textbf{Response 2}\\
-\midrule
-Treatment 1 & 0.0003262 & 0.562 \\
-Treatment 2 & 0.0015681 & 0.910 \\
-Treatment 3 & 0.0009271 & 0.296 \\
-\bottomrule
-\end{tabular}
-\caption{Table caption}
-\end{table}
+\includegraphics[scale=0.35]{1}
+\begin{flushleft}
+  \par Dado um conjunto de segmentos não-intersectantes \\no espaço.
+\end{flushleft}
+\clearpage
 
+\includegraphics[scale=0.35]{2}
+\begin{flushleft}
+  \par Quais segmentos intersectam com ou estão numa dada\\ janela de lados paralelos?
+\end{flushleft}
 \clearpage
 
 %------------------------------------------------
 
-\subsection{Figure}
+%\subsection{Bullet Points and Numbered Lists}
 
-\begin{figure}[h]
-\centering\includegraphics[width=0.4\linewidth]{placeholder}
-\end{figure}
-
-\clearpage
-
-%------------------------------------------------
-
-\subsection{Theorem}
-
-The most common definition of \mygreen{Murphy's Law} is as follows.
-
-\mybox{0.8\textwidth}{ % Example of encapsulating text in a colored box
-\begin{theorem}[Murphy (1949)]
-Anything that can go wrong, will go wrong.
-\end{theorem}
-}
-
-\begin{proof}
-A special case of this theorem is proven in the textbook.
-\end{proof}
-
-\begin{remark}
-This is a remark.
-\end{remark}
-
-\begin{algorithm}
-This is an algorithm.
-\end{algorithm}
-
-\clearpage
-
-%------------------------------------------------
-
-\section{Citations}
-
-An example of the \texttt{\textbackslash cite} command to cite within the presentation:
-
-This statement requires citation \cite{Smith:2012qr}.
-
-\clearpage
-
-%------------------------------------------------
-
-\thispagestyle{empty} % No slide header and footer
-
-\bibliographystyle{unsrt}
-\bibliography{sample}
-
+\begin{flushleft}
+  \begin{itemize}
+  \item O jeito ingênuo de resolver isso é muito lento.
+  \item Portanto, vamos separar esse conjunto em estruturas que nos permitam realizar consultas de forma eficiente.
+  \end{itemize}
+\end{flushleft}
 \clearpage
 
 %------------------------------------------------
@@ -380,15 +288,149 @@ This statement requires citation \cite{Smith:2012qr}.
 \thispagestyle{empty} % No slide header and footer
 
 \begin{tikzpicture}[remember picture,overlay] % Background box
-\node [xshift=\paperwidth/2,yshift=\paperheight/2] at (current page.south west)[rectangle,fill,inner sep=0pt,minimum width=\paperwidth,minimum height=\paperheight/3,top color=mydarkblue,bottom color=mydarkblue]{}; % Change the height of the box, its colors and position on the page here
+\node [xshift=\paperwidth/2,yshift=\paperheight/2] at (current page.south west)[rectangle,fill,inner sep=0pt,minimum width=\paperwidth,minimum height=\paperheight/2,top color=mydarkblue,bottom color=mydarkblue]{}; % Change the height of the box, its colors and position on the page here
+\end{tikzpicture}
+% Text within the box
+\begin{flushleft}
+\vspace{0.6cm}
+\color{white}\sffamily
+{\bfseries\Huge Estruturas e algoritmos\par} % Request for questions text
+\vfill
+\end{flushleft}
+
+\clearpage
+%------------------------------------------------
+
+\begin{flushleft}
+  Organizaremos os segmentos e seus respectivos pontos extremos em 4 estruturas:
+\end{flushleft}
+  
+\clearpage
+
+%------------------------------------------------
+
+\begin{flushleft}
+  Organizaremos os segmentos e seus respectivos pontos extremos em 4 estruturas:
+
+  \begin{itemize}
+  \item 2 \textbf{\myblack{árvores limite com camadas}}
+  \end{itemize}
+\end{flushleft}
+  
+\clearpage
+
+%------------------------------------------------
+
+\begin{flushleft}
+  Organizaremos os segmentos e seus respectivos pontos extremos em 4 estruturas:
+
+  \begin{itemize}
+  \item 2 \textbf{\myblack{árvores limite com camadas}}
+    \begin{itemize}
+      \item Tempo de construção: $\mathcal{O}(n \log n)$.
+      \item Consumo de espaço: $\mathcal{O}(n \log n)$.
+    \end{itemize}
+  \end{itemize}
+\end{flushleft}
+
+\clearpage
+%------------------------------------------------
+
+
+\includegraphics[width=\textwidth,height=0.55\textheight]{3}
+\clearpage
+
+%------------------------------------------------
+
+
+\begin{flushleft}
+  Organizaremos os segmentos e seus respectivos pontos extremos em 4 estruturas:
+
+  \begin{itemize}
+  \item 2 árvores limite com camadas
+  \item 2 \textbf{\myblack{árvores de segmentos}}
+  \end{itemize}
+\end{flushleft}
+  
+\clearpage
+%------------------------------------------------
+
+\begin{flushleft}
+  Organizaremos os segmentos e seus respectivos pontos extremos em 4 estruturas:
+
+  \begin{itemize}
+  \item 2 árvores limite com camadas
+  \item 2 \textbf{\myblack{árvores de segmentos}} (uma horizontal e uma vertical)
+  \end{itemize}
+\end{flushleft}
+  
+\clearpage
+
+%------------------------------------------------
+
+\begin{flushleft}
+  Organizaremos os segmentos e seus respectivos pontos extremos em 4 estruturas:
+
+  \begin{itemize}
+  \item 2 árvores limite com camadas
+  \item 2 \textbf{\myblack{árvores de segmentos}} (uma horizontal e uma vertical)
+    \begin{itemize}
+      \item Tempo de construção: $\mathcal{O}(n \log^2 n)$.
+      \item Consumo de espaço: $\mathcal{O}(n \log n)$.
+    \end{itemize}
+  \end{itemize}
+\end{flushleft}
+  
+\clearpage
+%------------------------------------------------
+
+
+\includegraphics[width=\textwidth,height=\textheight]{4}
+\clearpage
+\clearpage
+%------------------------------------------------
+%------------------------------------------------
+
+\thispagestyle{empty} % No slide header and footer
+
+\begin{tikzpicture}[remember picture,overlay] % Background box
+\node [xshift=\paperwidth/2,yshift=\paperheight/2] at (current page.south west)[rectangle,fill,inner sep=0pt,minimum width=\paperwidth,minimum height=\paperheight/2,top color=mydarkblue,bottom color=mydarkblue]{}; % Change the height of the box, its colors and position on the page here
 \end{tikzpicture}
 % Text within the box
 \begin{flushright}
 \vspace{0.6cm}
 \color{white}\sffamily
-{\bfseries\LARGE Perguntas?\par} % Request for questions text
+{\bfseries\Huge Realizando a consulta\par} % Request for questions text
 \vfill
 \end{flushright}
+
+\clearpage
+
+%------------------------------------------------
+
+\thispagestyle{empty} % No slide header and footer
+\nocite{junio09:MSc}
+\nocite{site3}
+\printbibliography
+
+\clearpage
+\clearpage
+%------------------------------------------------
+
+\thispagestyle{empty} % No slide header and footer
+
+\begin{tikzpicture}[remember picture,overlay] % Background box
+\node [xshift=\paperwidth/2,yshift=\paperheight/2] at (current page.south west)[rectangle,fill,inner sep=0pt,minimum width=\paperwidth,minimum height=\paperheight/2,top color=mydarkblue,bottom color=mydarkblue]{}; % Change the height of the box, its colors and position on the page here
+\end{tikzpicture}
+% Text within the box
+\begin{flushright}
+\vspace{0.6cm}
+\color{white}\sffamily
+{\bfseries\Huge Perguntas?\par} % Request for questions text
+\vfill
+\end{flushright}
+
+\clearpage
 
 %----------------------------------------------------------------------------------------
 
