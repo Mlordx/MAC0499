@@ -436,6 +436,30 @@ cef@ime.usp.br
 \end{flushright}
 
 \clearpage
+\clearpage
+
+\thispagestyle{empty} % No slide header and footer
+\begin{tikzpicture}[remember picture,overlay] % Background box
+\node [xshift=\paperwidth/2,yshift=\paperheight/2] at (current page.south west)[rectangle,fill,inner sep=0pt,minimum width=\paperwidth,minimum height=\paperheight/2,top color=mydarkblue,bottom color=mydarkblue]{}; % Change the height of the box, its colors and position on the page here
+\end{tikzpicture}
+% Text within the box
+\begin{flushright}
+\vspace{0.3cm}
+\color{white}\sffamily
+{\bfseries\Large\mytitle\par} % Title
+\vspace{0.2cm}
+\normalsize
+\myauthor\\ % Author name
+\tiny
+mateus.barros.rodrigues@usp.br \par
+\normalsize
+Orientador: Prof. Dr. Carlos Eduardo Ferreira\\ % Date
+\tiny
+cef@ime.usp.br
+\vfill
+\end{flushright}
+
+\clearpage
 
 %----------------------------------------------------------------------------------------
 
