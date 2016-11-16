@@ -339,11 +339,7 @@ cef@ime.usp.br
 \end{flushleft}
 
 \clearpage
-%------------------------------------------------
 
-
-\includegraphics[width=\textwidth,height=0.55\textheight]{3}
-\clearpage
 
 %------------------------------------------------
 
@@ -389,8 +385,20 @@ cef@ime.usp.br
 \clearpage
 %------------------------------------------------
 
+%------------------------------------------------
 
-\includegraphics[width=\textwidth,height=\textheight]{4}
+\includegraphics[width=\textwidth,height=0.6\textheight]{3}
+\begin{flushleft}
+\tiny Fonte: Imagem de Álvaro J. P. Franco, \emph{Dissertação de mestrado} \cite{junio09:MSc}
+\normalsize
+\end{flushleft}
+\clearpage
+\clearpage
+\includegraphics[width=\textwidth,height=0.86\textheight]{4}
+\begin{flushleft}
+\tiny Fonte: Imagem de Alper Üngör, \emph{Lecture 15: Windowing queries} \cite{site3}
+\normalsize
+\end{flushleft}
 \clearpage
 \clearpage
 %------------------------------------------------
@@ -402,20 +410,87 @@ cef@ime.usp.br
 \node [xshift=\paperwidth/2,yshift=\paperheight/2] at (current page.south west)[rectangle,fill,inner sep=0pt,minimum width=\paperwidth,minimum height=\paperheight/2,top color=mydarkblue,bottom color=mydarkblue]{}; % Change the height of the box, its colors and position on the page here
 \end{tikzpicture}
 % Text within the box
-\begin{flushright}
+\begin{flushleft}
 \vspace{0.6cm}
 \color{white}\sffamily
 {\bfseries\Huge Realizando a consulta\par} % Request for questions text
 \vfill
-\end{flushright}
+\end{flushleft}
 
 \clearpage
-
 %------------------------------------------------
 
+\begin{flushleft}
+  A consulta será dividida em 5 etapas:\\    
+\end{flushleft}
+\clearpage
+%------------------------------------------------
+\begin{flushleft}
+  A consulta será dividida em 5 etapas:\\
+  \small
+  \begin{enumerate}
+  \item Encontramos todos os segmentos com o ponto esquerdo dentro da janela. 
+  \end{enumerate}
+\end{flushleft}
+\clearpage
+%------------------------------------------------
+\begin{flushleft}
+  A consulta será dividida em 5 etapas:\\
+  \small
+  \begin{enumerate}
+  \item Encontramos todos os segmentos com o ponto esquerdo dentro da janela.
+  \item Encontramos todos os segmentos com o ponto direito dentro da janela. 
+  \end{enumerate}
+\end{flushleft}
+\clearpage
+%------------------------------------------------
+\begin{flushleft}
+  A consulta será dividida em 5 etapas:\\
+  \small
+  \begin{enumerate}
+  \item Encontramos todos os segmentos com o ponto esquerdo dentro da janela.
+  \item Encontramos todos os segmentos com o ponto direito dentro da janela.
+  \item Encontramos todos os segmentos que intersectam com o lado esquerdo da janela.
+  \end{enumerate}
+\end{flushleft}
+\clearpage
+%------------------------------------------------
+\begin{flushleft}
+  A consulta será dividida em 5 etapas:\\
+  \small
+  \begin{enumerate}
+  \item Encontramos todos os segmentos com o ponto esquerdo dentro da janela.
+  \item Encontramos todos os segmentos com o ponto direito dentro da janela.
+  \item Encontramos todos os segmentos que intersectam com o lado esquerdo da janela.
+  \item Encontramos todos os segmentos que intersectam com o lado direito da janela.
+  \end{enumerate}
+\end{flushleft}
+\clearpage
+%------------------------------------------------
+\begin{flushleft}
+  A consulta será dividida em 5 etapas:\\
+  \small  
+  \begin{enumerate}
+  \item Encontramos todos os segmentos com o ponto esquerdo dentro da janela.
+  \item Encontramos todos os segmentos com o ponto direito dentro da janela.
+  \item Encontramos todos os segmentos que intersectam com o lado esquerdo da janela.
+  \item Encontramos todos os segmentos que intersectam com o lado direito da janela.
+  \item Encontramos todos os segmentos que intersectam com o lado superior da janela.
+  \end{enumerate}
+\end{flushleft}
+\clearpage
+\clearpage
+%------------------------------------------------
+  \begin{itemize}
+  \item Complexidade das consultas 1 e 2: $\mathcal{O}(\log n + k)$.
+  \item Complexidade das consultas 3,4 e 5: $\mathcal{O}(\log^2 n + k)$.\\
+  \end{itemize}
+  Onde $k$ é o número de elementos na resposta.
+
+\clearpage
+\clearpage
+%------------------------------------------------
 \thispagestyle{empty} % No slide header and footer
-\nocite{junio09:MSc}
-\nocite{site3}
 \printbibliography
 
 \clearpage
@@ -459,7 +534,6 @@ cef@ime.usp.br
 \vfill
 \end{flushright}
 
-\clearpage
 
 %----------------------------------------------------------------------------------------
 
