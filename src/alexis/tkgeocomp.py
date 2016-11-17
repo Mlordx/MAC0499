@@ -64,12 +64,16 @@ class App:
 
 		self.step_button.grid (row=0, column=0, sticky=W+E, padx=20)
 
-		self.print_canvas3 = Button (self.controls,
+		self.print_canvas = Button (self.controls,
 						text = 'Modificar Janela',
 						command = self.modify_window)
-		self.print_canvas3.grid (row=0, column = 1, sticky=W+E, padx=20)
+		self.print_canvas.grid (row=0, column = 1, sticky=W+E, padx=20)
 
 		self.show_var = IntVar ()
+                self.show_button = Checkbutton (self.controls, 
+                                                text = 'esconder',
+						variable = self.show_var)
+                self.show_button.grid (row=0, column = 2, sticky=W+E, padx=20)
 
                 '''
 		self.delay = Scale (self.main_frame, orient = HORIZONTAL,
@@ -79,7 +83,7 @@ class App:
 		self.delay.pack (fill = X, side=BOTTOM)
 
                 '''
-                self.delay = 500
+                #self.delay = 500
 
                 labelText=StringVar()
                 labelText.set("Limite inferior:  ")
@@ -239,7 +243,6 @@ class App:
 		self.filelist['takefocus'] = 0
                 for b in self.buttons.children.values(): b['state'] = DISABLED
                 if self.show_var.get():
-			self.delay['state'] = DISABLED
 			self.step_button['state'] = DISABLED
 			self.print_canvas['state'] = DISABLED
 
@@ -253,7 +256,7 @@ class App:
  		for b in self.buttons.children.values () :
  			b['state'] = NORMAL
 		if self.show_var.get ():
-			self.delay['state'] = NORMAL
+			#self.delay['state'] = NORMAL
 			self.step_button['state'] = NORMAL
 			self.print_canvas['state'] = NORMAL
 
