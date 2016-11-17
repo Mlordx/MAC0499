@@ -83,7 +83,7 @@ class App:
 		self.delay.pack (fill = X, side=BOTTOM)
 
                 '''
-                #self.delay = 500
+                self.delay = 500
 
                 labelText=StringVar()
                 labelText.set("Limite inferior:  ")
