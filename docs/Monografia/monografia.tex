@@ -18,6 +18,7 @@
 \usepackage[T1]{fontenc}
 \usepackage[brazilian]{babel}
 \usepackage[latin1]{inputenc}
+\usepackage{multirow}
 \usepackage[pdftex]{graphicx}           % usamos arquivos pdf/png como figuras
 \usepackage{setspace}                   % espaçamento flexível
 \usepackage{indentfirst}                % indentação do primeiro parágrafo
@@ -28,7 +29,7 @@
 \usepackage{titletoc}
 %\usepackage[bf,small,compact]{titlesec} % cabeçalhos dos títulos: menores e compactos
 \usepackage[font=small,format=plain,labelfont=bf,up,textfont=it,up]{caption}
-\usepackage[usenames,svgnames,dvipsnames]{xcolor}
+\usepackage[usenames,svgnames,dvipsnames,table,xcdraw]{xcolor}
 \usepackage[a4paper,top=2.54cm,bottom=2.0cm,left=2.0cm,right=2.54cm]{geometry} % margens
 %\usepackage[pdftex,plainpages=false,pdfpagelabels,pagebackref,colorlinks=true,citecolor=black,linkcolor=black,urlcolor=black,filecolor=black,bookmarksopen=true]{hyperref} % links em preto
 \usepackage[pdftex,plainpages=false,pdfpagelabels,pagebackref,colorlinks=true,citecolor=DarkGreen,linkcolor=NavyBlue,urlcolor=DarkRed,filecolor=green,bookmarksopen=true]{hyperref} % links coloridos
@@ -213,9 +214,9 @@ consultas de segmentos em janelas}}
 
 Este trabalho de conclusão de curso fundamentou-se na compreensão e implementação em linguagem \emph{python} de um algoritmo para
 consultas de intersecções de segmentos de retas com janelas retangulares no espaço, um subproblema de geometria computacional
-conhecido por: buscas em regiões ortogonais. Este algoritmo foi o foco da tese de mestrado de Álvaro Junio Pereira Franco
-\cite{junio09:MSc}. Além da implementação, foi feita também a adaptação do visualizador de algoritmos geométricos feito por Alexis
-Sakurai Landgraf para exposição dos resultados obtidos.  \\
+conhecido por: buscas em regiões ortogonais. Este algoritmo foi o foco da tese de mestrado de Álvaro Junio Pereira Franco. Além da
+implementação, foi feita também a adaptação do visualizador de algoritmos geométricos feito por Alexis Sakurai Landgraf para
+exposição dos resultados obtidos.  \\
 
 \noindent \textbf{Palavras-chave:} Geometria, janelas, segmentos, buscas. 
 
@@ -326,11 +327,11 @@ de consultas de pontos em janelas, um para falar de encontrar intersecção de seg
 algoritmos para resolver o problema proposto.
 
 Todo o código desenvolvido foi escrito em linguagem \emph{python}. A escolha dessa linguagem se deu pela facilidade de escrita e
-pela existência de um visualizador de algoritmos geométricos criado por Alexis Sakurai Landgraf. Visto isso, não visamos, nesse
-trabalho, obter uma implementação eficiente e otimizada destes algoritmos. Mas, sempre fazendo a melhor implementação conhecida
-para os algoritmos, visamos obter uma implementação fácil de acompanhar para um leitor com experiência em algoritmos de geometria
-computacional. Toda a implementação está disponível no \href{http://github.com/mlordx/MAC0499/}{gitHub} juntamente com a adaptação
-do visualizador geométrico que foi feita.
+pela existência de um visualizador de algoritmos geométricos criado por Alexis Sakurai Landgraf~\cite{site2}. Visto isso, não
+visamos, nesse trabalho, obter uma implementação eficiente e otimizada destes algoritmos. Mas, sempre fazendo a melhor
+implementação conhecida para os algoritmos, visamos obter uma implementação fácil de acompanhar para um leitor com experiência em
+algoritmos de geometria computacional. Toda a implementação está disponível no gitHub~\cite{site} juntamente com a adaptação do
+visualizador geométrico que foi feita.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %-
@@ -1861,10 +1862,63 @@ chamadas das linhas \ref{alg34:20}, \ref{alg34:21} e \ref{alg34:22} referem-se a
 %% ------------------------------------------------------------------------- %%
 \chapter{Conclusão}
 
-Neste trabalho foi feito coisas.
+Neste trabalho descrevemos diversas estruturas de dados e algoritmos, algumas com o intuito de se entender melhor buscas em
+intervalos ortogonais e outras para resolvermos o problema proposto de consultas em janelas. A seguir dispomos uma tabela que
+compara as árvores implementadas ao longo desse TCC:
 
-\chapter{Parte subjetiva}
+\begin{table}[H]
+\centering
+\caption{Tabela comparativa das árvores descritas no trabalho.}
+\label{my-label}
+\begin{tabular}{|c|l|c|c|c|}
+\hline
+\rowcolor[HTML]{656565} 
+\multicolumn{1}{|l|}{\cellcolor[HTML]{656565}{\color[HTML]{FFFFFF} \begin{tabular}[c]{@{}l@{}}Espaço \\ associado\end{tabular}}} & {\color[HTML]{FFFFFF} Estrutura utilizada}                               & \multicolumn{1}{l|}{\cellcolor[HTML]{656565}{\color[HTML]{FFFFFF} \begin{tabular}[c]{@{}l@{}}Tempo de \\ construção\end{tabular}}} & \multicolumn{1}{l|}{\cellcolor[HTML]{656565}{\color[HTML]{FFFFFF} Consumo de espaço}} & \multicolumn{1}{l|}{\cellcolor[HTML]{656565}{\color[HTML]{FFFFFF} \begin{tabular}[c]{@{}l@{}}Tempo da consulta \\ associada\end{tabular}}} \\ \hline
+\rowcolor[HTML]{EFEFEF} 
+\cellcolor[HTML]{EFEFEF}{\color[HTML]{333333} }                                                                                  & Árvore limite                                                            & \cellcolor[HTML]{EFEFEF}                                                                                                           & {\color[HTML]{333333} $\mathcal{O}(n)$}                                               & {\color[HTML]{333333} $\mathcal{O}(\log n + k)$}                                                                                           \\ \cline{2-2} \cline{4-5} 
+\rowcolor[HTML]{EFEFEF} 
+\cellcolor[HTML]{EFEFEF}{\color[HTML]{333333} }                                                                                  & Árvore de intervalos                                                     & \cellcolor[HTML]{EFEFEF}                                                                                                           & {\color[HTML]{333333} $\mathcal{O}(n)$}                                               & {\color[HTML]{333333} $\mathcal{O}(\log n + k)$}                                                                                           \\ \cline{2-2} \cline{4-5} 
+\rowcolor[HTML]{EFEFEF} 
+\multirow{-3}{*}{\cellcolor[HTML]{EFEFEF}{\color[HTML]{333333} $\mathbb{R}$}}                                                    & Árvore de segmentos                                                      & \multirow{-3}{*}{\cellcolor[HTML]{EFEFEF}$\mathcal{O}(n \log n)$}                                                                  & {\color[HTML]{333333} $\mathcal{O}(n \log n)$}                                        & {\color[HTML]{333333} $\mathcal{O}(\log n + k)$}                                                                                           \\ \hline
+\rowcolor[HTML]{C0C0C0} 
+\cellcolor[HTML]{C0C0C0}{\color[HTML]{333333} }                                                                                  & Árvore limite                                                            & \cellcolor[HTML]{C0C0C0}                                                                                                           & $\mathcal{O}(n \log n)$                                                               & $\mathcal{O}(\log^2 n + k)$                                                                                                                \\ \cline{2-2} \cline{4-5} 
+\rowcolor[HTML]{C0C0C0} 
+\cellcolor[HTML]{C0C0C0}{\color[HTML]{333333} }                                                                                  & Árvore limite com camadas                                                & \cellcolor[HTML]{C0C0C0}                                                                                                           & $\mathcal{O}(n \log n)$                                                               & $\mathcal{O}(\log n + k)$                                                                                                                  \\ \cline{2-2} \cline{4-5} 
+\rowcolor[HTML]{C0C0C0} 
+\cellcolor[HTML]{C0C0C0}{\color[HTML]{333333} }                                                                                  & \begin{tabular}[c]{@{}l@{}}Árvore de busca em \\ prioridade\end{tabular} & \multirow{-3}{*}{\cellcolor[HTML]{C0C0C0}$\mathcal{O}(n \log n)$}                                                                  & $\mathcal{O}(n \log n)$                                                               & $\mathcal{O}(\log^2 n + k)$                                                                                                                \\ \cline{2-5} 
+\rowcolor[HTML]{C0C0C0} 
+\multirow{-4}{*}{\cellcolor[HTML]{C0C0C0}{\color[HTML]{333333} $\mathbb{R}^2$}}                                                  & Àrvore de segmentos                                                      & $\mathcal{O}(n \log^2 n)$                                                                                                          & $\mathcal{O}(n \log^2 n)$                                                             & $\mathcal{O}(\log^2 n + k)$                                                                                                                \\ \hline
+\end{tabular}
+\end{table}
 
+Das árvores acima damos destaque às estruturas árvore limite com camadas e árvore de segmentos (descritas nas seções
+\ref{fraccascading} e \ref{anyorientationsegs}, respectivamente), por serem as estruturas utilizadas na resolução do problema que
+nos propomos a resolver.
+
+Foi desenvolvida uma biblioteca em linguagem \emph{python} com todos os algoritmos que descrevemos neste trabalho e foi feita a
+adaptação do visualizador de algoritmos geométricos desenvolvido por Alexis S. Landgraf~\cite{site2} para demonstrar a execução
+dos algoritmos implementados. Tanto a biblioteca quanto a adaptação do visualizador estão disponíveis no \emph{gitHub}~\cite{site}.
+
+Para rodarmos testes, utilizamos um mapa de municípios do Brasil formado por linhas poligonais cedido por Álvaro J. P. Franco. Os
+testes foram feitos utilizando o visualizador geométrico adaptado. As imagens a seguir mostram algumas das consultas realizadas em
+trechos desse mapa.
+
+\begin{center}
+  \begin{figure}[H]
+    \centering
+    \includegraphics[width=10cm]{figuras/7.png}
+    \caption{\label{fig:3}Dois exemplos de consulta no mapa de municípios do Brasil.}
+  \end{figure}
+\end{center}
+
+Algumas das extensões que poderiam ser feitas nesse trabalho são:
+\begin{itemize}
+  \item Implementar outras estruturas de dados para resolver o problema (como \emph{quadtrees} ou \emph{kd-trees}).
+  \item Adaptar as estruturas utilizadas para estruturas \emph{online}, permitindo que segmentos fossem adicionados ou removidos do
+    conjunto após a construção delas.
+  \item Resolver consultas sobre segmentos em espaços de dimensões maiores ($\mathbb{R}^3$,~$\mathbb{R}^4$, etc).
+  \item Realizar consultas sobre segmentos com janelas de outros formatos (circular, triangular e poligonal).
+\end{itemize}
 
 
 %% ------------------------------------------------------------------------- %%
