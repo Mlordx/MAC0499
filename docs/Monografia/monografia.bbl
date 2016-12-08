@@ -10,6 +10,16 @@ M.~de~Berg, O.~Cheong, M.~van Kreveld, and M.~Overmars.
 \newblock {\em Computational Geometry: Algorithms and Applications}.
 \newblock Springer, 3 edition, 2008.
 
+\bibitem{site2}
+A.~S. Landgraf.
+\newblock Visualizador de algoritmos geométricos.
+\newblock \url{https://github.com/Mlordx/visualizador-geometrico}, 2009.
+
+\bibitem{site}
+M.~B. Rodrigues.
+\newblock github.
+\newblock \url{https://github.com/Mlordx/MAC0499/tree/master/src}, 2016.
+
 \bibitem{junio09:MSc}
 Álvaro J.~P.~Franco.
 \newblock Consultas de segmentos em janelas: algoritmos e estruturas de dados.

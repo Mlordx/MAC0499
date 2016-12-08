@@ -21,8 +21,6 @@
 \@writefile{toc}{\select@language{brazilian}}
 \@writefile{lof}{\select@language{brazilian}}
 \@writefile{lot}{\select@language{brazilian}}
-\citation{junio09:MSc}
-\@writefile{brf}{\backcite{junio09:MSc}{{i}{(document)}{Doc-Start}}}
 \citation{dbvkos}
 \citation{clrs}
 \citation{dbvkos}
@@ -42,6 +40,10 @@
 \newlabel{fig:graph}{{1.2}{2}{Exemplo de uma figura tratada com imperfeições representadas como segmentos.\relax }{figure.caption.4}{}}
 \@writefile{brf}{\backcite{junio09:MSc}{{2}{1}{figure.caption.4}}}
 \@writefile{brf}{\backcite{junio09:MSc}{{2}{1}{figure.caption.4}}}
+\citation{site2}
+\citation{site}
+\@writefile{brf}{\backcite{site2}{{3}{1}{figure.caption.4}}}
+\@writefile{brf}{\backcite{site}{{3}{1}{figure.caption.4}}}
 \@writefile{toc}{\contentsline {chapter}{\numberline {2}Defini\c {c}\~oes e Primitivas}{5}{chapter.2}}
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
@@ -50,15 +52,16 @@
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.1.1}Compara\c c\~oes entre pontos}{5}{subsection.2.1.1}}
 \@writefile{toc}{\contentsline {section}{\numberline {2.2}Segmentos}{5}{section.2.2}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.2.1}Intervalos}{5}{subsection.2.2.1}}
-\@writefile{loa}{\contentsline {algorithm}{\numberline {1}{\ignorespaces Retorna \textbf  {TRUE} caso $a \cap b \not =\emptyset $ e \textbf  {FALSE} caso contr\'ario.\relax }}{6}{algorithm.1}}
-\@writefile{loa}{\contentsline {algorithm}{\numberline {2}{\ignorespaces Retorna \textbf  {TRUE} caso $a \subseteq b$ e \textbf  {FALSE} caso contr\'ario.\relax }}{6}{algorithm.2}}
-\@writefile{loa}{\contentsline {algorithm}{\numberline {3}{\ignorespaces Retorna \textbf  {TRUE} caso o ponto $a$ perten\c ca ao intervalo $b$ e \textbf  {FALSE} caso contr\'ario.\relax }}{6}{algorithm.3}}
+\@writefile{loa}{\contentsline {algorithm}{\numberline {1}{\ignorespaces Dado dois intervalos $a$ e $b$, retorna \textbf  {TRUE} $a \cap b \not =\emptyset $ e \textbf  {FALSE} caso contr\'ario.\relax }}{6}{algorithm.1}}
+\@writefile{loa}{\contentsline {algorithm}{\numberline {2}{\ignorespaces Dado dois intervalos $a$ e $b$, retorna \textbf  {TRUE} caso $a \subseteq b$ e \textbf  {FALSE} caso contr\'ario.\relax }}{6}{algorithm.2}}
+\@writefile{loa}{\contentsline {algorithm}{\numberline {3}{\ignorespaces Dado um ponto $a$ e um intervalo $b$, retorna \textbf  {TRUE} caso $a$ perten\c ca a $b$ e \textbf  {FALSE} caso contr\'ario.\relax }}{6}{algorithm.3}}
 \@writefile{toc}{\contentsline {section}{\numberline {2.3}Posi\c c\~ao relativa entre ponto e segmento}{6}{section.2.3}}
 \newlabel{leftright}{{2.3}{6}{Posição relativa entre ponto e segmento}{section.2.3}{}}
 \@writefile{loa}{\contentsline {algorithm}{\numberline {4}{\ignorespaces Retorna \textbf  {TRUE} caso $p$ esteja \`a esquerda de $s$.\relax }}{7}{algorithm.4}}
 \newlabel{alg4:4}{{4}{7}{Retorna \textbf {TRUE} caso $p$ esteja à esquerda de $s$.\relax }{lstnumber.-4.4}{}}
 \newlabel{alg4:5}{{5}{7}{Retorna \textbf {TRUE} caso $p$ esteja à esquerda de $s$.\relax }{lstnumber.-4.5}{}}
 \@writefile{loa}{\contentsline {algorithm}{\numberline {5}{\ignorespaces Retorna \textbf  {TRUE} caso $p$ esteja \`a direita de $s$.\relax }}{7}{algorithm.5}}
+\newlabel{alg5:5}{{6}{7}{Retorna \textbf {TRUE} caso $p$ esteja à direita de $s$.\relax }{lstnumber.-5.6}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.3.1}Posi\c c\~ao relativa entre segmentos}{7}{subsection.2.3.1}}
 \newlabel{positionbtwsegs}{{2.3.1}{7}{Posição relativa entre segmentos}{subsection.2.3.1}{}}
 \citation{junio09:MSc}
@@ -146,7 +149,7 @@
 \@writefile{lol}{\contentsline {lstlisting}{alg22}{31}{lstlisting.4.-30}}
 \@writefile{loa}{\contentsline {algorithm}{\numberline {25}{\ignorespaces Continua\c c\~ao do algoritmo 25.\relax }}{32}{algorithm.25a}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.2.3}An\'alise}{32}{subsection.4.2.3}}
-\@writefile{toc}{\contentsline {section}{\numberline {4.3}Uma outra abordagem para intervalos na reta.}{32}{section.4.3}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.3}Uma outra abordagem para intervalos na reta}{32}{section.4.3}}
 \newlabel{moreonintervals}{{4.3}{32}{Uma outra abordagem para intervalos na reta}{section.4.3}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.3.1}Pr\'e-processamento}{32}{subsection.4.3.1}}
 \@writefile{loa}{\contentsline {algorithm}{\numberline {26}{\ignorespaces Devolve uma lista de intervalos elementares $q$ constru\IeC {\'\i }da sobre o conjunto $v$.\relax }}{33}{algorithm.26}}
@@ -187,17 +190,27 @@
 \newlabel{alg34:21}{{21}{40}{Constroi as 4 estruturas auxiliares a serem utilizadas na consulta a partir de uma lista de segmentos $s$.\relax }{lstnumber.-40.21}{}}
 \newlabel{alg34:22}{{22}{40}{Constroi as 4 estruturas auxiliares a serem utilizadas na consulta a partir de uma lista de segmentos $s$.\relax }{lstnumber.-40.22}{}}
 \@writefile{toc}{\contentsline {section}{\numberline {5.3}An\'alise}{41}{section.5.3}}
+\citation{site2}
+\citation{site}
 \@writefile{toc}{\contentsline {chapter}{\numberline {6}Conclus\~ao}{43}{chapter.6}}
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\@writefile{toc}{\contentsline {chapter}{\numberline {7}Parte subjetiva}{45}{chapter.7}}
+\@writefile{lot}{\contentsline {table}{\numberline {6.1}{\ignorespaces Tabela comparativa das \'arvores descritas no trabalho.\relax }}{43}{table.caption.5}}
+\newlabel{my-label}{{6.1}{43}{Tabela comparativa das árvores descritas no trabalho.\relax }{table.caption.5}{}}
+\@writefile{brf}{\backcite{site2}{{43}{6}{table.caption.5}}}
+\@writefile{brf}{\backcite{site}{{43}{6}{table.caption.5}}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6.1}{\ignorespaces Dois exemplos de consulta no mapa de munic\IeC {\'\i }pios do Brasil.\relax }}{44}{figure.caption.6}}
+\newlabel{fig:3}{{6.1}{44}{Dois exemplos de consulta no mapa de municípios do Brasil.\relax }{figure.caption.6}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {7}Parte Subjetiva}{45}{chapter.7}}
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
 \bibstyle{abbrv}
 \bibdata{bibliografia}
 \bibcite{clrs}{{1}{}{{}}{{}}}
 \bibcite{dbvkos}{{2}{}{{}}{{}}}
-\bibcite{junio09:MSc}{{3}{}{{}}{{}}}
+\bibcite{site2}{{3}{}{{}}{{}}}
+\bibcite{site}{{4}{}{{}}{{}}}
+\bibcite{junio09:MSc}{{5}{}{{}}{{}}}
 \providecommand\NAT@force@numbers{}\NAT@force@numbers
-\@writefile{toc}{\contentsline {chapter}{Refer\^encias Bibliogr\'aficas}{47}{chapter*.5}}
+\@writefile{toc}{\contentsline {chapter}{Refer\^encias Bibliogr\'aficas}{47}{chapter*.9}}
 \ttl@finishall

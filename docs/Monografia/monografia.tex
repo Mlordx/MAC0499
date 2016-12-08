@@ -158,7 +158,7 @@
     \vskip 5cm
     \normalsize{São Paulo}
 
-    \normalsize{Setembro de 2016}
+    \normalsize{Dezembro de 2016}
 \end{center}
 
 % ---------------------------------------------------------------------------- %
@@ -188,7 +188,7 @@ consultas de segmentos em janelas}}
     \vskip 5cm
     \normalsize{São Paulo}
 
-    \normalsize{Setembro de 2016}
+    \normalsize{Dezembro de 2016}
     \end{center}
 \pagebreak
 
@@ -212,11 +212,11 @@ consultas de segmentos em janelas}}
 % Resumo
 \chapter*{Resumo}
 
-Este trabalho de conclusão de curso fundamentou-se na compreensão e implementação em linguagem \emph{python} de um algoritmo para
+Este trabalho de conclusão de curso fundamentou-se na compreensão e implementação em linguagem \emph{Python} de um algoritmo para
 consultas de intersecções de segmentos de retas com janelas retangulares no espaço, um subproblema de geometria computacional
-conhecido por: buscas em regiões ortogonais. Este algoritmo foi o foco da tese de mestrado de Álvaro Junio Pereira Franco. Além da
-implementação, foi feita também a adaptação do visualizador de algoritmos geométricos feito por Alexis Sakurai Landgraf para
-exposição dos resultados obtidos.  \\
+conhecido por: buscas em regiões ortogonais. Este algoritmo foi o foco da dissertação de mestrado de Álvaro Junio Pereira
+Franco. Além da implementação, foi feita também a adaptação do visualizador de algoritmos geométricos feito por Alexis Sakurai
+Landgraf para exposição dos resultados obtidos.  \\
 
 \noindent \textbf{Palavras-chave:} Geometria, janelas, segmentos, buscas. 
 
@@ -278,9 +278,9 @@ uso de objetos geométricos primitivos como: pontos, retas e segmentos de reta.
 
 Vamos exemplificar algumas dessas aplicações. Imagine que temos um banco de dados com diversas informações como: altura, idade,
 etc. Podemos resolver perguntas, ou \textbf{consultas}, interpretando o problema de forma geométrica \cite{dbvkos}. Caso queiramos
-saber todas as pessoas de altura entre $1,50m$ e $1,70m$ de altura que têm entre 15 e 20 anos, podemos representar essas pessoas
-como pontos indexados por altura e idade e a resposta seriam todos os pontos contidos na janela de lados paralelos que queremos (como
-pode ser visto na figura a seguir), note que cada característica que adicionemos na busca aumentaria a dimensão do espaço de
+saber todas as pessoas de altura entre $1,50m$ e $1,70m$ que têm entre 15 e 20 anos, podemos representar essas pessoas como pontos
+indexados por altura e idade e a resposta seria o conjundo de todos os pontos contidos na janela de lados paralelos que queremos
+(como pode ser visto na figura a seguir). Note que cada característica que adicionemos na busca aumentaria a dimensão do espaço de
 buscas.
 
 \begin{center}
@@ -320,17 +320,17 @@ descritas. Ao longo desta monografia tomaremos uma postura mais intuitiva e didá
 respectivas análises de complexidade. Caso o leitor sinta falta de alguma prova formal, estão todas disponíveis
 em~\cite{junio09:MSc}.
 
-Seguiremos a mesma divisão do problema que foi proposta na dissertação de Álvaro J. P. Franco: primeiramente encontraremos pontos
-contidos em janelas e acharemos todos os segmentos que intersectam com um dado segmento (horizontal ou vertical). Este trabalho
-tem os seguintes capítulos: primeiramente apresentaremos definições e primitivas geométricas, dedicaremos um capítulo para falar
-de consultas de pontos em janelas, um para falar de encontrar intersecção de segmentos e finalmente um onde agregaremos esses
-algoritmos para resolver o problema proposto.
+Dividiremos o problema da seguinte forma: primeiramente encontraremos pontos contidos em janelas e acharemos todos os segmentos
+que intersectam com dados segmentos horizontais ou verticais (que serão os lados da janela). Este trabalho tem os seguintes
+capítulos: primeiramente apresentaremos definições e primitivas geométricas, dedicaremos um capítulo para discutirmos consultas de
+pontos em janelas, um para discutirmos intersecção de segmentos e finalmente um onde agregaremos esses algoritmos para resolver o
+problema proposto.
 
-Todo o código desenvolvido foi escrito em linguagem \emph{python}. A escolha dessa linguagem se deu pela facilidade de escrita e
+Todo o código desenvolvido foi escrito em linguagem \emph{Python}. A escolha dessa linguagem se deu pela facilidade de escrita e
 pela existência de um visualizador de algoritmos geométricos criado por Alexis Sakurai Landgraf~\cite{site2}. Visto isso, não
 visamos, nesse trabalho, obter uma implementação eficiente e otimizada destes algoritmos. Mas, sempre fazendo a melhor
-implementação conhecida para os algoritmos, visamos obter uma implementação fácil de acompanhar para um leitor com experiência em
-algoritmos de geometria computacional. Toda a implementação está disponível no gitHub~\cite{site} juntamente com a adaptação do
+implementação conhecida para os algoritmos, visamos obter uma implementação fácil de ser acompanhada por um leitor com experiência
+em algoritmos de geometria computacional. Toda a implementação está disponível no gitHub~\cite{site} juntamente com a adaptação do
 visualizador geométrico que foi feita.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -344,7 +344,7 @@ visualizador geométrico que foi feita.
 \chapter{Defini\c{c}\~oes e Primitivas}
 \label{cap:definicoes}
 
-Explicaremos a seguir algumas das noções fundamentais que serão utilizadas ao longo do trabalho:
+Explicaremos a seguir algumas das noções fundamentais que serão utilizadas ao longo do trabalho.
 
 \section{Pontos}
 Neste trabalho trataremos basicamente com pontos~(no $\mathbb{R}~\text{e}~\mathbb{R}^2$) e segmentos de reta~(restritos ao
@@ -372,7 +372,7 @@ Ao longo deste trabalho usaremos segmentos horizontais (ou verticais) para repre
 primitivas referentes a intervalos que utilizaremos na última seção do capítulo 4:
 
 \begin{algorithm}[H]
-\caption{Retorna \textbf{TRUE} caso $a \cap b \neq \emptyset$ e \textbf{FALSE} caso contrário.}
+\caption{Dado dois intervalos $a$ e $b$, retorna \textbf{TRUE} $a \cap b \neq \emptyset$ e \textbf{FALSE} caso contrário.}
 \lstset{basicstyle=\ttfamily\color{text}\bfseries}
 \begin{lstlisting}[escapechar=|]
 def intersects(self,a,b):
@@ -386,7 +386,7 @@ def intersects(self,a,b):
 \end{algorithm} 
 
 \begin{algorithm}[H]
-\caption{Retorna \textbf{TRUE} caso $a \subseteq b$ e \textbf{FALSE} caso contrário.}
+\caption{Dado dois intervalos $a$ e $b$, retorna \textbf{TRUE} caso $a \subseteq b$ e \textbf{FALSE} caso contrário.}
 \lstset{basicstyle=\ttfamily\color{text}\bfseries}
 \begin{lstlisting}[escapechar=|]
 def contains(self,a,b):
@@ -398,7 +398,7 @@ def contains(self,a,b):
 \end{algorithm} 
 
 \begin{algorithm}[H]
-\caption{Retorna \textbf{TRUE} caso o ponto $a$ pertença ao intervalo $b$ e \textbf{FALSE} caso contrário.}
+\caption{Dado um ponto $a$ e um intervalo $b$, retorna \textbf{TRUE} caso $a$ pertença a $b$ e \textbf{FALSE} caso contrário.}
 \lstset{basicstyle=\ttfamily\color{text}\bfseries}
 \begin{lstlisting}[escapechar=|]
  def belongsTo(self,a,b):
@@ -448,23 +448,23 @@ def left(p,s):
 \begin{algorithm}[H]
 \caption{Retorna \textbf{TRUE} caso $p$ esteja à direita de $s$.}
 \lstset{basicstyle=\ttfamily\color{text}\bfseries}
-\begin{lstlisting}[mathescape]
+\begin{lstlisting}[escapechar=|]
 def right(p,s):
     b = s.beg
     c = s.end
     if b.x == c.x and p.x == b.x: return p.y < b.y
     if b.y == c.y and p.y == b.y: return p.x > c.x
-    return not(left_on(p,s)) 
+    return not(left_on(p,s)) |\label{alg5:5}|
 \end{lstlisting}
 \end{algorithm} 
 
 \par Algumas ressalvas sobre essas funções: 
 \begin{itemize}
-\item[-] A única diferença da função \emph{left\_on} em relação à função \emph{left} é que ela também retorna \emph{true} caso o
-  ponto esteja sobre o segmento dado.
+\item[-] A única diferença da função \emph{left\_on} (referenciada na linha \ref{alg5:5} do algoritmo 5) em relação à função
+  \emph{left} é que ela também retorna \emph{true} caso o ponto esteja sobre o segmento dado.
 
-\item[-] As modificações presentes nas linhas \ref{alg4:4} e \ref{alg4:5} foram adicionadas apenas para resolverem os casos
-  degenerados apresentados na seção \ref{anyorientationsegs}.
+\item[-] As linhas \ref{alg4:4} e \ref{alg4:5} dos algoritmos 4 e 5 foram adicionadas apenas para resolverem os casos degenerados
+  apresentados na seção \ref{anyorientationsegs} e não são comuns em testes de posição relativa entre ponto e segmento.
 \end{itemize}
 
 \subsection{Posição relativa entre segmentos}
@@ -493,13 +493,13 @@ pontos na reta tais que $u \leq v$, definimos uma \textbf{janela} como sendo um 
 
 \subsection{Pré-processamento}
 
-Para resolvermos rapidamente sucessivas consultas sobre um dado conjunto de pontos, precisaremos armazenar esses dados em uma
+Para resolvermos rapidamente sucessivas consultas sobre um dado conjunto de $n$ pontos, precisaremos armazenar esses dados em uma
 estrutura de dados apropriada. A estrutura que usaremos será um tipo de árvore de busca binária balanceada (ABBB) chamada de
 \textbf{árvore limite}, onde cada nó terá 3 campos: um ponteiro para um ponto associado, um ponteiro para o filho esquerdo e um
 ponteiro para o filho direito. O balanceamento da árvore virá da sua construção. Consideramos os pontos ordenados e colocamos na
 raiz o elemento central, de forma que na subárvore esquerda e direita ficam aproximadamente metade dos elementos. As duas
-subárvores serão, portanto, construídas da mesma forma, obtendo altura $\mathcal{O}(\log n)$. A seguir está o trecho de código
-referente à construção dessa árvore:
+subárvores serão, portanto, construídas da mesma forma, resultando em altura $\mathcal{O}(\log n)$. A seguir está o trecho de
+código referente à construção dessa árvore:
 
 \begin{algorithm}[H]
 \caption{Retorna uma raíz $v$ de uma árvore limite 1D construída sobre um conjunto de pontos ordenados.}
@@ -527,7 +527,7 @@ Seja $P$ um conjunto de pontos e seja $W = [w_1,w_2]$ uma janela. Podemos consul
 
 \begin{itemize}
 \item[1.] Achamos o \textbf{ponto divisor} de $P$, este é o ponto que se encontra na raiz da subárvore que contém os pontos
-  $S \coloneqq $ ($v~\colon~w_1 \leq v \leq w_2 $), chamaremos esse ponto de $v_{div}$.
+  $S \coloneqq $ ($p~\colon~w_1 \leq p \leq w_2 $), chamaremos esse ponto de $v_{div}$.
 \item[2.] Percorremos a subárvore esquerda de $v_{div}$. Tome $r$ como o ponto da raiz desta subárvore. Se $w_1 \leq r$, adicionamos
   todos os pontos da subárvore direita desta subárvore na resposta, e seguimos para sua subárvore esquerda. Caso contrário, ou
   seja $w_1 > r$, devemos seguir para a sua subárvore direita.
@@ -633,7 +633,7 @@ def query(self,rng):
 \item[-] O pré-processamento requer que seja feita uma ordenação sobre o conjunto de pontos de entrada, portanto tem complexidade
   $\Theta(n\log n)$.
 \item[-] A árvore terá altura $\mathcal{O}(\log n)$ e visitaremos $\mathcal{O}(\log n)$ pontos. Além disso, consumiremos tempo
-  $\mathcal{O}(k)$ para visitar os $k$ pontos das folhas em cada subàrvore de $v_{div}$ que estão contidos no intervalo e devem
+  $\mathcal{O}(k)$ para visitar os $k$ pontos das folhas em cada subárvore de $v_{div}$ que estão contidos no intervalo e devem
   aparecer na resposta final. Portanto a complexidade final da consulta é da ordem $\mathcal{O}(\log n + k)$.
 \end{itemize}
 
@@ -642,7 +642,7 @@ def query(self,rng):
 Analisaremos agora o problema no espaço do $\mathbb{R}^2$. Sejam $w_1 = (x_1,y_1)$ e $w_2 = (x_2,y_2)$ pontos no $\mathbb{R}^2$,
 os segmentos de reta que formam um retângulo de lados paralelos ao eixos e que passam pelos pontos $w_1$ e $w_2$ são: $s_1
 \coloneqq \overline{(x_1,y_1)(x_1,y_2)},~s_2 \coloneqq \overline{(x_1,y_2)(x_2,y_2)},~s_3 \coloneqq
-\overline{(x_2,y_2)(x_2,y_1)}~\text{e}~s_4 \coloneqq \overline{(x_2,y_1)(x_1,y_1)}$, uma \textbf{janela} será definida como a
+\overline{(x_2,y_2)(x_2,y_1)}~\text{e}~s_4 \coloneqq \overline{(x_2,y_1)(x_1,y_1)}$. Uma \textbf{janela} será definida como a
 união desses 4 segmentos e sua região interna, porém, usaremos uma representação compacta representando a janela pelo segmento $s
 \coloneqq \overline{w_1,w_2}$. Mostraremos primeiro o algoritmo mais simples que estende a ideia apresentada no algoritmo anterior
 e no tópico seguinte uma estrutura de dados diferente que pode ser usada neste algoritmo para diminuir o consumo de tempo.
@@ -779,18 +779,18 @@ si.
 
 \subsection{Pré-processamento}
 \label{fraccascading:1}
-O primeiro nível da árvore limite com camadas será exatamente como mostrado anteriormente, a diferença estará presente no segundo
+O primeiro nível da árvore limite com camadas será exatamente como mostrado anteriormente; a diferença estará presente no segundo
 nível onde teremos uma estrutura que definimos como \textbf{árvore de camadas}. Os ``nós'' dessa árvore são na verdade vetores de
-nós auxiliares ordenados pelos pontos associados. \par Seja $P$ o conjunto de pontos associados a um dado vetor da árvore de camadas,
-sejam $V^x$ e $V^y$ vetores com os pontos de $P$ ordenados por $x$ e $y$ respectivamente, particionamos $V^y$ em 2 vetores:
-$V^y_e$ e $V^y_d$. Essa partição é feita da seguinte forma: seja $v_{max}$ o maior ponto de $V^x$, seja $q \in V^y$, se $q \leq_y
-v_{max},~q \in V^y_e,~ \text{caso contrário}~q \in V^y_d$.  \par Portanto, seja $P$ o conjunto de pontos associado ao vetor, seja $p \in P$
-o ponto associado ao nó do vetor $V^y$, e sejam $V^y_e~\text{e}~V^y_d$ como definidos anteriormente, cada elemento dos nós
-auxiliares terão os seguintes campos: um ponteiro para o ponto $p$, um ponteiro $pt_{e}(q)$ para o menor ponto $q$ em $V^y_e$ tal
-que $q \geq_y p$, um ponteiro $pt_{d}(u)$ para o menor ponto $u$ em $V^y_d$ tal que $u \geq_y p$, uma variável booleana que indica se o
-vetor ao qual o nó pertence é $V^y_e$ ou $V^y_d$ e finalmente um ponteiro para o próximo elemento do vetor. Esse último ponteiro
-foi uma adaptação ao fato da linguagem \emph{python} não apresentar aritmética de ponteiros, que foi utilizada na descrição desse
-algoritmo em \cite{junio09:MSc}.
+nós auxiliares ordenados pelos pontos associados. \par Seja $P$ o conjunto de pontos associados a um dado vetor da árvore de
+camadas, sejam $V^x$ e $V^y$ vetores com os pontos de $P$ ordenados por $x$ e $y$ respectivamente. Particionamos $V^y$ em 2
+vetores: $V^y_e$ e $V^y_d$. Essa partição é feita da seguinte forma: seja $v_{max}$ o maior ponto de $V^x$, seja $q \in V^y$, se
+$q \leq_y v_{max},~q \in V^y_e,~ \text{caso contrário}~q \in V^y_d$.  \par Portanto, seja $P$ o conjunto de pontos associado ao
+vetor, seja $p \in P$ o ponto associado ao nó do vetor $V^y$, e sejam $V^y_e~\text{e}~V^y_d$ como definidos anteriormente, cada
+elemento dos nós auxiliares terão os seguintes campos: um ponteiro para o ponto $p$, um ponteiro $pt_{e}(q)$ para o menor ponto
+$q$ em $V^y_e$ tal que $q \geq_y p$, um ponteiro $pt_{d}(u)$ para o menor ponto $u$ em $V^y_d$ tal que $u \geq_y p$, uma variável
+booleana que indica se o vetor ao qual o nó pertence é $V^y_e$ ou $V^y_d$ e finalmente um ponteiro para o próximo elemento do
+vetor. Esse último ponteiro foi uma adaptação ao fato da linguagem \emph{Python} não apresentar aritmética de ponteiros, que foi
+utilizada na descrição desse algoritmo em \cite{junio09:MSc}.
 
 \begin{algorithm}[H]
   \caption{Retorna um ponteiro para um vetor ordenado de nós verticais a partir de um vetor de pontos ordenados por x e um vetor de
@@ -994,8 +994,8 @@ Seja $P$ um conjunto de pontos e $W^- \coloneqq (-\infty:w]$ uma janela ilimitad
 
 
 \begin{itemize}
-\item[-] Olhamos para a raiz do heap, caso o ponto associado esteja à esquerda de $w$, listamos o ponto e repetimos a verificação para seus filhos
-  esquerdo e direito.
+\item[-] Olhamos para a raiz do heap, caso o ponto associado esteja à esquerda de $w$, adicionamos o ponto na resposta e repetimos
+  a verificação para seus filhos esquerdo e direito.
 \end{itemize}
 
 \begin{algorithm}[H]
@@ -1004,7 +1004,7 @@ Seja $P$ um conjunto de pontos e $W^- \coloneqq (-\infty:w]$ uma janela ilimitad
 \begin{lstlisting}[mathescape]
 def query(self, v, rng):
     l = []
-    if p is not None:
+    if v is not None:
         w = rng[1]
         if v.point <= w:
             l += v.point
@@ -1024,21 +1024,21 @@ def query(self, v, rng):
 
 \section{Janelas ilimitadas - caso bidimensional}
 
-Sejam $w_1 = (x_1,y_1)$ e $w_2 = (x_2,y_2)$ pontos no $\mathbb{R}^2$, similarmente à seção \ref{janela2d} iremos definir 4
+Sejam $w_1 = (x_1,y_1)$ e $w_2 = (x_2,y_2)$ pontos no $\mathbb{R}^2$. Similarmente à seção \ref{janela2d} iremos definir 4
 segmentos de reta que farão parte da janela a ser consultada. Porém agora teremos uma pequena modificação: seja $x_{min}$ o menor
 e seja $x_{max}$ o maior valor de $x$ do conjunto de pontos, definimos arbitrariamente que ou $x_1 = x_{min} - 1$ ou $x_2 =
 x_{max} + 1$. Chamamos a janela construída com $x_1 = x_{min} - 1$ de $W^-$ e a janela construída com $x_2 = x_{max} + 1$ de
-$W^+$. O algoritmo a seguir resolve um consulta sobre pontos numa janela $W^-$, mas é simétrico para uma janela $W^+$ ou mesmo
-para janelas verticais. Na implementação faremos um certo abuso de linguagem permitido pela linguagem de programação escolhida:
-definiremos $x_1 = -\infty$ e falaremos que $w_1 = (-\infty,y_1)$ é um ponto.
+$W^+$. O algoritmo a seguir resolve uma consulta sobre pontos numa janela $W^-$, mas é simétrico para uma janela $W^+$ ou mesmo
+para janelas ilimitadas verticais. Na implementação faremos um certo abuso de linguagem permitido pela linguagem de programação
+escolhida: definiremos $x_1 = -\infty$ e falaremos que $w_1 = (-\infty,y_1)$ é um ponto.
 
 \subsection{Pré-processamento}
 
 A estrutura de dados que utilizaremos para essa consulta é chamada de \textbf{árvore de busca em prioridade}, uma árvore de busca
 balanceada sobre a coordenada $y$. Os nós da estrutura terão 4 campos: um ponteiro para o ponto associado ao nó, um ponteiro para
-o filho esquerdo, um ponteiro para o filho direito e um ponteiro para um ponto denominado $p_{min}$, através desse último ponteiro
+o filho esquerdo, um ponteiro para o filho direito e um ponteiro para um ponto denominado $p_{min}$. Através desse último ponteiro
 manteremos a propriedade de \emph{minheap}. Essa estrutura será balanceada por construção, pois em cada nó pegamos o x-menor ponto
-$v_{min}$ do conjunto de pontos, em seguida atribuímos ao nó um ponto $v$ tal que ao retirarmos $v$, os tamanhos das partições que
+$v_{min}$ do conjunto de pontos, em seguida atribuímos ao nó um ponto $v$ tal que ao retirarmos $v$, os tamanhos das partes que
 serão usadas para construção dos filhos difiram em no máximo 1. Uma definição adicional que será usada no algoritmo é: dado um nó
 de uma árvore de busca em prioridade, caso o ponteiro para o filho direito desse nó seja nulo e o ponteiro para o filho esquerdo
 seja não-nulo, chamaremos esse nó de \textbf{semi-folha}. Segue o código referente a essa implementação:
@@ -1228,12 +1228,13 @@ def query(self,rng):
 \newpage
 \subsection{Análise}
 \begin{itemize}
-\item[-] Na construção, começamos ordenando os pontos da entrada, o que consome tempo $\mathcal{O}(n \log n)$. A construção em si é composta por partes
-  $\theta(n)$ junto com duas chamadas recursivas para metade do tamanho, que consumirá por recorrência tempo $\mathcal{O}(n \log n)$. Chegamos
-  portanto em consumo de tempo total de $\mathcal{O}(n \log n)$.
-\item[-] A consulta seguirá por dois caminhos na árvore de tamanho $\log n$ cada, onde verificar se um dado pmin pertence à janela $W^-$ consome tempo
-  $\mathcal{O}(1)$ e cada chamada de \emph{pointsMinHeap} consome tempo equivalente ao número de pontos da resposta contidos no heap, portando todas as
-  chamadas totalizarão tempo $\mathcal{O}(k)$. Chegamos no total ao consumo de tempo de $\mathcal{O}(\log n + k)$.
+\item[-] Na construção, começamos ordenando os pontos da entrada, o que consome tempo $\mathcal{O}(n \log n)$. A construção em si
+  é composta por partes $\theta(n)$ junto com duas chamadas recursivas para metade do tamanho, que consumirá por recorrência tempo
+  $\mathcal{O}(n \log n)$. Chegamos portanto em consumo de tempo total de $\mathcal{O}(n \log n)$.
+\item[-] A consulta seguirá por dois caminhos na árvore de tamanho $\log n$ cada, onde verificar se um dado $pmin$ pertence à janela
+  $W^-$ consome tempo $\mathcal{O}(1)$ e cada chamada de \emph{pointsMinHeap} consome tempo equivalente ao número de pontos da
+  resposta contidos no heap, portando todas as chamadas totalizarão tempo $\mathcal{O}(k)$. Chegamos no total ao consumo de tempo
+  de $\mathcal{O}(\log n + k)$.
 \end{itemize}
 
 
@@ -1248,8 +1249,8 @@ espaço, esses algoritmos serão posteriormente usados nas chamadas do algoritmo d
 
 \section{Intervalos na reta}
 \label{1dintervals}
-Primeiramente explicaremos um algoritmo que resolve consultas no espaço $\mathbb{R}$. Definiremos a ``janela'' como um dado ponto
-no espaço e encontraremos todos os intervalos que contêm esse ponto. Veremos uma outra forma de resolver esse tipo de consulta
+Primeiramente explicaremos um algoritmo que resolve consultas no espaço $\mathbb{R}$. A janela que trataremos aqui será de um
+ponto e encontraremos todos os intervalos na reta que contêm esse ponto. Veremos uma outra forma de resolver esse tipo de consulta
 numa futura seção usando uma ideia que será estendida para consultas sobre segmentos.
 
 Na implementação usaremos intervalos como segmentos de reta, onde seus limites serão dados pelos campos $p_e$ e $p_d$ que denotam o ponto extremo
@@ -1486,7 +1487,7 @@ def query_r(self,v,seg):
   em si, particionamos um vetor em 2 e preenchemos 2 vetores auxiliares, todas operações $\mathcal{O}(n)$. Além disso, construímos
   2 árvores de busca em prioridade, que como vimos anteriormente tem complexidade $\mathcal{O}(n_v \log n_v)$, somando-se todas as
   chamadas que serão feitas a essas funções, teremos também complexidade $\mathcal{O}(n \log n)$. As chamadas para os filhos
-  esquerdo e direito com vetores aproximadamente com a metade de elementos de $v$ resulta num recorrência cuja resolução nos
+  esquerdo e direito com vetores aproximadamente com a metade de elementos de $v$ resulta numa recorrência cuja resolução nos
   mostra que a complexidade total da construção da árvore será $\mathcal{O}(n \log n)$.
 \item[-] Visitaremos um nó por nível da árvore, portanto visitaremos $\mathcal{O}(\log n)$ nós. Em cada nó realizamos algumas
   operações $\mathcal{O}(1)$ e uma busca numa árvore de busca em prioridade, consumindo tempo $\mathcal{O}(\log n' + k') =
@@ -1494,7 +1495,7 @@ def query_r(self,v,seg):
   intersectam o segmento $w$ ($\sum k' = k$). Assim, chegamos ao consumo total de tempo de consulta de $\mathcal{O}(\log^2 n + k)$.
 \end{itemize}
 
-\section{Uma outra abordagem para intervalos na reta.}
+\section{Uma outra abordagem para intervalos na reta}
 \label{moreonintervals}
 Resolveremos agora o mesmo problema apresentado na seção \ref{1dintervals} utilizando uma nova estrutura de dados. Definiremos
 primeiro uma noção que será utilizada nessa estrutura: seja $S \coloneqq \{s_1,s_2,\dots,s_n\}$ um conjunto de intervalos (ou
@@ -1659,7 +1660,7 @@ def query_r(self,v,p):
 \begin{itemize}
 \item[-] Inicialmente construímos os intervalos elementares, que requer uma ordenação sobre o conjunto de pontos extremos, levando
   portanto tempo $\mathcal{O}(n \log n)$. Construir a árvore de baixo para cima e inserir os intervalos de $S$ na árvore levam
-  ambos tempo proporcional ao número de intervalos elementares, isto é, tempo $\mathcal{O}(n)$. Assim, chegamos que o consumo de
+  ambos tempo proporcional ao número de intervalos elementares, isto é, tempo $\mathcal{O}(n)$. Assim, concluímos que o consumo de
   tempo total da construção dessa estrutura é $\mathcal{O}(n \log n)$.
 \item[-] Por construção, teremos que a árvore terá altura $\mathcal{O}(\log n)$. Em cada nível da árvore levamos tempo
   $\mathcal{O}(k')$ ($\sum k' = k$) para adicionar todos os segmentos da lista associada ao nó na resposta e tempo constante nas demais
@@ -1697,8 +1698,8 @@ def buildSegmentTree(self,v):
 \end{lstlisting}
 \end{algorithm}
 
-(As chamadas nas linhas \ref{alg30:2},\ref{alg30:3} e \ref{alg30:6} são as mesmas descritas na seção \ref{moreonintervals} e a
-chamada da linha \ref{alg30:8} ordena as listas de todos os nós da árvore, seguindo a relação de ordem descrita acima.)
+As chamadas nas linhas \ref{alg30:2},\ref{alg30:3} e \ref{alg30:6} são as mesmas descritas na seção \ref{moreonintervals} e a
+chamada da linha \ref{alg30:8} ordena as listas de todos os nós da árvore, seguindo a relação de ordem descrita acima.
 
 \subsection{Realizando a consulta}
 \label{anyorientationsegs:2}
@@ -1753,8 +1754,8 @@ def query_r(self,v,s):
   total de $\mathcal{O}(n \log^2 n)$.
 \item[-] Visitamos $\mathcal{O}(\log n)$ nós da árvore na consulta. Em cada nó $i$ realizamos uma busca binária que consome tempo
   $\mathcal{O}(\log n_i) = \mathcal{O}(\log n)$ e percorremos $O(k_i)$ elementos de $L_{ord}(i)$, onde $n_i$ é o número de
-  elementos em $L_{ord}(i)$ e $k_i$ o número de elementos de $L_{ord}(i)$ que está na resposta. Teremos entao complexidade total
-  na consulta da ordem de $\mathcal{O}(\log^2 n + k)$ (Pois $\sum k_i = k$).
+  elementos em $L_{ord}(i)$ e $k_i$ o número de elementos de $L_{ord}(i)$ que está na resposta. Teremos então complexidade total
+  na consulta da ordem de $\mathcal{O}(\log^2 n + k)$ (pois $\sum k_i = k$).
 \end{itemize}
 
 %% ------------------------------------------------------------------------- %%
@@ -1807,8 +1808,9 @@ divida em 5 subconsultas:
 \item[5.] Encontramos todos os $s \in S$ que interceptam $w_2$.
 \end{itemize}
 
-Perceba que poderão haver repetições entre essas consultas, portanto apenas retiramos os segmentos repetidos no final. Segue a
-implementação referente à rotina descrita:
+Poderíamos realizar as consultas 3,4 e 5 com quaisquer 3 lados da janela $W$, por isso ignoramos o lado $W_4$. Perceba que poderão
+haver repetições entre essas consultas, portanto apenas retiramos os segmentos repetidos no final. Segue a implementação referente
+à rotina descrita:
 
 \begin{algorithm}[H]
 \caption{Constroi as 4 estruturas auxiliares a serem utilizadas na consulta a partir de uma lista de segmentos $s$.}
@@ -1840,9 +1842,9 @@ def query(self,rng):
     return list(set(l+r+s1+s2+s3))
 \end{lstlisting}
 \end{algorithm}
-(As chamadas nas linhas \ref{alg34:2} e \ref{alg34:3} referem-se ao algoritmo descrito na seção \ref{fraccascading:2}, e as
+As chamadas nas linhas \ref{alg34:2} e \ref{alg34:3} referem-se ao algoritmo descrito na seção \ref{fraccascading:2}, e as
 chamadas das linhas \ref{alg34:20}, \ref{alg34:21} e \ref{alg34:22} referem-se ao algoritmo descrito na seção
-\ref{anyorientationsegs:2}.)
+\ref{anyorientationsegs:2}.
 \newpage
 \section{Análise}
 
@@ -1853,7 +1855,7 @@ chamadas das linhas \ref{alg34:20}, \ref{alg34:21} e \ref{alg34:22} referem-se a
   da ordem de $\mathcal{O}(n \log^2 n)$.
 \item[-] Na consulta, separamos os elementos de $s$ em duas listas com seus pontos extremos, consumindo tempo
   $\mathcal{O}(n)$. Realizamos uma consulta em árvore limite com camadas que levará tempo $\mathcal{O}(\log n + k_e)$ e outra que
-  levará tempo $\mathcal{O}(\log n + k_d)$, onde $k_e$ e $k_d$ são o número de segmentos de $s$ que satisfez cada uma dessas
+  levará tempo $\mathcal{O}(\log n + k_d)$, onde $k_e$ e $k_d$ são o número de segmentos de $s$ que satisfizeram cada uma dessas
   consultas. Além disso realizamos 3 consultas em árvores de segmentos 2D, consumindo tempos $\mathcal{O}(\log^2 n + k_{w_1})$,
   $\mathcal{O}(\log^2 n + k_{w_2})$ e $\mathcal{O}(\log^2 n + k_{w_3})$ respectivamente. Teremos que $k_e + k_d + k_{w_1} +
   k_{w_2}+ k_{w_3} \leq 5k = \mathcal{O}(k)$. Portanto, o consumo de tempo total será $\mathcal{O}(\log^2 n + k)$.
@@ -1895,7 +1897,7 @@ Das árvores acima damos destaque às estruturas árvore limite com camadas e árvor
 \ref{fraccascading} e \ref{anyorientationsegs}, respectivamente), por serem as estruturas utilizadas na resolução do problema que
 nos propomos a resolver.
 
-Foi desenvolvida uma biblioteca em linguagem \emph{python} com todos os algoritmos que descrevemos neste trabalho e foi feita a
+Foi desenvolvida uma biblioteca em linguagem \emph{Python} com todos os algoritmos que descrevemos neste trabalho e foi feita a
 adaptação do visualizador de algoritmos geométricos desenvolvido por Alexis S. Landgraf~\cite{site2} para demonstrar a execução
 dos algoritmos implementados. Tanto a biblioteca quanto a adaptação do visualizador estão disponíveis no \emph{gitHub}~\cite{site}.
 
@@ -1926,7 +1928,7 @@ Algumas das extensões que poderiam ser feitas nesse trabalho são:
 
 De forma geral, a grande maioria das matérias que fiz no IME agregaram algo ao meu conhecimento. Mesmo as matérias de estatística,
 me ensinando noções de tratamento de dados ou as matérias de álgebra e cálculo, me ajudando a desenvolver meu raciocínio lógico e
-matemático, todas habilidades extremamentes importantes no estudo da computação. 
+matemático, todas habilidades importantes no estudo da computação. 
 
 Listarei as matérias que julguei essenciais para minha formação como cientista da computação e que foram imprescindíveis no
 desenvolvimento do meu trabalho de conclusão de curso:

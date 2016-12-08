@@ -1,9 +1,12 @@
-\backcite {junio09:MSc}{{i}{(document)}{Doc-Start}}
 \backcite {dbvkos}{{1}{1}{chapter.1}}
 \backcite {clrs}{{1}{1}{chapter.1}}
 \backcite {dbvkos}{{1}{1}{chapter.1}}
 \backcite {junio09:MSc}{{2}{1}{figure.caption.4}}
 \backcite {junio09:MSc}{{2}{1}{figure.caption.4}}
+\backcite {site2}{{3}{1}{figure.caption.4}}
+\backcite {site}{{3}{1}{figure.caption.4}}
 \backcite {junio09:MSc}{{9}{3}{chapter.3}}
 \backcite {junio09:MSc}{{13}{3.2.1}{subsection.3.2.1}}
 \backcite {junio09:MSc}{{15}{3.3.1}{subsection.3.3.1}}
+\backcite {site2}{{43}{6}{table.caption.5}}
+\backcite {site}{{43}{6}{table.caption.5}}
