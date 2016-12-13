@@ -310,9 +310,10 @@ construímos uma estrutura de dados baseado nesse conjunto (que usualmente é a pa
 daí conseguimos responder rapidamente diversas consultas feitas sobre tal conjunto.
 
 Neste trabalho de conclusão de curso foi abordado o problema de \emph{consultas de segmentos em janelas}, um problema de buscas em
-intervalos ortogonais. Dado um conjunto $S$ de segmentos não-intersectantes no espaço (seja em $\mathbb{R}$ ou $\mathbb{R}^2$)
-queremos organizar os segmentos em estruturas de dados para que possamos responder eficientemente consultas do tipo: \emph{dada
-  uma janela $W$ de lados paralelos, quais segmentos de S estão contidos ou intersectam a janela W?}
+intervalos ortogonais, ou seja, janelas cujos lados são paralelos aos eixos. Dado um conjunto $S$ de segmentos não-intersectantes
+no espaço (seja em $\mathbb{R}$ ou $\mathbb{R}^2$) queremos organizar os segmentos em estruturas de dados para que possamos
+responder eficientemente consultas do tipo: \emph{dada uma janela $W$ de lados paralelos, quais segmentos de S estão contidos ou
+  intersectam a janela W?}
 
 Este trabalho foi baseado na dissertação de mestrado \emph{Consultas de segmentos em janelas: algoritmos e estruturas de dados} de
 Álvaro J. P. Franco \cite{junio09:MSc}, tendo o foco no estudo e implementação dos algoritmos e das estruturas de dados
@@ -356,7 +357,7 @@ coordenada. Sejam $u,v$ pontos, dizemos que $u \leq_x v $ caso $x(u) < x(v)$ ou 
 comparamos primeiro a coordenada de maior interesse e desempatamos pela segunda coordenada nas comparações. Quando tivermos pontos
 ordenados pela ordem $\leq_x$ (ou $\geq_{x}$) diremos que estes pontos estão ordenados \textbf{sobre a coordenada \emph{x}}. Além disso,
 seja $P = \{p_1,p_2,\dots,p_n\}$ tal que $p_1 \leq_{x} p_2 \leq_{x} \dots \leq_{x} p_n$, chamaremos $p_1$ de \textbf{o x-menor} e $p_n$ de
-\textbf{o x-maior} pontos de $P$. Todas essas definições são simétricas para a ordem $\leq_y$.
+\textbf{o x-maior} pontos de $P$. Todas essas definições são análogas para a ordem $\leq_y$.
 
 \section{Segmentos}
 
@@ -368,8 +369,8 @@ combinação afim de $p_1$ e $p_2$.
 
 \subsection{Intervalos}
 
-Ao longo deste trabalho usaremos segmentos horizontais (ou verticais) para representar intervalos ao longo de uma reta. Seguem as
-primitivas referentes a intervalos que utilizaremos na última seção do capítulo 4:
+Ao longo deste trabalho usaremos segmentos horizontais (ou verticais) para representar intervalos ao longo de uma reta. Seguem os
+algoritmos básicos referentes a intervalos que utilizaremos na última seção do capítulo 4:
 
 \begin{algorithm}[H]
 \caption{Dado dois intervalos $a$ e $b$, retorna \textbf{TRUE} $a \cap b \neq \emptyset$ e \textbf{FALSE} caso contrário.}
@@ -523,7 +524,8 @@ def buildTree(self,points):
 
 \subsection{Realizando a consulta}
 
-Seja $P$ um conjunto de pontos e seja $W = [w_1,w_2]$ uma janela. Podemos consultar todos os pontos em $P \cap W$ da seguinte forma:
+Seja $P$ um conjunto de pontos e seja $W = [w_1,w_2]$ uma janela. Como vimos acima, armazenamos esses pontos numa árvore
+limite. Podemos consultar todos os pontos em $P \cap W$ da seguinte forma:
 
 \begin{itemize}
 \item[1.] Achamos o \textbf{ponto divisor} de $P$, este é o ponto que se encontra na raiz da subárvore que contém os pontos
@@ -985,7 +987,7 @@ def query(self,rng):
 Seja $p$ um ponto na reta, definiremos uma janela ilimitada $W^{-}$ como o intervalo $(-\infty:p]$, definimos similarmente uma janela ilimitada $W^{+}$
 como o intervalo $[p:\infty)$. A implementação desta seção resolve uma consulta sobre todos os pontos contidos numa janela $W^{-}$, mas a
 implementação para uma janela $W^{+}$ é simétrica. Omitiremos a explicação da construção da estrutura que utilizaremos, pois trata-se de um
-\emph{minheap} simples construído sobre o conjunto de pontos.
+\emph{minheap} simples\cite{clrs} construído sobre o conjunto de pontos.
 
 
 \subsection{Realizando a consulta}
@@ -1677,7 +1679,8 @@ com qualquer orientação, porém ainda não-intersectantes e nossa ``janela'' será 
 Utilizaremos novamente uma árvore de segmentos como na seção anterior, com a alteração que a lista associada a cada nó é agora um
 vetor ordenado. Chamaremos essa árvore de \textbf{árvore de segmentos 2D horizontal} quando utilizada para responder uma consulta
 sobre um segmento vertical (Definição simétrica para segmentos horizontais). A relação de ordem que usaremos é: sejam $u$ e $v$
-segmentos, diremos que $u < v$ caso $u$ esteja à direita de $v$, ou caso $u$ pseudo-intercepte $v$ e $v$ esteja à esquerda de $u$.
+segmentos, diremos que $u < v$ caso $u$ esteja à direita de $v$, ou caso $u$ pseudo-intercepte $v$ e $v$ esteja à esquerda de $u$
+(As definições de posição relativa entre segmentos se encontram em \ref{positionbtwsegs}).
 
 Segue a implementação dessa árvore:
 
