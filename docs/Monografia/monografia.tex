@@ -206,7 +206,8 @@ consultas de segmentos em janelas}}
 %% texto texto texto texto texto texto texto texto texto texto texto texto texto
 %% texto texto texto texto. Texto opcional.
 
-
+\DeclarePairedDelimiter\ceil{\lceil}{\rceil}
+\DeclarePairedDelimiter\floor{\lfloor}{\rfloor}
 
 % ---------------------------------------------------------------------------- %
 % Resumo
@@ -304,13 +305,14 @@ grande destes segmentos, isso pode indicar um problema no material que deve ser 
 \end{center}
 
 
-Em geometria computacional estamos interessados em problemas que tratam de \emph{buscas em intervalos ortogonais}. Em geral, os
-algoritmos que veremos dessa área seguirão a mesma estrutura: temos um conjunto conhecido que é dado (de pontos ou segmentos),
-construímos uma estrutura de dados baseado nesse conjunto (que usualmente é a parte mais custosa computacionalmente) e a partir
-daí conseguimos responder rapidamente diversas consultas feitas sobre tal conjunto.
+Em geometria computacional estamos interessados em problemas que tratam de \emph{buscas em intervalos ortogonais}, ou seja,
+intervalos que sejam paralelos aos eixos. Em geral, os algoritmos que veremos dessa área seguirão a mesma estrutura: temos um
+conjunto conhecido que é dado (de pontos ou segmentos), construímos uma estrutura de dados baseado nesse conjunto (que usualmente
+é a parte mais custosa computacionalmente) e a partir daí conseguimos responder rapidamente diversas consultas feitas sobre tal
+conjunto.
 
 Neste trabalho de conclusão de curso foi abordado o problema de \emph{consultas de segmentos em janelas}, um problema de buscas em
-intervalos ortogonais, ou seja, janelas cujos lados são paralelos aos eixos. Dado um conjunto $S$ de segmentos não-intersectantes
+intervalos ortogonais. Dado um conjunto $S$ de segmentos não-intersectantes
 no espaço (seja em $\mathbb{R}$ ou $\mathbb{R}^2$) queremos organizar os segmentos em estruturas de dados para que possamos
 responder eficientemente consultas do tipo: \emph{dada uma janela $W$ de lados paralelos, quais segmentos de S estão contidos ou
   intersectam a janela W?}
@@ -352,6 +354,7 @@ Neste trabalho trataremos basicamente com pontos~(no $\mathbb{R}~\text{e}~\mathb
 $\mathbb{R}^2$). Sejam $x,y \in \mathbb{R}, $ definimos um \textbf{ponto} no $\mathbb{R}^2$ como um par $ p = (x,y) $.
 
 \subsection{Comparações entre pontos}
+\label{sec2.1.1}
 \par Uma outra definição que será usada repetidamente ao longo desta monografia é a relação de desigualdade associada a uma dada
 coordenada. Sejam $u,v$ pontos, dizemos que $u \leq_x v $ caso $x(u) < x(v)$ ou $ x(u) = x(v)$ e $y(u) \leq y(v)$, ou seja, sempre
 comparamos primeiro a coordenada de maior interesse e desempatamos pela segunda coordenada nas comparações. Quando tivermos pontos
@@ -499,8 +502,20 @@ estrutura de dados apropriada. A estrutura que usaremos será um tipo de árvore d
 \textbf{árvore limite}, onde cada nó terá 3 campos: um ponteiro para um ponto associado, um ponteiro para o filho esquerdo e um
 ponteiro para o filho direito. O balanceamento da árvore virá da sua construção. Consideramos os pontos ordenados e colocamos na
 raiz o elemento central, de forma que na subárvore esquerda e direita ficam aproximadamente metade dos elementos. As duas
-subárvores serão, portanto, construídas da mesma forma, resultando em altura $\mathcal{O}(\log n)$. A seguir está o trecho de
-código referente à construção dessa árvore:
+subárvores serão, portanto, construídas da mesma forma, resultando em altura $\mathcal{O}(\log n)$.
+\\ \\
+A construção dessa estrutura seguirá a seguinte rotina:
+
+\begin{enumerate}
+  \item Criamos um nó vazio.
+  \item Dividimos os pontos ordenados em 2 listas $l$ e $r$
+  \item Atribuímos o ponto central como ponto associado à raiz do nó que estamos construíndo.
+  \item Caso tenhamos mais de 1 ponto, fazemos chamadas recursivas para o filho esquerdo do nó, com a lista $l$, e para o filho
+    direito do nó, com a lista $r$.
+\end{enumerate}
+
+
+A seguir está o trecho de código referente à construção dessa árvore:
 
 \begin{algorithm}[H]
 \caption{Retorna uma raíz $v$ de uma árvore limite 1D construída sobre um conjunto de pontos ordenados.}
@@ -550,7 +565,7 @@ def inRange(self,rng,p):
 \begin{algorithm}[H]
 \caption{Retorna o ponto divisor $v_{div}$ de uma ABBB referente a uma dada janela \emph{rng}.}
 \lstset{basicstyle=\ttfamily\color{text}\bfseries}
-\begin{lstlisting}[mathescape]
+\begin{lstlisting}[name=alg6]
 def findDividingNode(self,rng):
     w1,w2 = rng
     div = self.root
@@ -559,6 +574,14 @@ def findDividingNode(self,rng):
     (w1 > div.point or w2 <= div.point)):
         if w2 <= div.point:
             div = div.l
+\end{lstlisting}
+\end{algorithm}
+
+\begin{algorithm}[H]
+\ContinuedFloat
+\caption{Continuação do algoritmo 8.}
+\lstset{basicstyle=\ttfamily\color{text}\bfseries}
+\begin{lstlisting}[name=alg7]
         else:
             div = div.r
     return div
@@ -603,14 +626,7 @@ def query(self,rng):
                  v = v.l
              else:
                  v = v.r
-\end{lstlisting}
-\end{algorithm}
-\newpage
-\begin{algorithm}[H]
-\ContinuedFloat
-\caption{Continuação do algoritmo 7.}
-\lstset{basicstyle=\ttfamily\color{text}\bfseries}
-\begin{lstlisting}[name=alg7]
+             
          if self.inRange(rng,v.point):
              p.append(v.point)
          
@@ -618,6 +634,14 @@ def query(self,rng):
             
          while(not v.isLeaf()):
              if w2 > v.point:
+\end{lstlisting}
+\end{algorithm}
+\newpage
+\begin{algorithm}[H]
+\ContinuedFloat
+\caption{Continuação do algoritmo 10.}
+\lstset{basicstyle=\ttfamily\color{text}\bfseries}
+\begin{lstlisting}[name=alg7]
                  subtree = v.l.listSubTree()
                  p += subtree
                  v = v.r
@@ -661,6 +685,19 @@ Segue o algoritmo de construção dessa árvore. Omitiremos a implementação da estr
 nome de \emph{VerticalTree} cuja descrição está presente no trabalho de \cite{junio09:MSc}, essa estrutura é uma ABBB construída
 sobre um \emph{heap} e tem tempo de construção $\mathcal{O}(n)$. Ela será utilizada para fazermos consultas unidimensionais sobre
 a coordenada $y$.
+\\ \\
+A construção dessa estrutura seguirá a seguinte rotina:
+
+\begin{enumerate}
+  \item Criamos um nó vazio.
+  \item Criamos uma vertical tree sobre o conjunto de pontos ordenados por $y$, que chamaremos de $vy$, e associamos ao nó.
+  \item Dividimos o conjunto de pontos ordenados por $x$, que chamaremos de $vx$, em duas listas $lx$ e $rx$.
+  \item Pegamos o ponto intermediário de $vx$, e separamos $vy$ em 2 listas: todos os pontos menores ou iguais em relação a $x$
+    (definido na seção \ref{sec2.1.1}) ao ponto intermediário ficarão em $ly$ e todos os restantes em $ry$.
+  \item Associamos o ponto intermediário de $vx$ ao nó.
+    \item Caso tenhamos mais de 1 ponto em $vx$, facemos chamadas recursivas para o filho esquerdo do nó, com as listas $lx$ e
+      $ly$, e para o filho direito do nó, com as listas $rx$ e $ry$.
+\end{enumerate}
 
 \begin{algorithm}[H]
   \caption{Retorna um ponteiro para uma raiz $v$ de uma ABBB ordenada pela coordenada $x$ a partir de um vetor de pontos ordenados
@@ -694,14 +731,15 @@ def buildTree(self,vx,vy):
 \end{algorithm}
 
 \subsection{Realizando a consulta}
-Seja $P$ um conjunto de pontos e seja $W = \overline{(x_1,y_1)(x_2,y_2)}$ uma janela. Podemos consultar todos os pontos em
-$P \cap W$ da seguinte forma:
+Seja $P$ um conjunto de pontos e seja $W = \overline{(x_1,y_1)(x_2,y_2)}$ uma janela. Como vimos acima, armazenaremos esses pontos
+numa árvore limite de 2 níveis. Podemos consultar todos os pontos em $P \cap W$ da seguinte forma:
 
 \begin{itemize}
 \item[1.] Achamos o \textbf{ponto divisor} no primeiro nível da árvore limite de forma similar ao algoritmo anterior.
-\item[2.] Percorremos a subárvore esquerda de $v_{div}$ verificando se o ponto $r$ da raiz é tal que $w_1 \leq_{x} r$, caso seja,
-  realizamos a consulta unidimensional na árvore associada ao nó. Caso contrário, seguimos para a subárvore direita. Ao chegar na
-  folha apenas verificamos se $w_1 \leq_{x} r \leq_{x} w_2$ e adicionamos na resposta caso seja verdade.
+\item[2.] Percorremos a subárvore esquerda de $v_{div}$ verificando se o ponto $r$ da raiz é tal que $w_1 \leq_{x} r$ (definido em
+  \ref{sec2.1.1}), caso seja, realizamos a consulta unidimensional na árvore associada ao nó. Caso contrário, seguimos para a
+  subárvore direita. Ao chegar na folha apenas verificamos se $w_1 \leq_{x} r \leq_{x} w_2$ e adicionamos na resposta caso seja
+  verdade.
 \item[3.] Percorremos a subárvore direita de $v_{div}$ de forma simétrica ao item 2.
 \end{itemize}
 
@@ -724,7 +762,7 @@ def inRange(self,rng,p):
 \begin{algorithm}[H]
   \caption{Retorna uma lista com todos os pontos contidos numa dada janela \emph{rng}.}
 \lstset{basicstyle=\ttfamily\color{text}\bfseries}
-\begin{lstlisting}[mathescape]
+\begin{lstlisting}[name=alg13]
 def query(self,rng):
     p = []
     w1,w2 = rng
@@ -745,7 +783,14 @@ def query(self,rng):
                 v = v.r
 
         if self.inRange(rng,v.point): p.append(v.point)
+\end{lstlisting}
+\end{algorithm}
 
+\begin{algorithm}[H]
+  \ContinuedFloat
+  \caption{Continuação do algoritmo 13.}
+\lstset{basicstyle=\ttfamily\color{text}\bfseries}
+\begin{lstlisting}[name=alg13]
         v = div.r
 
         while not v.isLeaf():
@@ -783,22 +828,37 @@ si.
 \label{fraccascading:1}
 O primeiro nível da árvore limite com camadas será exatamente como mostrado anteriormente; a diferença estará presente no segundo
 nível onde teremos uma estrutura que definimos como \textbf{árvore de camadas}. Os ``nós'' dessa árvore são na verdade vetores de
-nós auxiliares ordenados pelos pontos associados. \par Seja $P$ o conjunto de pontos associados a um dado vetor da árvore de
-camadas, sejam $V^x$ e $V^y$ vetores com os pontos de $P$ ordenados por $x$ e $y$ respectivamente. Particionamos $V^y$ em 2
-vetores: $V^y_e$ e $V^y_d$. Essa partição é feita da seguinte forma: seja $v_{max}$ o maior ponto de $V^x$, seja $q \in V^y$, se
-$q \leq_y v_{max},~q \in V^y_e,~ \text{caso contrário}~q \in V^y_d$.  \par Portanto, seja $P$ o conjunto de pontos associado ao
-vetor, seja $p \in P$ o ponto associado ao nó do vetor $V^y$, e sejam $V^y_e~\text{e}~V^y_d$ como definidos anteriormente, cada
-elemento dos nós auxiliares terão os seguintes campos: um ponteiro para o ponto $p$, um ponteiro $pt_{e}(q)$ para o menor ponto
-$q$ em $V^y_e$ tal que $q \geq_y p$, um ponteiro $pt_{d}(u)$ para o menor ponto $u$ em $V^y_d$ tal que $u \geq_y p$, uma variável
-booleana que indica se o vetor ao qual o nó pertence é $V^y_e$ ou $V^y_d$ e finalmente um ponteiro para o próximo elemento do
-vetor. Esse último ponteiro foi uma adaptação ao fato da linguagem \emph{Python} não apresentar aritmética de ponteiros, que foi
-utilizada na descrição desse algoritmo em \cite{junio09:MSc}.
+nós auxiliares, que chamaremos de \textbf{nós verticais} ordenados pelos pontos associados. \par Seja $P$ o conjunto de pontos
+associados a um dado vetor da árvore de camadas, sejam $V^x$ e $V^y$ vetores com os pontos de $P$ ordenados por $x$ e $y$
+respectivamente. Particionamos $V^y$ em 2 vetores: $V^y_e$ e $V^y_d$. Essa partição é feita da seguinte forma: seja $v_{max}$ o
+maior ponto de $V^x$, seja $q \in V^y$, se $q \leq_y v_{max}~\text{(definido em \ref{sec2.1.1})},~q \in V^y_e,~ \text{caso
+  contrário}~q \in V^y_d$.  \par Portanto, seja $P$ o conjunto de pontos associado ao vetor, seja $p \in P$ o ponto associado ao
+nó do vetor $V^y$, e sejam $V^y_e~\text{e}~V^y_d$ como definidos anteriormente, cada elemento dos nós auxiliares terão os
+seguintes campos: um ponteiro para o ponto $p$, um ponteiro $pl(q)$ para o menor ponto $q$ em $V^y_e$ tal que $q \geq_y p$, um
+ponteiro $pr(u)$ para o menor ponto $u$ em $V^y_d$ tal que $u \geq_y p$, uma variável booleana que indica se o vetor ao qual o nó
+pertence é $V^y_e$ ou $V^y_d$ e finalmente um ponteiro para o próximo elemento do vetor. Esse último ponteiro foi uma adaptação ao
+fato da linguagem \emph{Python} não apresentar aritmética de ponteiros, que foi utilizada na descrição desse algoritmo em
+\cite{junio09:MSc}.
+
+A construção dessa estrutura seguirá a seguinte rotina:
+
+\begin{enumerate}
+  \item Criamos um nó vazio.
+  \item Dividimos o conjunto de pontos ordenados por $x$, que chamaremos de $vx$, em duas listas $lx$ e $rx$.
+  \item Pegamos o ponto intermediário de $vx$ e o utilizamos para dividir o conjunto de pontos ordenados por $y$, que chamaremos
+    de $vy$, em 2 listas de nós verticais: Uma com nós verticais criados a partir de todos os pontos de $vy$ menores ou iguais
+    sobre $x$ ao ponto intermediário, que chamaremos de $ly$ , e outra com nós verticais criados a partir dos pontos restantes,
+    que chamaremos de $ry$.
+  \item Preenchemos os ponteiros das listas $ly$ e $ry$ (Cuja descrição pode ser vista em \cite{junio09:MSc}) e colocamos $vy$
+    como árvore associada ao nó.
+  \item Caso tenhamos mais que 1 ponto em $vx$, andamos em $ly$ e $ry$ fazendo cada elemento apontar para o próximo no campo $nxt$
+    e fazemos chamadas recursivas para o filho esquerdo do nó, com $lx$ e $ly$, e para o filho direito do nó, com $rx$ e $ry$.
+\end{enumerate}
 
 \begin{algorithm}[H]
-  \caption{Retorna um ponteiro para um vetor ordenado de nós verticais a partir de um vetor de pontos ordenados por x e um vetor de
-    pontos ordenados por y.}
-\lstset{basicstyle=\ttfamily\color{text}\bfseries}
-\begin{lstlisting}[mathescape]
+  \caption{Retorna um ponteiro para um vetor ordenado de nós verticais a partir de um vetor de pontos ordenados por x e um vetor
+    de pontos ordenados por y.}  \lstset{basicstyle=\ttfamily\color{text}\bfseries}
+\begin{lstlisting}[name=alg14]
 def buildTree(self,vx,vy):
     v = Node(None)
     lx = vx[:len(vx)//2]
@@ -818,7 +878,13 @@ def buildTree(self,vx,vy):
 
     v.tree = self.createPointers(vy,ly,ry)
     v.point = vx[n//2-1]
-
+\end{lstlisting}
+\end{algorithm}
+\begin{algorithm}[H]
+\ContinuedFloat
+\caption{Continuação do algoritmo 14.}
+\lstset{basicstyle=\ttfamily\color{text}\bfseries}
+\begin{lstlisting}[name=alg14]
     if n == 1:
         v.l = v.r = None
     else:
@@ -836,7 +902,7 @@ def buildTree(self,vx,vy):
 \begin{algorithm}[H]
   \caption{Preenche os ponteiros de um vetor $v$ de uma árvore de camadas a partir dos dois subvetores $l$ e $r$.}
 \lstset{basicstyle=\ttfamily\color{text}\bfseries}
-\begin{lstlisting}[]
+\begin{lstlisting}[name=alg15]
 def createPointers(self,v,l,r):
     il = 0
     ir = 0
@@ -861,7 +927,13 @@ def createPointers(self,v,l,r):
             r[ir].side = True
         else:
             v[i].pr = None
-
+\end{lstlisting}
+\end{algorithm}
+\begin{algorithm}[H]
+  \ContinuedFloat
+  \caption{Continuação do algoritmo 15.}
+  \lstset{basicstyle=\ttfamily\color{text}\bfseries}
+  \begin{lstlisting}[name=alg15]
         if il < nl and v[i].point == l[il].point:
             il += 1
         else:
@@ -875,19 +947,19 @@ def createPointers(self,v,l,r):
 
 \subsection{Realizando a consulta}
 \label{fraccascading:2}
-Seja P um conjunto de pontos e seja $W = \overline{(x_1,y_1)(x_2,y_2)}$ uma janela. Podemos consultar todos os pontos em
-$P \cap W$ da seguinte forma:
+Seja P um conjunto de pontos e seja $W = \overline{(x_1,y_1)(x_2,y_2)}$ uma janela. Como visto acima, armazenaremos esses pontos
+numa árvore limite com camadas. Podemos consultar todos os pontos em $P \cap W$ da seguinte forma:
 
 \begin{itemize}
 \item[1.] Achamos o \textbf{ponto divisor} no primeiro nível da árvore limite com camadas de forma similar ao algoritmo anterior.
-\item[2.] Na árvore de camadas associada ao nó $v_{div}$ procuramos com uma busca binária o menor ponto
-  $v'_{div} \colon v'_{div} \geq_y w_1$, conseguiremos pontos com a mesma característica nas subárvores de $v_{div}$ em tempo
+\item[2.] Na árvore de camadas associada ao nó $v_{div}$ procuramos com uma busca binária o menor ponto $v'_{div} \colon v'_{div}
+  \geq_y w_1$ (definido em \ref{sec2.1.1}), conseguiremos pontos com a mesma característica nas subárvores de $v_{div}$ em tempo
   constante apenas utilizando os ponteiros auxiliares.
 \item[3.] Percorremos a subárvore esquerda de $v_{div}$, seja $v$ um nó dessa subárvore e $v'$ o nó cujo ponto é o menor tal que
   $\geq_y w_1$ nessa subárvore. Caso $w_1 >_x p(v)$, continuamos a busca na subárvore direita de $v$ e acessamos o nó apontado por
-  $pt_d(v')$ na árvore de camadas de $d(v)$. Se $w_1 \leq_x p(v)$, listamos todos os pontos $p \colon p \leq_y w_2$ da árvore de
-  camadas de d(v) a partir do nó apontado por $pt_d(v')$. Retomamos a busca na subárvore esquerda de $v$ e acessamos o nó apontado
-  por $pt_e(v's)$ na árvore de camadas de $e(v)$.
+  $pr(v')$ na árvore de camadas de $d(v)$. Se $w_1 \leq_x p(v)$, listamos todos os pontos $p \colon p \leq_y w_2$ da árvore de
+  camadas de d(v) a partir do nó apontado por $pr(v')$. Retomamos a busca na subárvore esquerda de $v$ e acessamos o nó apontado
+  por $pl(v's)$ na árvore de camadas de $e(v)$.
 \item[4.] Simetricamente ao item 3, percorremos a subárvore direita de $v_{div}$.
 \end{itemize}
 
@@ -896,7 +968,7 @@ Segue a consulta modificada referente à rotina acima:
 \begin{algorithm}[H]
 \caption{Retorna uma lista para todos os pontos contidos numa dada janela \emph{rng}.}
 \lstset{basicstyle=\ttfamily\color{text}\bfseries}
-\begin{lstlisting}[name=alg13]
+\begin{lstlisting}[name=alg17]
 def query(self,rng):
     p = []
     w1,w2 = rng
@@ -910,7 +982,13 @@ def query(self,rng):
         if div2 is not None:
             v = div.l
             v2 = div2.pl
-
+\end{lstlisting}
+\end{algorithm}
+\begin{algorithm}[H]
+  \ContinuedFloat
+\caption{Continuação do algoritmo 16.}
+\lstset{basicstyle=\ttfamily\color{text}\bfseries}
+\begin{lstlisting}[name=alg17]
             while not v.isLeaf() and v2 is not None:
                 if w1.x < v.point.x or
                 ( w1.x == v.point.x and w1.y <= v.point.y ):
@@ -922,7 +1000,6 @@ def query(self,rng):
                         p.append(u.point)
                         u = u.nxt
                         if u is None: break
-                            
                     v = v.l
                     v2 = v2.pl
                 else:
@@ -930,16 +1007,8 @@ def query(self,rng):
                     v2 = v2.pr
                         
             if v2 is not None and self.inRange(rng,v.point):
-                p.append(v.point)
-\end{lstlisting}
-\end{algorithm}
-
-
-\begin{algorithm}[H]
-\ContinuedFloat
-\caption{Continuação do algoritmo 16.}
-\lstset{basicstyle=\ttfamily\color{text}\bfseries}
-\begin{lstlisting}[name=alg13]
+            p.append(v.point)
+            
         if div2 is not None:
             v = div.r
             v2 = div2.pr
@@ -981,7 +1050,7 @@ def query(self,rng):
   subárvores de $v_{div}$ levamos tempo proporcional ao número de pontos que se encontram na janela, nos dando complexidade
   $O(k)$. Portanto a complexidade final de tempo é $\mathcal{O}(\log n + k)$.
 \end{itemize}
-\newpage
+
 \section{Janelas ilimitadas - caso unidimensional}
 
 Seja $p$ um ponto na reta, definiremos uma janela ilimitada $W^{-}$ como o intervalo $(-\infty:p]$, definimos similarmente uma janela ilimitada $W^{+}$
@@ -992,7 +1061,8 @@ implementação para uma janela $W^{+}$ é simétrica. Omitiremos a explicação da co
 
 \subsection{Realizando a consulta}
 \label{infwdwquery1d}
-Seja $P$ um conjunto de pontos e $W^- \coloneqq (-\infty:w]$ uma janela ilimitada, podemos listar todos os pontos em $P \cap W^-$ da seguinte forma:
+Seja $P$ um conjunto de pontos e $W^- \coloneqq (-\infty:w]$ uma janela ilimitada. Como vimos acima, armazenamos esses pontos num
+$minheap$. Podemos listar todos os pontos em $P \cap W^-$ da seguinte forma:
 
 
 \begin{itemize}
@@ -1043,7 +1113,27 @@ manteremos a propriedade de \emph{minheap}. Essa estrutura será balanceada por c
 $v_{min}$ do conjunto de pontos, em seguida atribuímos ao nó um ponto $v$ tal que ao retirarmos $v$, os tamanhos das partes que
 serão usadas para construção dos filhos difiram em no máximo 1. Uma definição adicional que será usada no algoritmo é: dado um nó
 de uma árvore de busca em prioridade, caso o ponteiro para o filho direito desse nó seja nulo e o ponteiro para o filho esquerdo
-seja não-nulo, chamaremos esse nó de \textbf{semi-folha}. Segue o código referente a essa implementação:
+seja não-nulo, chamaremos esse nó de \textbf{semi-folha}.
+\\ \\
+A construção dessa estrutura seguirá a seguinte rotina:
+\begin{enumerate}
+  \item Criamos um nó vazio.
+  \item Inicializamos a variável $d$ com 0. Essa variável será utilizada para encontrarmos o ponto que armazenaremos $p(v)$ tal
+    que a propriedade que descrevemos acima mantenha-se verdadeira.
+  \item Atribuímos $vx[0]$ ao $p_{min}$ do nó, pois será o menor ponto em relação a $x$ (definido em \ref{sec2.1.1}).
+  \item Andamos no conjunto de pontos ordenados por $y$, que chamaremos de $vy$, da posição 0 até a posição
+    $\ceil{\frac{n-1}{2}} + d -1$. Caso o ponto de $vy$ que estamos olhando seja diferente de $p_{min}$, adicionamos em $ly$,
+    caso contrário, somamos 1 a $d$.
+  \item Andamos em $vy$ da posição $\ceil{\frac{n-1}{2}} + d$ até a posição $n-1$. Caso o ponto de $vy$ que estamos olhando seja
+    diferente de $p_{min}$, adicionamos em $ry$.
+  \item Atribuímos o ponto $vy[\ceil{\frac{n-1}{2}}+d-1]$ como ponto associado ao nó.
+  \item Dividimos o conjunto de pontos ordenados por $x$, que chamaremos de $vx$, em 2 listas: caso o ponto seja menor ou igual
+    em relação a $x$ ao ponto associado ao nó, colocamos o ponto na lista $lx$, caso contrário, colocamos o ponto na lista $rx$.
+  \item Realizamos chamadas recursivas no filho esquerdo do nó, com as listas $lx$ e $ly$, e no filho direito do nó, com as listas
+    $rx$ e $ry$.\\
+\end{enumerate}
+
+Segue o código referente a essa implementação:
 
 \begin{algorithm}[H]
 \caption{Retorna um ponteiro para uma raiz de uma árvore de busca em prioridade a partir de 2 vetores ordenados.}
@@ -1061,7 +1151,7 @@ def buildTree(self,vx,vy):
 
         for i in range(ceil((n-1)/2)+d):
             if vy[i] != v.pmin: ly.append(vy[i])
-        else: d+=1
+            else: d+=1
 
         for i in range(ceil((n-1)/2)+d,n):
             if vy[i] != v.pmin: ry.append(vy[i])
@@ -1075,14 +1165,6 @@ def buildTree(self,vx,vy):
                 lx.append(vx[i])
             else:
                 rx.append(vx[i])
-\end{lstlisting}
-\end{algorithm}
-
-\begin{algorithm}[H]
-\ContinuedFloat
-\caption{Continuação do algoritmo 18.}
-\lstset{basicstyle=\ttfamily\color{text}\bfseries}
-\begin{lstlisting}[name=alg15]
 
         v.l = self.buildTree(lx,ly)
         v.r = self.buildTree(rx,ry)
@@ -1095,16 +1177,19 @@ def buildTree(self,vx,vy):
 
 \subsection{Realizando a consulta}
 
-Seja P um conjunto de pontos e $W^-$ uma janela ilimitada, podemos consultar todos os pontos em $P \cap W^-$ da seguinte forma:
+Seja P um conjunto de pontos e $W^-$ uma janela ilimitada. Como vimos acima, armazenamos esses pontos numa árvore de busca em
+prioridade. Podemos consultar todos os pontos em $P \cap W^-$ da seguinte forma:
 
 \begin{itemize}
-\item[1.] Começamos achando o nó divisor dessa árvore, a estrutura básica é similar à implementação anterior, porém agora verificamos se o nó checado não é um
-  semi-folha e já adicionamos na resposta todos os \emph{pmin} dos nós acessados que estão dentro da janela na resposta final.
-\item[2.] Percorremos a subárvore esquerda de $v_{div}$ enquanto o nó atual não é uma folha ou semi-folha. Seja $v$ o nó que estamos verificando, se o
-  ponto $pmin(v) <_y w_1$ adicionamos todas os pontos do \emph{minheap} da subárvore direita de $v$ na resposta e seguimos para a subárvore esquerda
-  de $v$, caso contrário apenas seguimos para a subárvore direita de $v$.
-\item[3.] Seja $u$ o último nó verificado, caso $pmin(u)$ esteja na resposta adicionamos esse ponto na resposta. Caso $u$ seja uma semi-folha,
-  verificamos se o $pmin(u.l)$ está na janela e o adicionamos na resposta.
+\item[1.] Começamos achando o nó divisor dessa árvore, a estrutura básica é similar à implementação anterior, porém agora
+  verificamos se o nó checado não é um semi-folha e já adicionamos na resposta todos os $p_{min}$ dos nós acessados que estão
+  dentro da janela na resposta final.
+\item[2.] Percorremos a subárvore esquerda de $v_{div}$ enquanto o nó atual não é uma folha ou semi-folha. Seja $v$ o nó que
+  estamos verificando, se o ponto $p_{min}(v) <_y w_1$ (definido em \ref{sec2.1.1}) adicionamos todos os pontos do \emph{minheap}
+  da subárvore direita de $v$ na resposta e seguimos para a subárvore esquerda de $v$, caso contrário apenas seguimos para a
+  subárvore direita de $v$.
+\item[3.] Seja $u$ o último nó verificado, caso $p_{min}(u)$ esteja na resposta adicionamos esse ponto na resposta. Caso $u$ seja
+  uma semi-folha, verificamos se o $p_{min}(u.l)$ está na janela e o adicionamos na resposta.
 \item[4.] Repetimos o processo simetricamente para a subárvore direita de $v_{div}$.
 \end{itemize}
 
@@ -1116,7 +1201,6 @@ Seguem os códigos que explicitam essa rotina:
 \begin{lstlisting}[mathescape]
 def pointsMinHeap(v,rng):
     p = []
-
     if v is not None:
         if self.inRange(rng,v.point):
             p.append(v.point)
@@ -1135,7 +1219,6 @@ def findDividingNode(self,rng):
     p = []
     w1,w2 = rng
     div = self.root
-        
     while (not div.isLeaf()) and
     (not div.isSemiLeaf()) and
     (w1.y > div.point.y and
@@ -1180,15 +1263,6 @@ def query(self,rng):
                 u = u.l
             else:
                 u = u.r
-\end{lstlisting}
-\end{algorithm}
-
-\begin{algorithm}[H]
-\ContinuedFloat
-\caption{Continuação do algoritmo 21.}
-
-\lstset{basicstyle=\ttfamily\color{text}\bfseries}
-\begin{lstlisting}[name=alg18]
         if self.inRange(rng,u.pmin):
             p.append(u.pmin)
 
@@ -1208,6 +1282,16 @@ def query(self,rng):
                 u = u.r
             else:
                 u = u.l
+\end{lstlisting}
+\end{algorithm}
+
+\begin{algorithm}[H]
+\ContinuedFloat
+\caption{Continuação do algoritmo 21.}
+
+\lstset{basicstyle=\ttfamily\color{text}\bfseries}
+\begin{lstlisting}[name=alg18]
+
                 
         if self.inRange(rng,u.pmin):
             p.append(u.pmin)
@@ -1227,13 +1311,13 @@ def query(self,rng):
     return p
 \end{lstlisting}
 \end{algorithm}
-\newpage
+
 \subsection{Análise}
 \begin{itemize}
 \item[-] Na construção, começamos ordenando os pontos da entrada, o que consome tempo $\mathcal{O}(n \log n)$. A construção em si
   é composta por partes $\theta(n)$ junto com duas chamadas recursivas para metade do tamanho, que consumirá por recorrência tempo
   $\mathcal{O}(n \log n)$. Chegamos portanto em consumo de tempo total de $\mathcal{O}(n \log n)$.
-\item[-] A consulta seguirá por dois caminhos na árvore de tamanho $\log n$ cada, onde verificar se um dado $pmin$ pertence à janela
+\item[-] A consulta seguirá por dois caminhos na árvore de tamanho $\log n$ cada, onde verificar se um dado $p_{min}$ pertence à janela
   $W^-$ consome tempo $\mathcal{O}(1)$ e cada chamada de \emph{pointsMinHeap} consome tempo equivalente ao número de pontos da
   resposta contidos no heap, portando todas as chamadas totalizarão tempo $\mathcal{O}(k)$. Chegamos no total ao consumo de tempo
   de $\mathcal{O}(\log n + k)$.
@@ -1263,7 +1347,19 @@ $p_e(s_1) \leq p_e(s_2) \leq \dots \leq p_e(s_n)$.
 
 Armazenaremos os intervalos num tipo de árvore binária que chamaremos de \textbf{árvore de intervalos}. Cada nó dessa estrutura terá os seguintes
 campos: um ponteiro para um ponto associado, um ponteiro para o nó esquerdo, um ponteiro para o nó direito, um ponteiro para um \emph{minheap} de
-segmentos $p_e$-ordenados (que chamaremos de $L_1$) e um ponteiro para um \emph{maxheap} de segmentos $p_d$-ordenados (que chamaremos de $L_2$).
+segmentos $p_e$-ordenados (que chamaremos de $l_1$) e um ponteiro para um \emph{maxheap} de segmentos $p_d$-ordenados (que chamaremos de $l_2$).
+\\ \\
+A construção dessa estrutura seguirá a seguinte rotina:
+\begin{enumerate}
+  \item Criamos um nó vazio.
+  \item Atribuímos o ponto esquerdo do segmento intermediário como o ponto associado ao nó.
+  \item Andamos no conjunto de segmentos da seguinte forma: caso o segmento que estamos verificando tenha ponto final menor em
+    relação a $x$ (definido em \ref{sec2.1.1}) que o ponto associado ao nó, adicionamos o segmento em $l$, caso contrário
+    adicionamos o ponto inicial desse segmento na lista $l_1$ e o ponto final na lista $l_2$.
+  \item Construímos um $minheap$ sobre $l_1$ e um $maxheap$ sobre $l_2$.
+  \item Adicionamos os segmentos restantes em $r$.
+  \item Realizamos chamadas recursivas no filho esquerdo do nó, com a lista $l$, e no filho direito do nó, com a lista $r$.\\
+\end{enumerate}
 
 Segue o código referente à construção dessa estrutura:
 
@@ -1312,10 +1408,11 @@ def buildTree(self,s):
 
 \subsection{Realizando a consulta}
 
-Dado um ponto $w$ e um conjunto $S$ de segmentos, podemos consultar todos os segmentos de $S'= \{s \in S \colon s \ni w\}$ da seguinte forma:
-verificamos se o ponto associado ao nó está à esquerda do ponto $w$, caso esteja, adicionamos todos os segmentos que têm $p_e \leq w$, o que é
-equivalente à fazer uma consulta de janela ilimitada da forma $W^- = (-\infty,w)$. Caso contrário, adicionamos todos os segmentos que têm $p_e \geq
-w$, o que é equivalente à fazer uma consulta de janela ilimitada da forma $W^+ = (w,\infty)$.
+Dado um ponto $w$ e um conjunto $S$ de segmentos. Como vimos acima, armazenamos esses segmentos numa árvore de intervalos. Podemos
+consultar todos os segmentos de $S'= \{s \in S \colon s \ni w\}$ da seguinte forma: verificamos se o ponto associado ao nó está à
+esquerda do ponto $w$, caso esteja, adicionamos todos os segmentos que têm $p_e \leq w$, o que é equivalente à fazer uma consulta
+de janela ilimitada da forma $W^- = (-\infty,w)$. Caso contrário, adicionamos todos os segmentos que têm $p_e \geq w$, o que é
+equivalente à fazer uma consulta de janela ilimitada da forma $W^+ = (w,\infty)$.\\
 
 Segue o algoritmo referente a esta rotina:
 
@@ -1350,7 +1447,7 @@ def query_r(self,v,p):
 \end{lstlisting}
 \end{algorithm}
 
-(As chamadas das linhas \ref{alg23:11} e \ref{alg23:18} referem-se ao algoritmo descrito na seção \ref{infwdwquery1d})
+As chamadas das linhas \ref{alg23:11} e \ref{alg23:18} referem-se ao algoritmo descrito na seção \ref{infwdwquery1d}.
 
 \subsection{Análise}
 
@@ -1369,8 +1466,8 @@ O tipo de consulta que resolveremos nessa seção é o seguinte: seja $S$ um conjun
 \subsection{Pré-processamento}
 
 Utilizaremos uma estrutura que chamaremos de \textbf{árvore de intervalos horizontal}. Ela será idêntica à estrutura da seção
-\ref{1dintervals}, com modificações nos ponteiros $L_1$, que agora aponta para uma árvore de busca em prioridade mínima, e $L_2$,
-que agora aponta para uma árvore de busca em prioridade máxima.
+\ref{1dintervals}, com modificações nos ponteiros $l_1$, que agora aponta para uma árvore de busca em prioridade mínima, e $l_2$,
+que agora aponta para uma árvore de busca em prioridade máxima, portanto omitiremos a descrição da rotina.\\
 
 Segue o seu algoritmo de construção:
 
@@ -1436,13 +1533,13 @@ def buildTree(self,s):
 
 \subsection{Realizando a consulta}
 
-Seja $S$ um conjunto de segmentos horizontais não-intersectantes, e seja $w = \overline{(x,y),(x,y')}$ um segmento vertical,
-podemos encontrar todos os segmentos $S' \coloneqq \{ s \in S \colon s \cap w \ne 0\}$ da seguinte forma: seja $v$ o nó que estamos
-olhando atualmente, caso $x > x(p(v))$ nenhum segmento que esteja armazenado à esquerda de $v$ pode interceptar $w$, por isso
-seguiremos para $d(v)$. Mas antes disso fazemos uma consulta por todos os pontos finais de segmentos que se encontram à direita do
-segmento $w$, que é equivalente a realizar uma consulta na estrutura $L_2$ com uma janela $\overline{(x,y),(\infty,y')}$. Caso $x <
-x(p(v))$, fazemos uma busca em $L_1$ com janela $\overline{(-\infty,y),(x,y')}$ e seguimos para $e(v)$, simetricamente ao que foi feito
-no outro caso.
+Seja $S$ um conjunto de segmentos horizontais não-intersectantes, e seja $w = \overline{(x,y),(x,y')}$ um segmento vertical. Como
+vimos acima, armazenamos esses segmentos numa árvore de intervalos horizontal. Podemos encontrar todos os segmentos $S' \coloneqq
+\{ s \in S \colon s \cap w \ne 0\}$ da seguinte forma: seja $v$ o nó que estamos olhando atualmente, caso $x > x(p(v))$ nenhum
+segmento que esteja armazenado à esquerda de $v$ pode interceptar $w$, por isso seguiremos para $d(v)$. Mas antes disso fazemos
+uma consulta por todos os pontos finais de segmentos que se encontram à direita do segmento $w$, que é equivalente a realizar uma
+consulta na estrutura $L_2$ com uma janela $\overline{(x,y),(\infty,y')}$. Caso $x < x(p(v))$, fazemos uma busca em $L_1$ com
+janela $\overline{(-\infty,y),(x,y')}$ e seguimos para $e(v)$, simetricamente ao que foi feito no outro caso.
 
 Segue o algoritmo referente a essa rotina:
 
@@ -1626,9 +1723,10 @@ def buildSegmentTree(self,v):
 
 \subsection{Realizando a consulta}
 
-Seja $p$ um ponto e seja $S$ um conjunto de intervalos, podemos encontrar todos os intervalos de $S' \coloneqq \{ i \in S \colon i \ni
-p\}$ da seguinte forma: começamos a chamada na raiz e adicionamos sua lista na resposta (que por construção será vazia),
-verificamos então se seus filhos esquerdo e direito contém o ponto $p$, caso afirmativo, chamamos recursivamente para esses nós.
+Seja $p$ um ponto e seja $S$ um conjunto de intervalos. Como vimos acima, armazenamos esses intervalos numa árvore de
+segmentos. Podemos encontrar todos os intervalos de $S' \coloneqq \{ i \in S \colon i \ni p\}$ da seguinte forma: começamos a
+chamada na raiz e adicionamos sua lista na resposta (que por construção será vazia), verificamos então se seus filhos esquerdo e
+direito contém o ponto $p$, caso afirmativo, chamamos recursivamente para esses nós.
 
 Segue o algoritmo que foi descrito acima:
 
@@ -1706,15 +1804,16 @@ chamada da linha \ref{alg30:8} ordena as listas de todos os nós da árvore, segui
 
 \subsection{Realizando a consulta}
 \label{anyorientationsegs:2}
-Seja $S$ um conjunto de segmentos não-intersectantes e seja $w$ um segmento vertical. Podemos consultar todos os segmentos de $S$
-que intersectam $w$ da seguinte forma: seja $v$ um nó da árvore e seja $L_{ord}$ o vetor ordenado de $v$. Achamos o menor índice
-$j$ tal que $p_e(L_{ord}[j])$ está à esquerda do ponto extremo esquerdo de $w$. A partir de $L_{ord}[j]$, adicionamos todos os
-segmentos $s_i$ de $L_{ord}$ tais que $p_d(w)$ esteja à esquerda de $s_i$ ou que $s_i \ni p_d(w)$. Verificamos então se $p_e(w)$
-está contido no intervalo associado ao filho esquerdo de $v$, caso afirmativo chamamos a função para seu filho esquerdo, caso
-contrário chamamos a função para seu filho direito. \par Inicialmente a implementação continha um caso patológico: caso existisse
-algum $u \in S$ tal que $u \subseteq w$ ou $w \subseteq u$, esse elemento não seria incluso na consulta, pois pela definição de
-posição relativa entre pontos e segmentos, os pontos extremos de $u$ não estariam nem à esquerda ou à direita de $w$. Esse
-problema foi resolvido estendendo o conceito de esquerda e direita, e pode ser visto na seção \ref{leftright}.
+Seja $S$ um conjunto de segmentos não-intersectantes e seja $w$ um segmento vertical. Como vimos acima, armazenamos os segmentos
+de $S$ numa árvore de segmentos 2D horizontal. Podemos consultar todos os segmentos de $S$ que intersectam $w$ da seguinte forma:
+seja $v$ um nó da árvore e seja $L_{ord}$ o vetor ordenado de $v$. Achamos o menor índice $j$ tal que $p_e(L_{ord}[j])$ está à
+esquerda do ponto extremo esquerdo de $w$. A partir de $L_{ord}[j]$, adicionamos todos os segmentos $s_i$ de $L_{ord}$ tais que
+$p_d(w)$ esteja à esquerda de $s_i$ ou que $s_i \ni p_d(w)$. Verificamos então se $p_e(w)$ está contido no intervalo associado ao
+filho esquerdo de $v$, caso afirmativo chamamos a função para seu filho esquerdo, caso contrário chamamos a função para seu filho
+direito. \par Inicialmente a implementação continha um caso patológico: caso existisse algum $u \in S$ tal que $u \subseteq w$ ou
+$w \subseteq u$, esse elemento não seria incluso na consulta, pois pela definição de posição relativa entre pontos e segmentos, os
+pontos extremos de $u$ não estariam nem à esquerda ou à direita de $w$. Esse problema foi resolvido estendendo o conceito de
+esquerda e direita, e pode ser visto na seção \ref{leftright}.
 
 Segue a implementação da rotina descrita acima:
 \begin{algorithm}[H]
